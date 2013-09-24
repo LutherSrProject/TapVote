@@ -1,12 +1,14 @@
-function route(handle, pathname, response, postData) {
+var nstatic = require('node-static');
+
+var fileServer = new nstatic.Server('./client');
+
+function route(handle, pathname, request, response, postData) {
     console.log("About to route a request for " + pathname);
     if (typeof handle[pathname] === 'function') {
         handle[pathname](response, postData);
     } else {
-        console.log("No request handler found for " + pathname);
-        response.writeHead(404, {"Content-Type": "text/plain"});
-        response.write("404 Not found");
-        response.end();
+        console.log("No request handler found for " + pathname + ", attempting to serve static file.");
+        fileServer.serve(request, response);
     }
 }
 
