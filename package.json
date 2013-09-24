@@ -1,0 +1,21 @@
+{
+  "name": "TapVote",
+  "version": "0.0.0",
+  "description": "TapVote =======",
+  "main": "index.js",
+  "dependencies": {
+    "node-static": ">=0.7.1"
+   },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LutherSrProject/TapVote.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/LutherSrProject/TapVote/issues"
+  }
+}
