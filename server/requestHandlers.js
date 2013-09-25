@@ -20,36 +20,47 @@ function vote(response, postData) {
     try {
         data = JSON.parse(postData);
     } catch (err) {
-        response.writeHead(400, {"Content-Type": "text/plain"});
-        response.write("400 Bad Request");
-        response.end();
+        errorResponse(response, "JSON parse error", err);
+        return;
     }
-    response.writeHead(200, {"Content-Type": "text/plain"});
-
-    //Echo back the postData for now
-    response.write(postData);
-
     console.log("[INFO] Incoming vote: " + data['vote']);
 
     // pg.connect uses the pg library's built-in connection pool (client refers to the current connection)
     pg.connect(CONNSTRING, function(err, client, done) {
-        if(err) {
-            return console.log("[ERROR] Couldn't fetch a client from the Postgres connection pool.", err);
-        };
+        if (err) {
+            errorResponse(response, "Postgres connection error", err);
+            return;
+        }
+        else {
+            client.query("INSERT INTO test(vote) VALUES($1)", [data['vote']], function(err, results) {
+                done(); // called to release the client back into the connection pool
+                if (err) {
+                    errorResponse(response, "Query error", err);
+                    return;
+                }
+                else {
+                    response.writeHead(200, {"Content-Type": "application/json"});
+                    response.write(postData); // echo back the postData for now
+                    response.end();
 
-        client.query("INSERT INTO test(vote) VALUES($1)", [data['vote']], function(err, results) {
-            done(); // called to release the client back into the connection pool
-            
-            if(err) {
-                return console.log("[ERROR] Error running query.", err);
-            }
-
-            console.log("[INFO] Logged vote " + data['vote'] + " to database.");
-        });
+                    console.log("[INFO] Logged vote " + data['vote'] + " to database.");
+                }
+            });
+        }
     });
     
-    response.end();
 }
+
+function errorResponse(response, errName, err) {
+    // TODO this always returns 400 Bad Request - let's make it return different codes
+    // based on the actual error 
+    response.writeHead(400, {"Content-Type": "application/json"});
+    response.write("400 Bad Request");
+    response.end();
+
+    console.log("[ERROR]", errName, err)
+}
+
 
 exports.index = index;
 exports.vote = vote;
