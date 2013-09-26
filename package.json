@@ -4,7 +4,10 @@
   "description": "TapVote =======",
   "main": "index.js",
   "dependencies": {
-    "node-static": ">=0.7.1"
+    "node-static": ">=0.7.1",
+    "cloned": ">=0.0.1",
+    "async": ">=0.2.6",
+    "pg": ">=2.6"   
    },
   "devDependencies": {},
   "scripts": {
