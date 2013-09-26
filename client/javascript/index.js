@@ -1,7 +1,7 @@
-function tally() {
-	{ "vote" : "a" }
-}
+$(document).ready(function() {
+	$("#voter").submit(function(){
+		$.post("/vote", function(data){console.log(data)}, { vote: "a" })
+	})
+})
 
-
-//post requests! Figur' 'em out!
 
