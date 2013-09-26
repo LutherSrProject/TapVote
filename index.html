@@ -3,6 +3,7 @@
   <head>
     <title>TapVote!</title>
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 	<script type="text/javascript" src="javascript/index.js"></script>
   </head>
   <body>
@@ -12,11 +13,11 @@
 	</header>
 	<article>
 		Which is best?
-		<form id="FirstPoll" action="tally">
-			<input type="radio" name="best" value="Puppies">Puppies<br>
-			<input type="radio" name="best" value="Cheese">Cheese<br>
-			<input type="radio" name="best" value="Joss Whedon">Joss Whedon<br>
-			<input type="radio" name="best" value="Naps">Naps<br>
+		<form id="vote" action="tally">
+			<input type="radio" name="best" value="a">Puppies<br>
+			<input type="radio" name="best" value="b">Cheese<br>
+			<input type="radio" name="best" value="c">Joss Whedon<br>
+			<input type="radio" name="best" value="d">Naps<br>
 			<input type="submit" value="Submit">
 		</form>
 	</article>
