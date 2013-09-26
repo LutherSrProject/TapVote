@@ -1,8 +1,5 @@
 var exec = require("child_process").exec;
-var pg = require("pg");  // PostgreSQL client library
-
-// this should be used anytime we need to connect to the DB
-var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
+var database = require("./database");
 
 function index(response, postData) {
     console.log("[INFO] Request handler 'index' was called.");
@@ -20,47 +17,55 @@ function vote(response, postData) {
     try {
         data = JSON.parse(postData);
     } catch (err) {
-        errorResponse(response, "JSON parse error", err);
+        err["httpStatus"] = 400;
+        err["httpResponse"] = "400 Bad Request";
+        err["friendlyName"] = "JSON parse error";
+        errorResponse(err, response);
         return;
     }
-    console.log("[INFO] Incoming vote: " + data['vote']);
 
-    // pg.connect uses the pg library's built-in connection pool (client refers to the current connection)
-    pg.connect(CONNSTRING, function(err, client, done) {
+    console.log("[INFO] Incoming vote: " + data['vote']);
+    // TODO update with actual data (timestamp, uid, etc?)
+    database.recordVote(postData, function(err, results) {
         if (err) {
-            errorResponse(response, "Postgres connection error", err);
+            err["httpStatus"] = 500;
+            err["httpResponse"] = "500 Internal Server Error";
+            if (!err["friendlyName"]) {
+                err["friendlyName"] = "Error recording vote";
+            }
+            errorResponse(err, response);
             return;
         }
         else {
-            client.query("INSERT INTO test(vote) VALUES($1)", [data['vote']], function(err, results) {
-                done(); // called to release the client back into the connection pool
-                if (err) {
-                    errorResponse(response, "Query error", err);
-                    return;
-                }
-                else {
-                    response.writeHead(200, {"Content-Type": "application/json"});
-                    response.write(postData); // echo back the postData for now
-                    response.end();
-
-                    console.log("[INFO] Logged vote " + data['vote'] + " to database.");
-                }
-            });
+            console.log("[INFO] Logged vote to database");
+            successResponse(response);
+            return;
         }
     });
-    
 }
 
-function errorResponse(response, errName, err) {
-    // TODO this always returns 400 Bad Request - let's make it return different codes
-    // based on the actual error 
-    response.writeHead(400, {"Content-Type": "application/json"});
-    response.write("400 Bad Request");
+
+function errorResponse(err, response) {
+    message = {'status':'error', 'message':err['friendlyName']};
+
+    response.writeHead(err["httpStatus"], {"Content-Type": "application/json"});
+    response.write(err["httpResponse"] + "\n");
+    response.write(JSON.stringify(message) + "\n");
     response.end();
 
-    console.log("[ERROR]", errName, err)
+    console.log("[ERROR]", err)
+}
+
+function successResponse(response) {
+    message = {'status':'success'};
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write("200 OK" + "\n");
+    response.write(JSON.stringify(message) + "\n");
+    response.end();
 }
 
 
 exports.index = index;
 exports.vote = vote;
+
