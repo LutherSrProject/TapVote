@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    $("#voter").submit(function(event){
-        $.ajax({type:"POST", 
+    $("#voter").submit(function(event) {
+        $.ajax({
+            type:"POST", 
             url:"/vote", 
             data:'{"vote": "a"}', 
             success: function(data) { console.log(data); },
