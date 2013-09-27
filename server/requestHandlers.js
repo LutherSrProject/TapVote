@@ -26,7 +26,7 @@ function vote(response, postData) {
 
     console.log("[INFO] Incoming vote: " + data['vote']);
     // TODO update with actual data (timestamp, uid, etc?)
-    database.recordVote(postData, function(err, results) {
+    database.recordVote(data, function(err, results) {
         if (err) {
             err["httpStatus"] = 500;
             err["httpResponse"] = "500 Internal Server Error";
