@@ -4,6 +4,7 @@ $(document).ready(function() {
             type:"POST", 
             url:"/vote", 
             data:'{"vote": "a"}', 
+            contentType: 'application/json',
             success: function(data) { console.log(data); },
             error: function(data) { console.log(data); }
 		});
