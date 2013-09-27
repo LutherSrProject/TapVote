@@ -4,7 +4,9 @@
   "description": "TapVote =======",
   "main": "index.js",
   "dependencies": {
-    "node-static": ">=0.7.1",
+    "express": "3.4.0",
+    "ejs": "*",
+    "stylus": "*",
     "cloned": ">=0.0.1",
     "async": ">=0.2.6",
     "pg": ">=2.6"   
