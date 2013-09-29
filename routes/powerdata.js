@@ -2,20 +2,24 @@
 function powerdata(req, response) {
     // curl -d '{"circuits": 1}' -H "Content-Type: application/json" http://localhost:8080/powerdata
     var data = req.body;
-    var circuits = data['circuits'];
-    
+    var circuits = parseInt(data['circuits']);
+
+    console.log(circuits);
+
     var datasets = {};
 
-    for(var i=0; i<circuits; i++) {
+    for(var i=1; i<circuits+1; i++) {
         var circuit = {};
         circuit['label'] = "circuit"+i;
         circuit['data'] = [];
 
         for(var j=1; j<8; j++) {
-            for(var k=1; k<8; k++) {
-                var x = parseFloat(j.toString() + "." + k.toString());
+            jitter = 0
+            for(var k=1; k<25; k++) {
+                var x = j + jitter;
                 var y = Math.floor((Math.random()*1000)+1);
                 circuit['data'].push([x, y]);
+                jitter = jitter + 0.04;
             }
         }
         datasets[circuit['label']] = circuit;
