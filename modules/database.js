@@ -5,11 +5,40 @@ var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 
 var recordVote = function(voteData, callback) {
-    // voteData = {'vote':'a'}
+    // voteData = {'vote':'a', 'surveyId':'xjffe'}
     runQuery("INSERT INTO test(vote) VALUES($1)", [voteData['vote']], callback)
 }
 
+
+var getResponses = function(surveyData, callback) {
+    // surveyData = {'surveyId':'xxjfe'}
+    // callback needs to expect callback(err, responses) where 
+    // responses = {'a':20, 'b':15}
+    //
+    callback(null, {'a':20, 'b':15, 'c':34});
+    return;
+}
+
+var createSurvey = function(surveyData, callback) {
+    // surveyData = { 'title':'A cool survey', 
+    //                'questions':'??????',
+    //                'choices':'???????',
+    //                'password':'supersecretpassword' }
+    //
+    // callback(err, result), where 
+    // result = {'surveyId':'xxx'}
+    callback(null, {'surveryId':'f43s3'});
+    return;
+}
+
+exports.recordVote = recordVote;
+
+
+// ==================================================================================================
 // local scope, don't export
+// ==================================================================================================
+
+
 var runQuery = function(queryString, values, callback) {
     pg.connect(CONNSTRING, function(err, client, done) {
         if (err) {
@@ -37,5 +66,3 @@ var runQuery = function(queryString, values, callback) {
     });
 }
 
-
-exports.recordVote = recordVote;
