@@ -26,7 +26,13 @@ function powerdata(req, response) {
             }
             circuit['dayTotals'].push(dayTotal);
         }
+        circuit['grandTotal'] = 0;
+        for(var z=0; z<circuit['dayTotals'].length; z++) {
+            circuit['grandTotal'] = circuit['grandTotal'] +  circuit['dayTotals'][z];
+        }
+
         datasets[circuit['label']] = circuit;
+
     }
     
     //console.log(JSON.stringify(datasets, null, 3));
