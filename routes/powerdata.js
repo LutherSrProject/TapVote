@@ -12,15 +12,19 @@ function powerdata(req, response) {
         var circuit = {};
         circuit['label'] = "circuit"+i;
         circuit['data'] = [];
+        circuit['dayTotals'] = []
 
         for(var j=1; j<8; j++) {
             jitter = 0
+            dayTotal = 0
             for(var k=1; k<25; k++) {
                 var x = j + jitter;
                 var y = Math.floor((Math.random()*1000)+1);
+                dayTotal = dayTotal + y;
                 circuit['data'].push([x, y]);
                 jitter = jitter + 0.04;
             }
+            circuit['dayTotals'].push(dayTotal);
         }
         datasets[circuit['label']] = circuit;
     }
