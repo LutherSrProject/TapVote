@@ -2,7 +2,7 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 
 function responses(req, response) {
-    //Test this endpoint with curl -d '{"surveyId": "xxx" }' -H "Content-Type: application/json" http://localhost:8000/responses
+    //Test this endpoint with curl http://localhost:8000/responses?surveyId=0
     console.log("[INFO] Request handler 'responses' was called.");
     data = req.query;
     if (!data['surveyId']) { //this can happen if the content-type isn't set correctly when you send raw JSON
