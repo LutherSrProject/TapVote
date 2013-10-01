@@ -1,5 +1,5 @@
 var database = require("../modules/database");
-var responses = require("../modules/responses");
+var httpresponses = require("../modules/httpresponses");
 
 function vote(req, response) {
     //Test this endpoint with curl -d '{"vote": "a"}' -H "Content-Type: application/json" http://localhost:8000/vote
@@ -10,7 +10,7 @@ function vote(req, response) {
         err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
         err["friendlyName"] = "JSON parse error";
-        responses.errorResponse(err, response);
+        httpresponses.errorResponse(err, response);
         return;
     }
 
@@ -23,12 +23,12 @@ function vote(req, response) {
             if (!err["friendlyName"]) {
                 err["friendlyName"] = "Error recording vote";
             }
-            responses.errorResponse(err, response);
+            httpresponses.errorResponse(err, response);
             return;
         }
         else {
             console.log("[INFO] Logged vote to database");
-            responses.successResponse(response);
+            httpresponses.successResponse(response);
             return;
         }
     });
