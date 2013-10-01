@@ -20,9 +20,8 @@ var getResponses = function(surveyData, callback) {
 }
 
 var createSurvey = function(surveyData, callback) {
-    // surveyData = { 'title':'A cool survey', 
-    //                'questions':'??????',
-    //                'choices':'???????',
+    // surveyData = { 'title':'"Because clickers are SO 1999."', 
+    //                'questions': [{'question': 'Which is best?', 'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],
     //                'password':'supersecretpassword' }
     //
     // callback(err, result), where 
