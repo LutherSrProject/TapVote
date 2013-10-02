@@ -12,7 +12,7 @@ var path = require('path');
 var winston = require('winston');
 var logger = new (winston.Logger)({
         transports: [
-            new (winston.transports.Console)(),
+            new (winston.transports.Console)({ colorize: true }),
             new (winston.transports.File)({ filename: 'logs/app.log' })
         ]
 });
@@ -43,6 +43,6 @@ app.post('/vote', vote.vote);
 app.post('/createSurvey', createSurvey.createSurvey);
 app.get('/responses', responses.responses);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+  logger.info('Express server listening on port ' + app.get('port'));
 });
