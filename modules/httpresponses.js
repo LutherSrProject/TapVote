@@ -6,7 +6,7 @@ function errorResponse(err, response) {
     response.write(JSON.stringify(message) + "\n");
     response.end();
 
-    console.log("[ERROR]", err)
+    logger.error("HTTP error response sent", err)
 }
 
 function successResponse(response, results) {
@@ -17,7 +17,6 @@ function successResponse(response, results) {
     message = JSON.stringify(results) + "\n";
 
     response.writeHead(200, {"Content-Type": "application/json"});
-    //response.write("200 OK" + "\n");
     response.write(message);
     response.end();
 }

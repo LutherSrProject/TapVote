@@ -9,7 +9,8 @@
     "stylus": "*",
     "cloned": ">=0.0.1",
     "async": ">=0.2.6",
-    "pg": ">=2.6"   
+    "pg": ">=2.6",
+    "winston": ">=0.7.2"
    },
   "devDependencies": {},
   "scripts": {

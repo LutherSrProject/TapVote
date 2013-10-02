@@ -43,7 +43,7 @@ var runQuery = function(queryString, values, callback) {
     pg.connect(CONNSTRING, function(err, client, done) {
         if (err) {
             err["friendlyName"] = "Database connection error";
-            console.log("Database connection error!", err)
+            logger.error("Database connection error in runQuery", err)
             callback(err);
             return;
         }
@@ -53,7 +53,7 @@ var runQuery = function(queryString, values, callback) {
                 done(); // called to release the connection client into the pool
                 if (err) {
                     err["friendlyName"] = "Query error";
-                    console.log("Query error!", err)
+                    logger.error("Query error in runQuery", err)
                     callback(err);
                     return;
                 }
