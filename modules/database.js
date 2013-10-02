@@ -32,7 +32,8 @@ var createSurvey = function(surveyData, callback) {
 }
 
 exports.recordVote = recordVote;
-
+exports.getResponses = getResponses;
+exports.createSurvey = createSurvey;
 
 // ==================================================================================================
 // local scope, don't export
