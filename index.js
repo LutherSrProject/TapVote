@@ -1,8 +1,6 @@
-
 /**
  * Module dependencies.
  */
-
 var express = require('express');
 var vote = require('./routes/vote');
 var responses = require('./routes/responses');
@@ -10,7 +8,7 @@ var createSurvey = require('./routes/createSurvey');
 var http = require('http');
 var path = require('path');
 var winston = require('winston');
-var logger = new (winston.Logger)({
+logger = new (winston.Logger)({
         transports: [
             new (winston.transports.Console)({ colorize: true }),
             new (winston.transports.File)({ filename: 'logs/app.log' })
@@ -46,3 +44,6 @@ app.get('/responses', responses.responses);
 http.createServer(app).listen(app.get('port'), function() {
   logger.info('Express server listening on port ' + app.get('port'));
 });
+
+
+exports.logger = logger; // export the Winston logger

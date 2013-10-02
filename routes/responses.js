@@ -3,7 +3,7 @@ var httpresponses = require("../modules/httpresponses");
 
 function responses(req, response) {
     //Test this endpoint with curl http://localhost:8000/responses?surveyId=0
-    console.log("[INFO] Request handler 'responses' was called.");
+    logger.info("Request handler 'responses' was called.");
     data = req.query;
     if (!data['surveyId']) { //this can happen if the content-type isn't set correctly when you send raw JSON
         err = new Error()
@@ -14,7 +14,7 @@ function responses(req, response) {
         return;
     }
 
-    console.log("[INFO] Incoming request for responses for: " + data['surveyId']);
+    logger.info("Incoming request for responses for: " + data['surveyId']);
     // TODO update with actual data (timestamp, uid, etc?)
     database.getResponses(data, function(err, results) {
         if (err) {
@@ -27,7 +27,7 @@ function responses(req, response) {
             return;
         }
         else {
-            console.log("[INFO] Returning survey data");
+            logger.info("Returning survey data");
             httpresponses.successResponse(response, results);
             return;
         }
