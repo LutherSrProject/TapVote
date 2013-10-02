@@ -26,7 +26,7 @@ function powerdata(req, response) {
             dayTotal = 0
             for(var k=1; k<25; k++) {
                 var x = j + jitter;
-                var y = Math.floor((Math.random()*1000)+1);
+                var y = Math.floor((Math.random()*500)+1);
                 dayTotal = dayTotal + y;
                 circuit['data'].push([x, y]);
                 jitter = jitter + 0.04;
