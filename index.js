@@ -6,6 +6,7 @@
 var express = require('express');
 var vote = require('./routes/vote');
 var responses = require('./routes/responses');
+var createSurvey = require('./routes/createSurvey');
 var http = require('http');
 var path = require('path');
 
@@ -34,6 +35,7 @@ if ('development' == app.get('env')) {
 }
 
 app.post('/vote', vote.vote);
+app.post('/createSurvey', createSurvey.createSurvey);
 app.get('/responses', responses.responses);
 
 http.createServer(app).listen(app.get('port'), function(){
