@@ -4,13 +4,20 @@ function powerdata(req, response) {
     var data = req.body;
     var circuits = parseInt(data['circuits']);
 
-    console.log(circuits);
-
+    var circuitNames = ['north_office_outlets', 'microwave', 'hot water heater', 'sump pump', 
+                        'washing machine', 'fridge', 'bedroom1', 'stove/oven'];
     var datasets = {};
+
+    var ind = Math.floor(Math.random() * circuitNames.length);
+    
 
     for(var i=1; i<circuits+1; i++) {
         var circuit = {};
-        circuit['label'] = "circuit"+i;
+
+        if (ind >= circuitNames.length) { ind = 0; }
+        circuit['label'] = circuitNames[ind];
+        ind++;
+
         circuit['data'] = [];
         circuit['dayTotals'] = []
 
@@ -34,8 +41,6 @@ function powerdata(req, response) {
         datasets[circuit['label']] = circuit;
 
     }
-    
-    //console.log(JSON.stringify(datasets, null, 3));
 
     response.writeHead(200, {"Content-Type": "application/json", "Access-Control-Allow-Origin":"*"});
     //response.write("200 OK" + "\n");
