@@ -3,7 +3,7 @@ var httpresponses = require("../modules/httpresponses");
 
 function vote(req, response) {
     //Test this endpoint with curl -d '{"vote": "a"}' -H "Content-Type: application/json" http://localhost:8000/vote
-    console.log("[INFO] Request handler 'vote' was called.");
+    logger.info("Request handler 'vote' was called.");
     data = req.body;
     if (!data['vote']) { //this can happen if the content-type isn't set correctly when you send raw JSON
         err = new Error()
@@ -14,7 +14,7 @@ function vote(req, response) {
         return;
     }
 
-    console.log("[INFO] Incoming vote: " + data['vote']);
+    logger.info("Incoming vote: " + data['vote']);
     // TODO update with actual data (timestamp, uid, etc?)
     database.recordVote(data, function(err, results) {
         if (err) {
@@ -27,7 +27,7 @@ function vote(req, response) {
             return;
         }
         else {
-            console.log("[INFO] Logged vote to database");
+            logger.info("Logged vote to database");
             httpresponses.successResponse(response);
             return;
         }
