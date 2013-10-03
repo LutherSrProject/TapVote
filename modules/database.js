@@ -7,8 +7,7 @@ var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 var recordVote = function(voteData, callback) {
     // voteData = {'vote':'a', 'surveyId':'xjffe'}
     runQuery("INSERT INTO test(vote) VALUES($1)", [voteData['vote']], callback)
-}
-
+};
 
 var getResponses = function(surveyData, callback) {
     // surveyData = {'surveyId':'xxjfe'}
@@ -17,7 +16,7 @@ var getResponses = function(surveyData, callback) {
     //
     callback(null, {'a':20, 'b':15, 'c':34});
     return;
-}
+};
 
 var createSurvey = function(surveyData, callback) {
     // surveyData = { 'title':'"Because clickers are SO 1999."', 
@@ -28,7 +27,7 @@ var createSurvey = function(surveyData, callback) {
     // result = {'surveyId':'xxx'}
     callback(null, {'surveryId':'f43s3'});
     return;
-}
+};
 
 exports.recordVote = recordVote;
 exports.getResponses = getResponses;
@@ -43,7 +42,7 @@ var runQuery = function(queryString, values, callback) {
     pg.connect(CONNSTRING, function(err, client, done) {
         if (err) {
             err["friendlyName"] = "Database connection error";
-            logger.error("Database connection error in runQuery", err)
+            logger.error("Database connection error in runQuery", err);
             callback(err);
             return;
         }
@@ -53,7 +52,7 @@ var runQuery = function(queryString, values, callback) {
                 done(); // called to release the connection client into the pool
                 if (err) {
                     err["friendlyName"] = "Query error";
-                    logger.error("Query error in runQuery", err)
+                    logger.error("Query error in runQuery", err);
                     callback(err);
                     return;
                 }
