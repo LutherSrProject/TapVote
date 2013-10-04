@@ -2,7 +2,7 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 
 function vote(req, response) {
-    //Test this endpoint with curl -d '{"vote": "a"}' -H "Content-Type: application/json" http://localhost:8000/vote
+    //Test this endpoint with curl -d '{"vote":"a", "surveyId":"test"}' -H "Content-Type: application/json" http://localhost:8000/vote
     logger.info("Request handler 'vote' was called.");
     data = req.body;
     if (!data['vote']) { //this can happen if the content-type isn't set correctly when you send raw JSON
