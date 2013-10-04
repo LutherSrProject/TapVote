@@ -6,8 +6,8 @@ var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 
 var recordVote = function (voteData, callback) {
-    // voteData = {'vote':'a', 'surveyId':'xjffe'}
-    runQuery("INSERT INTO vote(surveyId, answerId) VALUES($1, $2)", [voteData['vote'], voteData['surveyId']])
+    // voteData = {'answerId':5, 'questionId':5}
+    runQuery("INSERT INTO vote(answerid, questionid) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
     .then(function (results) {
               logger.info("Recorded vote in database.");
               callback(null, results);

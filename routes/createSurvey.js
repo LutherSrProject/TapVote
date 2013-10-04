@@ -6,7 +6,7 @@ function createSurvey(req, response) {
     logger.info("Request handler 'createSurvey' was called.");
     data = req.body;
     if (!data['title']) { //this can happen if the content-type isn't set correctly when you send raw JSON
-        err = new Error()
+        err = new Error();
         err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
         err["friendlyName"] = "JSON parse error";
