@@ -37,35 +37,46 @@ var createSurvey = function (surveyData, callback) {
     var questions = surveyData['questions'];
     var password = surveyData['password'];
 
-    var surveyId = runQuery("INSERT INTO survey(title, password) VALUES($1, $2", [title, password])
+    logger.info("Inserting new survey into database...");
+    runQuery("INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *", [title, password])
     .then(function (result) {
         // insert the new survey (return the survey ID)
-        return result.row[0].id;
+        logger.info("Inserted survey. New survey ID is", result.rows[0].id);
+        return result.rows[0].id;
     })
+
     .then(function (sid) {
         // insert all the questions for this survey
         for (var q=0; q<questions.length; q++) {
             var question = questions[q];
             var value = question['question'];
             var answers = question['answers'];
-            runQuery("INSERT INTO question(surveyId, value) VALUES($1, $2)", [sid, value])
+            runQuery("INSERT INTO question(surveyid, value) VALUES($1, $2) RETURNING *", [sid, value])
 
             .then(function (result) {
                 // insert all the answers for this question
-                var qid = result.row[0].id;
-                for (var a=0; a<answer.length; a++) {
-                    answer = answers[a];
-                    runQuery("INSERT INTO answer(questionId, value) VALUES($1, $2)", [qid, answer])
+                var qid = result.rows[0].id;
+                for (var a=0; a<answers.length; a++) {
+                    var answer = answers[a];
+                    runQuery("INSERT INTO answer(questionid, value) VALUES($1, $2) RETURNING *", [qid, answer])
                 }
             });
         }
-        callback({'surveyId': sid});
-        return;
-    }, function (error) {
-           callback(error);
-           return;
-    });
+        return sid;
+    })
+
+    .then(function (surveyId) {
+              logger.info("All questions and answers inserted");
+              callback(null, {"surveyId": surveyId});
+              return;
+    })
+    .fail(function (error) {
+              logger.error("Error creating survey.", error);
+              callback(error);
+              return;
+    })
 };
+
 
 exports.recordVote = recordVote;
 exports.getResponses = getResponses;
@@ -78,7 +89,6 @@ exports.createSurvey = createSurvey;
 
 var runQuery = function (queryString, values) {
     var deferred = Q.defer();
-
     pg.connect(CONNSTRING, function (err, client, done) {
         if (err) {
             err["friendlyName"] = "Database connection error";
@@ -95,7 +105,7 @@ var runQuery = function (queryString, values) {
                     deferred.reject(err);
                 }
                 else {
-                    deferred.resolve(err, results);
+                    deferred.resolve(results);
                 }
             });
         }
