@@ -9,11 +9,14 @@ var recordVote = function (voteData, callback) {
     // voteData = {'vote':'a', 'surveyId':'xjffe'}
     runQuery("INSERT INTO vote(surveyId, answerId) VALUES($1, $2)", [voteData['vote'], voteData['surveyId']])
     .then(function (results) {
+              logger.info("Recorded vote in database.");
               callback(null, results);
               return;
-    }, function (error) {
-           callback(error);
-           return;
+    })
+    .fail(function (error) {
+              logger.error("Error logging vote to database.", error);
+              callback(error);
+              return;
     });
 };
 
