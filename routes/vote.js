@@ -2,11 +2,11 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 
 function vote(req, response) {
-    //Test this endpoint with curl -d '{"vote": "a"}' -H "Content-Type: application/json" http://localhost:8000/vote
+    //Test this endpoint with curl -d '{"answerId":5, "questionId":5}' -H "Content-Type: application/json" http://localhost:8000/vote
     logger.info("Request handler 'vote' was called.");
     data = req.body;
-    if (!data['vote']) { //this can happen if the content-type isn't set correctly when you send raw JSON
-        err = new Error()
+    if (!data['answerId'] || !data['questionId']) { //this can happen if the content-type isn't set correctly when you send raw JSON
+        err = new Error();
         err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
         err["friendlyName"] = "JSON parse error";
@@ -14,7 +14,7 @@ function vote(req, response) {
         return;
     }
 
-    logger.info("Incoming vote: " + data['vote']);
+    logger.info("Incoming vote: " + data);
     // TODO update with actual data (timestamp, uid, etc?)
     database.recordVote(data, function(err, results) {
         if (err) {
