@@ -42,6 +42,7 @@ var getSurveyInfo = function(surveyData, callback) {
                 ]
               };
     callback(null, res);
+    return;
 };
 
 var getSurveyResults = function (surveyData, callback) {
