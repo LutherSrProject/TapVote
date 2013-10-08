@@ -20,6 +20,30 @@ var recordVote = function (voteData, callback) {
     });
 };
 
+var getSurveyInfo = function(surveyData, callback) {
+    // surveyData = {'surveyId':34}
+    var res = { title: "A sweet survey",
+                questions: [
+                    { id:12,
+                      title:"What is your favorite color",
+                      answers: [
+                          {id:45, value:"blue"},
+                          {id:32, value:"red"}
+                      ]
+                    },
+                    { id:14,
+                      title:"What is your favorite food",
+                      answers: [
+                          {id:21, value:"pizza"},
+                          {id:18, value:"cake"},
+                          {id:12, value:"brains"}
+                      ]
+                    }
+                ]
+              };
+    callback(null, res);
+};
+
 var getSurveyResults = function (surveyData, callback) {
     // surveyData = {'surveyId':34}
     // callback needs to expect callback(err, responses) where 
@@ -83,6 +107,7 @@ var createSurvey = function (surveyData, callback) {
 
 exports.recordVote = recordVote;
 exports.getSurveyResults = getSurveyResults;
+exports.getSurveyInfo = getSurveyInfo;
 exports.createSurvey = createSurvey;
 
 
