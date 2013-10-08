@@ -7,29 +7,20 @@ function minutedata(req, response) {
     var circuitNames = ['north_office_outlets', 'microwave', 'hot water heater', 'sump pump', 
                         'washing machine', 'fridge', 'bedroom1', 'stove/oven'];
     var minutes = 200;
+    var circuit = {};
 
-    datasets = {};
+    circuit['data'] = [];
 
-    for(var i=1; i<circuits+1; i++) {
-        var circuit = {};
-
-        circuit['label'] = circuitNames[i];
-        circuit['data'] = [];
-
-        for(var d=1; d<minutes; d++) {
-            var y = Math.floor((Math.random()*500)+1);
-            circuit['data'].push([d,y]);
-        }
-
-
-        datasets[circuit['label']] = circuit;
+    for(var d=1; d<minutes; d++) {
+        var y = Math.floor((Math.random()*500)+1);
+        circuit['data'].push([d,y]);
     }
 
     response.writeHead(200, {"Content-Type": "application/json", "Access-Control-Allow-Origin":"*"});
     
-    console.log(JSON.stringify(datasets));
+    console.log(JSON.stringify(circuit));
     
-    response.write(JSON.stringify(datasets));
+    response.write(JSON.stringify(circuit));
     response.end();
 
 }
