@@ -7,22 +7,18 @@ function minutedata(req, response) {
     var circuitNames = ['north_office_outlets', 'microwave', 'hot water heater', 'sump pump', 
                         'washing machine', 'fridge', 'bedroom1', 'stove/oven'];
     var minutes = 200;
-    var ind = Math.floor(Math.random() * circuitNames.length);
 
     datasets = {};
 
     for(var i=1; i<circuits+1; i++) {
         var circuit = {};
 
-        if (ind >= circuitNames.length) { ind = 0; }
-        circuit['label'] = circuitNames[ind];
-        ind++;
-
+        circuit['label'] = circuitNames[i];
         circuit['data'] = [];
 
         for(var d=1; d<minutes; d++) {
             var y = Math.floor((Math.random()*500)+1);
-            circuit['data'].push(y);
+            circuit['data'].push([d,y]);
         }
 
 
@@ -37,9 +33,6 @@ function minutedata(req, response) {
     response.end();
 
 }
-
-
-
 
 exports.minutedata = minutedata;
 
