@@ -6,6 +6,7 @@
 var express = require('express');
 var vote = require('./routes/vote');
 var powerdata = require('./routes/powerdata');
+var minutedata = require('./routes/minutedata');
 var http = require('http');
 var path = require('path');
 
@@ -48,6 +49,7 @@ app.use(function(req, res, next) {
 
 app.post('/vote', vote.vote);
 app.post('/powerdata', powerdata.powerdata);
+app.post('/minutedata', minutedata.minutedata);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
