@@ -20,12 +20,12 @@ var recordVote = function (voteData, callback) {
     });
 };
 
-var getResponses = function (surveyData, callback) {
-    // surveyData = {'surveyId':'xxjfe'}
+var getSurveyResults = function (surveyData, callback) {
+    // surveyData = {'surveyId':34}
     // callback needs to expect callback(err, responses) where 
-    // responses = {'a':20, 'b':15}
+    // responses =
     //
-    callback(null, {'a': 20, 'b': 15, 'c': 34});
+    callback(null, {1: 20, 2: 15, 3: 34}); // 1, 2, 3 are answer.id's associated with the surveyId, and 20.. is a count
     return;
 };
 
@@ -82,7 +82,7 @@ var createSurvey = function (surveyData, callback) {
 
 
 exports.recordVote = recordVote;
-exports.getResponses = getResponses;
+exports.getSurveyResults = getSurveyResults;
 exports.createSurvey = createSurvey;
 
 
