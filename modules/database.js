@@ -49,7 +49,26 @@ var getSurveyResults = function (surveyData, callback) {
     // surveyData = {'surveyId':34}
     // callback needs to expect callback(err, responses) where 
     // responses =
-    //
+    logger.info("Getting survey results from database for surveyId", surveyData['surveyId']);
+    runQuery("SELECT id FROM question WHERE surveyId = $1", [surveyData['surveyId']])
+    .then(function (results) {
+        // get a list of all answerIds associated with this survey
+        var answerIds = [];
+        for(var q=0; q<results.rows.length; q++) {
+
+            var questionId = results.rows[q].id;
+            // get a list of answers associated with this questionId
+            runQuery("SELECT id FROM answer WHERE questionId = $1", [questionId])
+            .then(function (answers) {
+                for(var a=0; a<answers.rows.length; a++) {
+                    answerIds.push(answers.rows[a].id);
+                }
+            });
+
+        }
+    });
+
+
     callback(null, {1: 20, 2: 15, 3: 34}); // 1, 2, 3 are answer.id's associated with the surveyId, and 20.. is a count
     return;
 };
