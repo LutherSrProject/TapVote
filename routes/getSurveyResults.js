@@ -4,6 +4,8 @@ var httpresponses = require("../modules/httpresponses");
 function getSurveyResults(req, response) {
     //Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=0
     logger.info("Request handler 'getSurveyResults' was called.");
+    var requiredApiParameters = {
+            "surveyId":"string"};
     data = req.query;
     if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
         err = new Error();
@@ -13,10 +15,29 @@ function getSurveyResults(req, response) {
         httpresponses.errorResponse(err, response);
         return;
     }
-    // TODO test required API values
+    var param = "";
+    for (param in requiredApiParameters) {
+        if (data[param] === undefined) {
+            err = new Error();
+            err["httpStatus"] = 400;
+            err["httpResponse"] = "400 Bad Request";
+            err["friendlyName"] = 'Required parameter "' + param + '" was not provided.';
+            httpresponses.errorResponse(err, response);
+            return;
+        } else if (typeof data[param] != requiredApiParameters[param]) {
+            err = new Error();
+            err["httpStatus"] = 400;
+            err["httpResponse"] = "400 Bad Request";
+            err["friendlyName"] = 'Required parameter "' + param + '" was not of the expected type. Got "' + typeof data[param] + '", expected "' + requiredApiParameters[param] + '".';
+            httpresponses.errorResponse(err, response);
+            return;
+        }
+    }
     logger.info("Incoming request for survey results for: " + data['surveyId']);
     // TODO update with actual data (timestamp, uid, etc?)
-    database.getResponses(data, function(err, results) {
+    var dataForDB = {};
+    dataForDB['surveyId'] = parseInt(data['surveyId']);
+    database.getResponses(dataForDB, function(err, results) {
         if (err) {
             err["httpStatus"] = 500;
             err["httpResponse"] = "500 Internal Server Error";
