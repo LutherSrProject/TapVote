@@ -5,15 +5,15 @@ function getSurveyResults(req, response) {
     //Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=0
     logger.info("Request handler 'getSurveyResults' was called.");
     data = req.query;
-    if (!data['surveyId']) { //this can happen if the content-type isn't set correctly when you send raw JSON
+    if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
         err = new Error();
         err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
-        err["friendlyName"] = "JSON parse error";
+        err["friendlyName"] = "Unable to parse request as GET parameters.";
         httpresponses.errorResponse(err, response);
         return;
     }
-
+    // TODO test required API values
     logger.info("Incoming request for survey results for: " + data['surveyId']);
     // TODO update with actual data (timestamp, uid, etc?)
     database.getResponses(data, function(err, results) {

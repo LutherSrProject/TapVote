@@ -5,15 +5,15 @@ function createSurvey(req, response) {
     //Test this endpoint with curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
     logger.info("Request handler 'createSurvey' was called.");
     data = req.body;
-    if (!data['title']) { //this can happen if the content-type isn't set correctly when you send raw JSON
+    if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
         err = new Error();
         err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
-        err["friendlyName"] = "JSON parse error";
+        err["friendlyName"] = "Unable to parse request as POST body data. Send header Content-Type: application/json if you are submitting JSON";
         httpresponses.errorResponse(err, response);
         return;
     }
-
+    // TODO test required API values
     logger.info("Incoming survey: " + data['title']);
     // TODO update with actual data (timestamp, uid, etc?)
     database.createSurvey(data, function(err, results) {
