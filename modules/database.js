@@ -4,7 +4,6 @@ var Q = require("q");
 // this should be used anytime we need to connect to the DB
 var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
-
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
     runQuery("INSERT INTO vote(answerid, questionid) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
@@ -48,13 +47,32 @@ var getSurveyInfo = function(surveyData, callback) {
 var getSurveyResults = function (surveyData, callback) {
     // surveyData = {'surveyId':34}
     // callback needs to expect callback(err, responses)
-    logger.info("Getting survey results from database for surveyId", surveyData['surveyId']);
     var surveyId = surveyData['surveyId'];
+    logger.info("Getting survey results from database for surveyId", surveyId);
 
-    var queryString = "SELECT * FROM question, answer, vote WHERE question.surveyid =$1 AND ";
+    var queryString = "SELECT v.answerId, COUNT(*) \
+                       FROM survey AS s \
+                           INNER JOIN question AS q ON s.id = q.surveyId AND s.id = $1 \
+                           INNER JOIN vote AS v ON q.id = v.questionId \
+                       GROUP BY v.answerId \
+                       ORDER BY v.answerId";
 
-    callback(null, {1: 20, 2: 15, 3: 34}); // 1, 2, 3 are answer.id's associated with the surveyId, and 20.. is a count
-    return;
+    runQuery(queryString, [surveyId])
+    .then(function (results) {
+        var ret = {};
+        for (var r=0; r<results.rowCount; r++) {
+            var answerId = results.rows[r].answerid;
+            ret[answerId] = results.rows[r].count;
+        }
+        logger.info("Returning survey results for surveyId", surveyId);
+        callback(null, ret);
+        return;
+    })
+    .fail(function (error) {
+        logger.error("Error getting survey results", error);
+        callback(error);
+        return;
+    });
 };
 
 var createSurvey = function (surveyData, callback) {
