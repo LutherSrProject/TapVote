@@ -64,7 +64,7 @@ var getSurveyResults = function (surveyData, callback) {
             var answerId = results.rows[r].answerid;
             ret[answerId] = results.rows[r].count;
         }
-        logger.info("Returning survey results for surveyId", surveyId);
+        logger.info("Got survey results from database for surveyId", surveyId);
         callback(null, ret);
         return;
     })
