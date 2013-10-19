@@ -29,7 +29,11 @@ function vote(req, response) {
             err = new Error();
             err["httpStatus"] = 400;
             err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] = 'Required parameter "' + param + '" was not of the expected type. Got "' + typeof data[param] + '", expected "' + requiredApiParameters[param] + '".';
+            err["friendlyName"] =
+                    'Required parameter "' + param + '" was not of the expected type. ' +
+                    'Got "' + typeof data[param] + '", ' +
+                    'expected "' + requiredApiParameters[param] + '".';
+
             httpresponses.errorResponse(err, response);
             return;
         }
