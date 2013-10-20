@@ -28,16 +28,19 @@ function getSurveyResults(req, response) {
             err = new Error();
             err["httpStatus"] = 400;
             err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] = 'Required parameter "' + param + '" was not of the expected type. Got "' + typeof data[param] + '", expected "' + requiredApiParameters[param] + '".';
+            err["friendlyName"] =
+                   'Required parameter "' + param + '" was not of the expected type. ' +
+                   'Got "' + typeof data[param] + '", ' +
+                   'expected "' + requiredApiParameters[param] + '".';
+
             httpresponses.errorResponse(err, response);
             return;
         }
     }
     logger.info("Incoming request for survey results for: " + data['surveyId']);
-    // TODO update with actual data (timestamp, uid, etc?)
     var dataForDB = {};
     dataForDB['surveyId'] = parseInt(data['surveyId']);
-    database.getResponses(dataForDB, function(err, results) {
+    database.getSurveyResults(dataForDB, function(err, results) {
         if (err) {
             err["httpStatus"] = 500;
             err["httpResponse"] = "500 Internal Server Error";

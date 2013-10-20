@@ -2,7 +2,8 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 
 function createSurvey(req, response) {
-    //Test this endpoint with curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
+    //Test this endpoint with
+    //curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
     logger.info("Request handler 'createSurvey' was called.");
     var requiredApiParameters = {
             "title":"string",
@@ -30,7 +31,11 @@ function createSurvey(req, response) {
             err = new Error();
             err["httpStatus"] = 400;
             err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] = 'Required parameter "' + param + '" was not of the expected type. Got "' + typeof data[param] + '", expected "' + requiredApiParameters[param] + '".';
+            err["friendlyName"] =
+                    'Required parameter "' + param + '" was not of the expected type. ' +
+                    'Got "' + typeof data[param] + '", ' +
+                    'expected "' + requiredApiParameters[param] + '".';
+
             httpresponses.errorResponse(err, response);
             return;
         }

@@ -4,7 +4,6 @@ var Q = require("q");
 // this should be used anytime we need to connect to the DB
 var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
-
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
     runQuery("INSERT INTO vote(answerid, questionid) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
@@ -47,11 +46,33 @@ var getSurveyInfo = function(surveyData, callback) {
 
 var getSurveyResults = function (surveyData, callback) {
     // surveyData = {'surveyId':34}
-    // callback needs to expect callback(err, responses) where 
-    // responses =
-    //
-    callback(null, {1: 20, 2: 15, 3: 34}); // 1, 2, 3 are answer.id's associated with the surveyId, and 20.. is a count
-    return;
+    // callback needs to expect callback(err, responses)
+    var surveyId = surveyData['surveyId'];
+    logger.info("Getting survey results from database for surveyId", surveyId);
+
+    var queryString = "SELECT v.answerId, COUNT(*) \
+                       FROM survey AS s \
+                           INNER JOIN question AS q ON s.id = q.surveyId AND s.id = $1 \
+                           INNER JOIN vote AS v ON q.id = v.questionId \
+                       GROUP BY v.answerId \
+                       ORDER BY v.answerId";
+
+    runQuery(queryString, [surveyId])
+    .then(function (results) {
+        var ret = {};
+        for (var r=0; r<results.rowCount; r++) {
+            var answerId = results.rows[r].answerid;
+            ret[answerId] = results.rows[r].count;
+        }
+        logger.info("Got survey results from database for surveyId", surveyId);
+        callback(null, ret);
+        return;
+    })
+    .fail(function (error) {
+        logger.error("Error getting survey results", error);
+        callback(error);
+        return;
+    });
 };
 
 var createSurvey = function (surveyData, callback) {
@@ -68,7 +89,7 @@ var createSurvey = function (surveyData, callback) {
     logger.info("Inserting new survey into database...");
     runQuery("INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *", [title, password])
     .then(function (result) {
-        // insert the new survey (return the survey ID)
+        // insert the new survey (return the survey ID to use in inserting questions)
         logger.info("Inserted survey. New survey ID is", result.rows[0].id);
         return result.rows[0].id;
     })
@@ -86,7 +107,7 @@ var createSurvey = function (surveyData, callback) {
                 var qid = result.rows[0].id;
                 for (var a=0; a<answers.length; a++) {
                     var answer = answers[a];
-                    runQuery("INSERT INTO answer(questionid, value) VALUES($1, $2) RETURNING *", [qid, answer])
+                    runQuery("INSERT INTO answer(questionid, value) VALUES($1, $2)", [qid, answer])
                 }
             });
         }
