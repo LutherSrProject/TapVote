@@ -21,6 +21,43 @@ var recordVote = function (voteData, callback) {
 
 var getSurveyInfo = function(surveyData, callback) {
     // surveyData = {'surveyId':34}
+    var surveyId = surveyData['surveyId'];
+
+    runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
+    .then(function (results) {
+        var surveyInfo = {};
+
+        surveyInfo['title'] = results.rows[0].title;
+        surveyInfo['questions'] = [];
+        return surveyInfo;
+    })
+    .then(function (surveyInfo) {
+        // get all the questions associated with this survey
+        runQuery("SELECT * FROM question WHERE surveyid=$1", [surveyId])
+        .then(function (results) {
+            for (var q=0; q<results.rowCount; q++) {
+                var qid = results.rows[q].id;
+                var title = results.rows[q].title;
+                var question = {id:qid, title:title, answers:[]};
+                runQuery("SELECT * FROM answer WHERE questionid=$1", [qid])
+                .then(function (answerResults) {
+                    for (var a=0; a<answerResults.rowCount; a++) {
+                        var aid = answerResults.rows[a].id;
+                        var value = answerResults.rows[a].value;
+                        var answer = {id:aid, value:value};
+                        question.answers.push(answer);
+                    }
+                });
+                surveyInfo['questions'].push(question);
+            }
+        });
+        return surveyInfo;
+    })
+    .then(function (surveyInfo) {
+        logger.info(surveyInfo);
+    });
+
+
     var res = { title: "A sweet survey",
                 questions: [
                     { id:12,
