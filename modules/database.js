@@ -32,43 +32,37 @@ var getSurveyInfo = function(surveyData, callback) {
         return surveyInfo;
     })
     .then(function (surveyInfo) {
-        // get all the questions associated with this survey
-        runQuery("SELECT * FROM question WHERE surveyid=$1", [surveyId])
+        // get questions for survey
+        return runQuery("SELECT * FROM question WHERE surveyid=$1", [surveyId])
         .then(function (results) {
-            for (var q=0; q<results.rowCount; q++) {
-                var qid = results.rows[q].id;
-                var title = results.rows[q].title;
-                var question = {id:qid, title:title, answers:[]};
-                runQuery("SELECT * FROM answer WHERE questionid=$1", [qid])
-                .then(function (answerResults) {
-                    for (var a=0; a<answerResults.rowCount; a++) {
-                        var aid = answerResults.rows[a].id;
-                        var value = answerResults.rows[a].value;
-                        var answer = {id:aid, value:value};
-                        question.answers.push(answer);
-                    }
-                });
-                surveyInfo['questions'].push(question);
-            }
+            var questions = results.rows;
+            return Q.all(questions.map(function (question) {
+                // get answers for each question
+                return runQuery("SELECT * FROM answer WHERE questionid=$1", [question.id])
+                .then(function (answers) {
+                    question.answers = answers.rows;
+                    return question;
+                })
+                .thenResolve(question);
+            }))
         });
-        return surveyInfo;
     })
-    .then(function (surveyInfo) {
-        logger.info(surveyInfo);
+    .then(function (results) {
+        logger.info(results);
     });
 
 
     var res = { title: "A sweet survey",
                 questions: [
                     { id:12,
-                      title:"What is your favorite color",
+                      value:"What is your favorite color",
                       answers: [
                           {id:45, value:"blue"},
                           {id:32, value:"red"}
                       ]
                     },
                     { id:14,
-                      title:"What is your favorite food",
+                      value:"What is your favorite food",
                       answers: [
                           {id:21, value:"pizza"},
                           {id:18, value:"cake"},
