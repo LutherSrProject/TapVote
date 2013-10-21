@@ -8,14 +8,14 @@ var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
     runQuery("INSERT INTO vote(answerid, questionid) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
     .then(function (results) {
-              logger.info("Recorded vote in database.");
-              callback(null, results);
-              return;
+        logger.info("Recorded vote in database.");
+        callback(null, results);
+        return;
     })
     .fail(function (error) {
-              logger.error("Error logging vote to database.", error);
-              callback(error);
-              return;
+        logger.error("Error logging vote to database.", error);
+        callback(error);
+        return;
     });
 };
 
@@ -25,12 +25,11 @@ var getSurveyInfo = function(surveyData, callback) {
 
     // See http://stackoverflow.com/a/19439766/1576908 for more info on what is going on here
 
-    // get questions for survey
+    // get questions for surveyId
     runQuery("SELECT * FROM question WHERE surveyid=$1", [surveyId])
     .then(function (results) {
         var questions = results.rows;
-        return Q.all(questions.map(function (question) { // map each question into a function to get it's answers
-            // get answers for each question
+        return Q.all(questions.map(function (question) { // map each question into a function to get its answers
             return runQuery("SELECT * FROM answer WHERE questionid=$1", [question.id])
             .then(function (answers) {
                 question.answers = answers.rows; // annotate each question w/ the list of answers
@@ -49,10 +48,12 @@ var getSurveyInfo = function(surveyData, callback) {
         });
     })
     .then(function (res) {
+        logger.info("Got survey info from database for surveyId", surveyId);
         callback(null, res);
         return;
     })
     .fail(function (error) {
+        logger.error("Error getting survey info from database: ", error);
         callback(error);
         return;
     });
