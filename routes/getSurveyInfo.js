@@ -1,9 +1,9 @@
 var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 
-function getSurveyResults(req, response) {
-    //Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=1
-    logger.info("Request handler 'getSurveyResults' was called.");
+function getSurveyInfo(req, response) {
+    //Test this endpoint with curl http://localhost:8000/getSurveyInfo?surveyId=1
+    logger.info("Request handler 'getSurveyInfo' was called.");
     var requiredApiParameters = {
             "surveyId":"string"};
     data = req.query;
@@ -37,15 +37,15 @@ function getSurveyResults(req, response) {
             return;
         }
     }
-    logger.info("Incoming request for survey results for: " + data['surveyId']);
+    logger.info("Incoming request for survey info for: " + data['surveyId']);
     var dataForDB = {};
     dataForDB['surveyId'] = parseInt(data['surveyId']);
-    database.getSurveyResults(dataForDB, function(err, results) {
+    database.getSurveyInfo(dataForDB, function(err, results) {
         if (err) {
             err["httpStatus"] = 500;
             err["httpResponse"] = "500 Internal Server Error";
             if (!err["friendlyName"]) {
-                err["friendlyName"] = "Error retrieving survey results";
+                err["friendlyName"] = "Error retrieving survey info";
             }
             httpresponses.errorResponse(err, response);
             return;
@@ -58,5 +58,5 @@ function getSurveyResults(req, response) {
     });
 }
 
-exports.getSurveyResults = getSurveyResults;
+exports.getSurveyInfo = getSurveyInfo;
 
