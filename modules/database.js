@@ -8,40 +8,55 @@ var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
     runQuery("INSERT INTO vote(answerid, questionid) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
     .then(function (results) {
-              logger.info("Recorded vote in database.");
-              callback(null, results);
-              return;
+        logger.info("Recorded vote in database.");
+        callback(null, results);
+        return;
     })
     .fail(function (error) {
-              logger.error("Error logging vote to database.", error);
-              callback(error);
-              return;
+        logger.error("Error logging vote to database.", error);
+        callback(error);
+        return;
     });
 };
 
 var getSurveyInfo = function(surveyData, callback) {
     // surveyData = {'surveyId':34}
-    var res = { title: "A sweet survey",
-                questions: [
-                    { id:12,
-                      title:"What is your favorite color",
-                      answers: [
-                          {id:45, value:"blue"},
-                          {id:32, value:"red"}
-                      ]
-                    },
-                    { id:14,
-                      title:"What is your favorite food",
-                      answers: [
-                          {id:21, value:"pizza"},
-                          {id:18, value:"cake"},
-                          {id:12, value:"brains"}
-                      ]
-                    }
-                ]
-              };
-    callback(null, res);
-    return;
+    var surveyId = surveyData['surveyId'];
+
+    // See http://stackoverflow.com/a/19439766/1576908 for more info on what is going on here
+
+    // get questions for surveyId
+    runQuery("SELECT * FROM question WHERE surveyid=$1", [surveyId])
+    .then(function (results) {
+        var questions = results.rows;
+        return Q.all(questions.map(function (question) { // map each question into a function to get its answers
+            return runQuery("SELECT * FROM answer WHERE questionid=$1", [question.id])
+            .then(function (answers) {
+                question.answers = answers.rows; // annotate each question w/ the list of answers
+                return question;
+            })
+            .thenResolve(question);
+        }))
+    })
+    .then(function (results) {
+        // results is a list of questions each annotated with a list of answers.
+        // Still need to do a query to get survey info from DB (mainly the survey title).
+        return runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
+        .then(function (survey) {
+            var title = survey.rows[0].title;
+            return {title: title, questions: results};
+        });
+    })
+    .then(function (res) {
+        logger.info("Got survey info from database for surveyId", surveyId);
+        callback(null, res);
+        return;
+    })
+    .fail(function (error) {
+        logger.error("Error getting survey info from database: ", error);
+        callback(error);
+        return;
+    });
 };
 
 var getSurveyResults = function (surveyData, callback) {
@@ -76,11 +91,6 @@ var getSurveyResults = function (surveyData, callback) {
 };
 
 var createSurvey = function (surveyData, callback) {
-    // surveyData = { 'title':'"Because clickers are SO 1999."', 
-    //                'questions': [{'question': 'Which is best?', 'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],
-    //                'password':'supersecretpassword' }
-    //
-    // callback(err, result), where 
     // result = {'surveyId':'xxx'}
     var title = surveyData['title'];
     var questions = surveyData['questions'];
