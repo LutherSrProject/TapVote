@@ -2,13 +2,11 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
-//Test this endpoint with curl -d '{"answerId":5, "questionId":5}' -H "Content-Type: application/json" http://localhost:8000/vote
-
-function vote(){
+function example(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "vote";
+    apiOptions.endpointName = "example";
         
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
@@ -21,7 +19,17 @@ function vote(){
     //Provides additional validation functions after the basic check on required parameters. 
     //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
     //In the case of a problem, return false or throw an error.
-    apiOptions.validators = {};
+    apiOptions.validators = {
+            "goodOptionalParameter": function(value) {return true;},
+            "badOptionalParameter": function(value) {
+                err = new Error();
+                err["httpStatus"] = 400;
+                err["httpResponse"] = "400 Bad Request";
+                err["friendlyName"] = 'To put it in a "friendly" manner, you dun goofed.';
+                throw err;
+            },
+            "reallyBadOptionalParameter": function(value) {return false;}
+    };
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
@@ -51,4 +59,4 @@ function vote(){
     }; //return the handler function for the endpoint
 }
 
-exports.vote = vote;
+exports.example = example;
