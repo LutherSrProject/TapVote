@@ -1,62 +1,54 @@
 var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
+var endpoint = require("../modules/endpoint");
 
-function getSurveyResults(req, response) {
-    //Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=1
-    logger.info("Request handler 'getSurveyResults' was called.");
-    var requiredApiParameters = {
+//Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=1
+
+function getSurveyResults(){
+    var apiOptions = {};
+    
+    //The name of this route:
+    apiOptions.endpointName = "getSurveyResults";
+        
+    //Indicates the required API parameters and their basic expected types.
+    apiOptions.requiredApiParameters = {
             "surveyId":"string"};
-    data = req.query;
-    if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
-        err = new Error();
-        err["httpStatus"] = 400;
-        err["httpResponse"] = "400 Bad Request";
-        err["friendlyName"] = "Unable to parse request as GET parameters.";
-        httpresponses.errorResponse(err, response);
-        return;
-    }
-    var param = "";
-    for (param in requiredApiParameters) {
-        if (data[param] === undefined) {
-            err = new Error();
-            err["httpStatus"] = 400;
-            err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] = 'Required parameter "' + param + '" was not provided.';
-            httpresponses.errorResponse(err, response);
-            return;
-        } else if (typeof data[param] != requiredApiParameters[param]) {
-            err = new Error();
-            err["httpStatus"] = 400;
-            err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] =
-                   'Required parameter "' + param + '" was not of the expected type. ' +
-                   'Got "' + typeof data[param] + '", ' +
-                   'expected "' + requiredApiParameters[param] + '".';
-
-            httpresponses.errorResponse(err, response);
-            return;
-        }
-    }
-    logger.info("Incoming request for survey results for: " + data['surveyId']);
-    var dataForDB = {};
-    dataForDB['surveyId'] = parseInt(data['surveyId']);
-    database.getSurveyResults(dataForDB, function(err, results) {
-        if (err) {
-            err["httpStatus"] = 500;
-            err["httpResponse"] = "500 Internal Server Error";
-            if (!err["friendlyName"]) {
-                err["friendlyName"] = "Error retrieving survey results";
+    
+    //Indicates the optional API parameters and their basic expected types.
+    apiOptions.optionalApiParameters = {};
+    
+    //Provides additional validation functions after the basic check on required parameters. 
+    //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
+    //In the case of a problem, return false or throw an error.
+    apiOptions.validators = {};
+    
+    //Function to execute if validation tests are successful.
+    apiOptions.conclusion = function(data, response) {
+        logger.info("Incoming request for survey results for: " + data['surveyId']);
+        var dataForDB = {};
+        dataForDB['surveyId'] = parseInt(data['surveyId']);
+        database.getSurveyResults(dataForDB, function(err, results) {
+            if (err) {
+                err["httpStatus"] = 500;
+                err["httpResponse"] = "500 Internal Server Error";
+                if (!err["friendlyName"]) {
+                    err["friendlyName"] = "Error retrieving survey results";
+                }
+                httpresponses.errorResponse(err, response);
+                return;
             }
-            httpresponses.errorResponse(err, response);
-            return;
-        }
-        else {
-            logger.info("Returning survey results");
-            httpresponses.successResponse(response, results);
-            return;
-        }
-    });
+            else {
+                logger.info("Returning survey results");
+                httpresponses.successResponse(response, results);
+                return;
+            }
+        });
+    };
+    
+    var endpointObject = new endpoint.Endpoint(apiOptions)
+    return function() {  
+        (endpointObject.handle).apply(endpointObject, arguments);  
+    }; //return the handler function for the endpoint
 }
 
 exports.getSurveyResults = getSurveyResults;
-

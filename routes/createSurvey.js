@@ -1,64 +1,56 @@
 var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
+var endpoint = require("../modules/endpoint");
 
-function createSurvey(req, response) {
-    //Test this endpoint with
-    //curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
-    logger.info("Request handler 'createSurvey' was called.");
-    var requiredApiParameters = {
+//Test this endpoint with
+//curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
+
+function createSurvey(){
+    var apiOptions = {};
+    
+    //The name of this route:
+    apiOptions.endpointName = "createSurvey";
+    
+    //Indicates the required API parameters and their basic expected types.
+    apiOptions.requiredApiParameters = {
             "title":"string",
             "questions":"object",
             "password":"string"};
-    data = req.body;
-    if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
-        err = new Error();
-        err["httpStatus"] = 400;
-        err["httpResponse"] = "400 Bad Request";
-        err["friendlyName"] = "Unable to parse request as POST body data. Send header Content-Type: application/json if you are submitting JSON";
-        httpresponses.errorResponse(err, response);
-        return;
-    }
-    var param = "";
-    for (param in requiredApiParameters) {
-        if (data[param] === undefined) {
-            err = new Error();
-            err["httpStatus"] = 400;
-            err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] = 'Required parameter "' + param + '" was not provided.';
-            httpresponses.errorResponse(err, response);
-            return;
-        } else if (typeof data[param] != requiredApiParameters[param]) {
-            err = new Error();
-            err["httpStatus"] = 400;
-            err["httpResponse"] = "400 Bad Request";
-            err["friendlyName"] =
-                    'Required parameter "' + param + '" was not of the expected type. ' +
-                    'Got "' + typeof data[param] + '", ' +
-                    'expected "' + requiredApiParameters[param] + '".';
-
-            httpresponses.errorResponse(err, response);
-            return;
-        }
-    }
-    logger.info("Incoming survey: " + data['title']);
-    // TODO update with actual data (timestamp, uid, etc?)
-    database.createSurvey(data, function(err, results) {
-        if (err) {
-            err["httpStatus"] = 500;
-            err["httpResponse"] = "500 Internal Server Error";
-            if (!err["friendlyName"]) {
-                err["friendlyName"] = "Error recording survey";
+    //Indicates the optional API parameters and their basic expected types.
+    apiOptions.optionalApiParameters = {};
+    
+    //Provides additional validation functions after the basic check on required parameters. 
+    //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
+    //In the case of a problem, return false or throw an error.
+    apiOptions.validators = {};
+    
+    //Function to execute if validation tests are successful.
+    apiOptions.conclusion = function(data, response) {
+        logger.info("Incoming survey: " + data['title']);
+        // TODO update with actual data (timestamp, uid, etc?)
+        console.log(data);
+        database.createSurvey(data, function(err, results) {
+            if (err) {
+                err["httpStatus"] = 500;
+                err["httpResponse"] = "500 Internal Server Error";
+                if (!err["friendlyName"]) {
+                    err["friendlyName"] = "Error recording survey";
+                }
+                httpresponses.errorResponse(err, response);
+                return;
             }
-            httpresponses.errorResponse(err, response);
-            return;
-        }
-        else {
-            logger.info("Logged survey to database");
-            httpresponses.successResponse(response, results);
-            return;
-        }
-    });
+            else {
+                logger.info("Logged survey to database");
+                httpresponses.successResponse(response, results);
+                return;
+            }
+        });
+    };
+    
+    var endpointObject = new endpoint.Endpoint(apiOptions)
+    return function() {  
+        (endpointObject.handle).apply(endpointObject, arguments);  
+    }; //return the handler function for the endpoint
 }
 
 exports.createSurvey = createSurvey;
-

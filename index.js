@@ -38,10 +38,10 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.post('/vote', vote.vote);
-app.post('/createSurvey', createSurvey.createSurvey);
-app.get('/getSurveyResults', getSurveyResults.getSurveyResults);
-app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo);
+app.post('/vote', vote.vote());
+app.post('/createSurvey', createSurvey.createSurvey());
+app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
+app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 
 http.createServer(app).listen(app.get('port'), function() {
   logger.info('Express server listening on port ' + app.get('port'));
