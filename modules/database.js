@@ -6,7 +6,7 @@ var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
-    runQuery("INSERT INTO vote(answerId, questionId) VALUES($1, $2)", [voteData['answerId'], voteData['questionId']])
+    runQuery('INSERT INTO vote("answerId", "questionId") VALUES($1, $2)', [voteData['answerId'], voteData['questionId']])
     .then(function (results) {
         logger.info("Recorded vote in database.");
         callback(null, results);
@@ -26,11 +26,11 @@ var getSurveyInfo = function(surveyData, callback) {
     // See http://stackoverflow.com/a/19439766/1576908 for more info on what is going on here
 
     // get questions for surveyId
-    runQuery("SELECT * FROM question WHERE surveyId=$1", [surveyId])
+    runQuery('SELECT * FROM question WHERE "surveyId"=$1', [surveyId])
     .then(function (results) {
         var questions = results.rows;
         return Q.all(questions.map(function (question) { // map each question into a function to get its answers
-            return runQuery("SELECT * FROM answer WHERE questionId=$1", [question.id])
+            return runQuery('SELECT * FROM answer WHERE "questionId"=$1', [question.id])
             .then(function (answers) {
                 question.answers = answers.rows; // annotate each question w/ the list of answers
                 return question;
@@ -41,7 +41,7 @@ var getSurveyInfo = function(surveyData, callback) {
     .then(function (results) {
         // results is a list of questions each annotated with a list of answers.
         // Still need to do a query to get survey info from DB (mainly the survey title).
-        return runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
+        return runQuery('SELECT * FROM survey WHERE id=$1', [surveyId])
         .then(function (survey) {
             var title = survey.rows[0].title;
             return {title: title, questions: results};
@@ -97,7 +97,7 @@ var createSurvey = function (surveyData, callback) {
     var password = surveyData['password'];
 
     logger.info("Inserting new survey into database...");
-    runQuery("INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *", [title, password])
+    runQuery('INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *', [title, password])
     .then(function (result) {
         // insert the new survey (return the survey ID to use in inserting questions)
         logger.info("Inserted survey. New survey ID is", result.rows[0].id);
@@ -110,14 +110,14 @@ var createSurvey = function (surveyData, callback) {
             var question = questions[q];
             var value = question['question'];
             var answers = question['answers'];
-            runQuery("INSERT INTO question(surveyId, value) VALUES($1, $2) RETURNING *", [sid, value])
+            runQuery('INSERT INTO question("surveyId", value) VALUES($1, $2) RETURNING *', [sid, value])
 
             .then(function (result) {
                 // insert all the answers for this question
                 var qid = result.rows[0].id;
                 for (var a=0; a<answers.length; a++) {
                     var answer = answers[a];
-                    runQuery("INSERT INTO answer(questionId, value) VALUES($1, $2)", [qid, answer])
+                    runQuery('INSERT INTO answer("questionId", value) VALUES($1, $2)', [qid, answer])
                 }
             });
         }
