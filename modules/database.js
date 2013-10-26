@@ -65,12 +65,12 @@ var getSurveyResults = function (surveyData, callback) {
     var surveyId = surveyData['surveyId'];
     logger.info("Getting survey results from database for surveyId", surveyId);
 
-    var queryString = "SELECT v.answerId, COUNT(*) \
+    var queryString = 'SELECT v."answerId", COUNT(*) \
                        FROM survey AS s \
-                           INNER JOIN question AS q ON s.id = q.surveyId AND s.id = $1 \
-                           INNER JOIN vote AS v ON q.id = v.questionId \
-                       GROUP BY v.answerId \
-                       ORDER BY v.answerId";
+                           INNER JOIN question AS q ON s.id = q."surveyId" AND s.id = $1 \
+                           INNER JOIN vote AS v ON q.id = v."questionId" \
+                       GROUP BY v."answerId" \
+                       ORDER BY v."answerId"';
 
     runQuery(queryString, [surveyId])
     .then(function (results) {
