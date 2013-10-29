@@ -25,9 +25,14 @@ exports.up = function(db, callback) {
                     "questionId" integer   REFERENCES question(id),\
                     "answerId"   integer   REFERENCES answer(id)\
                 );\
-           ', callback);
+           '
+     , callback);
 };
 
 exports.down = function(db, callback) {
-
+    db.runSql('DROP TABLE survey CASCADE;\
+              DROP TABLE question CASCADE;\
+              DROP TABLE answer CASCADE;\
+              DROP TABLE vote CASCADE;'
+    , callback);
 };
