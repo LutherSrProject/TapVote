@@ -16,6 +16,7 @@ Endpoint.prototype.handle = function(req, response){
     }
     if (Object.keys(data).length == 0) { //this can happen if the content-type isn't set correctly when you send raw JSON
         var err = new Error();
+        err["httpStatus"] = 400;
         err["httpResponse"] = "400 Bad Request";
         err["friendlyName"] = "Unable to parse request as GET parameters or POST body data. Send header Content-Type: application/json if you are submitting JSON";
         httpresponses.errorResponse(err, response);
