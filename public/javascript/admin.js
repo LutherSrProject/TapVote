@@ -34,6 +34,8 @@ $(function getSurveyInfo() {
 function displayAjaxError(error) {
     console.log(error.statusText);
     console.log(error.responseText);
+    var titleDiv = $("#survey-title");
+    titleDiv.text("Error getting survey. Did you specify a non-existent survey id?");
 }
 
 function getSurveyResults() {
@@ -54,12 +56,6 @@ function displaySurveyResults(results) {
 
 function displaySurveyInfo(results) {
     var titleDiv = $("#survey-title");
-
-    if (results.length = 0) {
-        titleDiv.text("Unknown survey Id");
-        return;
-    }
-
 
     var el = $("<h2></h2>");
     el.text(results['title']);
