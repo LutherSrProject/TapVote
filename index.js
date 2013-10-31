@@ -1,3 +1,6 @@
+//Attach global variables
+require('./modules/globals');
+
 /**
  * Module dependencies.
  */
@@ -8,13 +11,6 @@ var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
 var http = require('http');
 var path = require('path');
-var winston = require('winston');
-logger = new (winston.Logger)({
-        transports: [
-            new (winston.transports.Console)({ colorize: true }),
-            new (winston.transports.File)({ filename: 'logs/app.log' })
-        ]
-});
 
 var app = express();
 
