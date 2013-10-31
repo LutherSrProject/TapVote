@@ -21,7 +21,6 @@
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
-    //$.get('/getSurveyInfo', {surveyId: survey}, displaySurveyInfo);
     $.ajax({
         type:'GET',
         url: '/getSurveyInfo',
@@ -31,16 +30,22 @@ $(function getSurveyInfo() {
     });
 });
 
+function getSurveyResults() {
+    var survey = $.QueryString['survey'];
+    $.ajax({
+               type:'GET',
+               url: '/getSurveyResults',
+               data: {surveyId: survey},
+               success: displaySurveyResults,
+               error: displayAjaxError
+           });
+}
+
 function displayAjaxError(error) {
     console.log(error.statusText);
     console.log(error.responseText);
     var titleDiv = $("#survey-title");
-    titleDiv.text("Error getting survey. Did you specify a non-existent survey id?");
-}
-
-function getSurveyResults() {
-    var survey = $.QueryString['survey'];
-    $.get('/getSurveyResults', {surveyId: survey}, displaySurveyResults);
+    titleDiv.text("Error getting survey or results. Did you specify a non-existent survey id?");
 }
 
 function displaySurveyResults(results) {
@@ -93,4 +98,5 @@ function displaySurveyInfo(results) {
     console.log(results);
     getSurveyResults();
 }
+
 
