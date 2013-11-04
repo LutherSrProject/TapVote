@@ -72,6 +72,7 @@ function displaySurvey(results) {
     });
 
     $("#survey").append("<button onclick='submitSurvey();'>Vote!</button>");
+    $("#survey").append("<div id='vote-status'></div>");
     console.log(results);
 }
 
@@ -93,13 +94,21 @@ function submitSurvey() {
             url: '/vote',
             data: JSON.stringify(data),
             contentType: "application/json",
-            success: function() { console.log('vote success'); },
-            error: function(error) {
-                      console.log('vote failure');
-                      console.log(error);
-                   }
+            success: showSubmitSuccess,
+            error: showSubmitFailure
         });
     });
+}
+
+function showSubmitSuccess(results) {
+    console.log(results);
+    $("#vote-status").text("Success! Your vote has been recorded");
+}
+
+function showSubmitFailure(results) {
+    console.log("Error submitting vote: ");
+    console.log(results);
+    $("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
 }
 
 function vote(questionId, answerId) {
