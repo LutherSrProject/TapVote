@@ -46,7 +46,7 @@ function vote(){
         });
     };
     
-    var endpointObject = new endpoint.Endpoint(apiOptions)
+    var endpointObject = new endpoint.Endpoint(apiOptions);
     return function() {  
         (endpointObject.handle).apply(endpointObject, arguments);  
     }; //return the handler function for the endpoint

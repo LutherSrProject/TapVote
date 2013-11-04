@@ -66,16 +66,45 @@ function displaySurvey(results) {
             var answerValue = $(answerOptionHtml);
 
             answerDiv.append(answerValue);
-
             questionDiv.append(answerDiv);
         });
-
         questionsDiv.append(questionDiv);
     });
 
+    $("#survey").append("<button onclick='submitSurvey();'>Vote!</button>");
     console.log(results);
 }
 
+function submitSurvey() {
+    $.each($(".question"), function (index, element) {
+        var selected = $(element).find("input[type=radio]:checked");
+        var answerId = selected.attr('value');
+
+        var name = selected.attr('name');
+        var questionId = name.substring(9, name.indexOf('answer')-1);
+
+        answerId = parseInt(answerId);
+        questionId = parseInt(questionId);
+
+        var data = { questionId: questionId, answerId: answerId};
+
+        $.ajax({
+            type: 'POST',
+            url: '/vote',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function() { console.log('vote success'); },
+            error: function(error) {
+                      console.log('vote failure');
+                      console.log(error);
+                   }
+        });
+    });
+}
+
+function vote(questionId, answerId) {
+
+}
 
 /*$(function() {
     $('[name="best"]').click(function(event) {
