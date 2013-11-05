@@ -33,7 +33,7 @@ function displayAjaxError(error) {
     titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
 
     var surveyDiv = $("#survey-questions");
-    var idBox = $("<input id='survey-id' type='text' />");
+    var idBox = $("<input id='survey-id' type='text' size=5 />");
     var button = $("<button type='button'>Take Survey</button>");
     button.attr('onclick', 'redirectToSurvey()');
 
