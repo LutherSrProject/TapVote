@@ -30,7 +30,19 @@ function displayAjaxError(error) {
     console.log(error.statusText);
     console.log(error.responseText);
     var titleDiv = $("#survey-title");
-    titleDiv.text("Error getting survey. Did you specify a non-existent survey id?");
+    titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
+
+    var surveyDiv = $("#survey-questions");
+    var idBox = $("<input id='survey-id' type='text' size=5 />");
+    var button = $("<button type='button'>Take Survey</button>");
+    button.attr('onclick', 'redirectToSurvey()');
+
+    surveyDiv.append(idBox);
+    surveyDiv.append(button);
+}
+
+function redirectToSurvey() {
+    window.location.href="takesurvey.html?survey=" + $("#survey-id").val();
 }
 
 function displaySurvey(results) {
