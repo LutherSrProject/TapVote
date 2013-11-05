@@ -22,25 +22,25 @@ $(document).ready(function()  {
     title = $("#title").val();
     password = $("#adminPwd").val();
     questions = [];
-    //sort this out
-    mcQuestions = $("#multipleChoiceQ").children(".question");
-    console.log(mcQuestions);
-    for (i in mcQuestions){
-    console.log(i);
+    mcQuestions = $("#multipleChoiceQ").find(".question");
+    $.each(mcQuestions, function(i, val){
+        var wrapped = $(val);
         var question ={};
-        question.question= i.val();
-        var name = i.attr("id");
-        alist= [];
-        for (answer in $('.answer [name='+name+']')){
-            alist.append(answer.val());
+        question.question= wrapped.val();
+        var name = wrapped.attr("id");
+        var alist= [];
+        $.each($('.answer[name='+name+']'), function(idx, v){
+            var answer = $(v);
+            alist[idx]=(answer.val());
+        });
         question.answers = alist;
-        questions.append(question)
-        }
-    }
+        questions[i]= question;
+    });
+    
     $.ajax({
             type:"POST", 
-            url:"/vote", 
-            data:'{"title":"'+title+'","questions":'+questions+', "password":'+password+'}', 
+            url:"/createSurvey", 
+            data:'{"title":"'+title+'","questions":'+JSON.stringify(questions)+', "password":"'+password+'"}', 
             contentType: 'application/json',
             success: function(data) { console.log(data); },
             error: function(data) { console.log(data); }
