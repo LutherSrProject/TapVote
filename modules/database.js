@@ -41,7 +41,7 @@ var getSurveyInfo = function(surveyData, callback) {
     .then(function (results) {
         // results is a list of questions each annotated with a list of answers.
         // Still need to do a query to get survey info from DB (mainly the survey title).
-        if(results.rowCount == 0) {
+        if(results.length == 0) {
             var err = Error();
             err['httpStatus'] = 404;
             err['httpResponse'] = '404 Not Found';
