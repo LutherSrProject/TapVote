@@ -1,4 +1,6 @@
-// eventually this plugin should be included in a global fashion
+
+
+/// / eventually this plugin should be included in a global fashion
 // usage: $.QueryString["param"]
 (function($) {
     $.QueryString = (function(a) {
@@ -123,24 +125,4 @@ function showSubmitFailure(results) {
     $("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
 }
 
-function vote(questionId, answerId) {
-
-}
-
-/*$(function() {
-    $('[name="best"]').click(function(event) {
-        //put in variables
-        $.ajax({
-            type:"POST", 
-            url:"/vote", 
-            data:'{"answerId":"'+$(this).val()+'","questionId":"'+$(this).parent().attr("id")+'"}', 
-            contentType: 'application/json',
-            success: function(data) { console.log(data); },
-            error: function(data) { console.log(data); }
-		});
-        event.preventDefault();
-        return false; 
-    });
-});*/
-//go to http://www.w3schools.com/jquery/jquery_traversing.asp for traversal help
 
