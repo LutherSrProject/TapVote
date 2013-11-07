@@ -47,6 +47,7 @@ var getSurveyInfo = function(surveyData, callback) {
             err['httpResponse'] = '404 Not Found';
             err['friendlyName'] = "Non-existent survey ID";
             throw err;
+            return;
         }
         return runQuery('SELECT * FROM survey WHERE id=$1', [surveyId])
         .then(function (survey) {
