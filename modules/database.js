@@ -75,9 +75,18 @@ var getSurveyResults = function (surveyData, callback) {
     runQuery(queryString, [surveyId])
     .then(function (results) {
         var ret = {};
+        if(results.rowCount == 0) {
+            logger.error("Attempt to get survey results for non-existent survey ID");
+            var err = Error();
+            err['httpStatus'] = 400;
+            err['httpResponse'] = "400 Bad Request";
+            err['friendlyName'] = "Non-existent survey ID";
+            throw err;
+            return;
+        }
         for (var r=0; r<results.rowCount; r++) {
             var answerId = results.rows[r].answerId;
-            ret[answerId] = results.rows[r].count;
+            ret[answerId] = parseInt(results.rows[r].count);
         }
         logger.info("Got survey results from database for surveyId", surveyId);
         callback(null, ret);
