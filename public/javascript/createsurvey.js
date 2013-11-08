@@ -17,7 +17,7 @@ $(document).ready(function()  {
     return false;
   });
   
-  $('[name="createSurvey"]').click(function(event){
+ $('[name="createSurvey"]').click(function(event){
     var title, questions, password, mcQuestions;
     title = $("#title").val();
     password = $("#adminPwd").val();
@@ -37,16 +37,28 @@ $(document).ready(function()  {
         questions[i]= question;
     });
     
+    
     $.ajax({
             type:"POST", 
             url:"/createSurvey", 
             data:'{"title":"'+title+'","questions":'+JSON.stringify(questions)+', "password":"'+password+'"}', 
             contentType: 'application/json',
-            success: function(data) { console.log(data); },
+            success: function(data) {shareSurvey(data["surveyId"])},
             error: function(data) { console.log(data); }
 		});
-        event.preventDefault();
-        return false; 
+    event.preventDefault();
+        
+    return false; 
+  
+    });
+    
+    function shareSurvey(id) {
+        var takesurvey = "<br> To take your survey go to <a href='../takesurvey.html?survey="+id+"'> www.TapVote.com/takesurvey.html?survey="+id+"</a><br>"
+        var adminsurvey = "To view the results of your survey go to <a href='../admin.html?survey="+id+"'> www.TapVote.com/admin.html?survey="+id+"</a><br>"
+        $("article").append(takesurvey);
+        $("article").append(adminsurvey);
+    
+    
+    }
   });
   
-});
