@@ -1,0 +1,35 @@
+html {
+    height:100%;
+}
+
+body {
+    background-color: #DDD;
+	font-family: Arial;
+    height: 100%;
+}
+
+#header {
+	color: #FFF;
+	text-shadow: -1px -1px 0 #000,
+                 1px -1px 0 #000,
+                 -1px 1px 0 #000,
+                 1px 1px 0 #000;
+}
+
+#footer {
+    position: absolute;
+    bottom:10px;
+}
+
+#content {
+    background-color: #FFF;
+    padding: 25px 15px 40px 20px;
+    box-shadow: 3px 3px 14px rgba(50, 50, 50, 0.75);
+    border-radius: 4px;
+}
+
+.container {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}

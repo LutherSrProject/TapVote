@@ -1,38 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TapVote!</title>
-	<link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Home - TapVote</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
+
   <body>
-	<header>
-		<h1>TapVote</h1>
-		<h3>"Because clickers are SO 1999."</h3>
-	</header>
+    <div class="container">
 
-  <div id="survey">
-    <div id="survey-title"></div>
-    <div id="survey-questions"></div>
-  </div>
+      <div id="header"><!-- populated by AJAX in site.js --></div>
 
+      <!-- is div is where content specific to this page should be placed -->
+      <div id="content">
+        <div id="survey">
+          <div id="survey-title"></div>
+          <div id="survey-questions"></div>
+        </div>
+      </div>
 
-	<!--<article>
-        <form id="voter" action="">
-            <div id="1"> Which is the best thing?
-            <br>
-			<input type="radio" name="best" value="1">Puppies<br>
-			<input type="radio" name="best" value="2">Cheese<br>
-			<input type="radio" name="best" value="3">Joss Whedon<br>
-			<input type="radio" name="best" value="4">Naps<br>
-            </div>
-			<button type="button"> Next </button>
-		</form>
-	</article> -->
+      <div id="footer"><!-- populated by AJAX in site.js --></div>
 
-  <canvas id="poll-graph" style="height:300px; width:500px">
-	</canvas>
+    </div>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
-  <script type="text/javascript" src="javascript/takesurvey.js"> </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="javascript/site.js"></script>
+    <script type="text/javascript" src="javascript/takesurvey.js"> </script>
   </body>
+
 </html>

@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TapVote!</title>
-	<link rel="stylesheet" type="text/css" href="css/index.css" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
-	<script type="text/javascript" src="javascript/createsurvey.js"> </script>
+    <title>Create Survey - TapVote</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
+
   <body>
-	<header>
-		<h1>TapVote</h1>
-		<h3>"Because clickers are SO 1999."</h3>
-	</header>
-	<article>
-		<form>
-            <!-- make a button for adding a question. 
+    <div class="container">
+
+      <div id="header"><!-- populated by AJAX in site.js --></div>
+
+      <!-- is div is where content specific to this page should be placed -->
+      <div id="content">
+
+        <article>
+          <form>
+            <!-- make a button for adding a question.
             that brings up a place to ask the question and 4 possible answers that can be filled in
-            Then make a button that registers the survey 
+            Then make a button that registers the survey
             and gives people links to administor the test and look at results
             -->
-Survey Password: <input type="password" name="adminPwd" id="adminPwd" ></input> <br>
-<br>
-Survey Title: <input type="text" id="title"> </input> <br>
+            Survey Password: <input type="password" name="adminPwd" id="adminPwd"></input> <br>
+            <br>
+            Survey Title: <input type="text" id="title"> </input> <br>
+
             <div id="multipleChoiceQ">
-Question: <input type="text" class="question" id="1"> </input> <br>
-    Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-    Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-    Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-    Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Question: <input type="text" class="question" id="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
             </div>
-            
-            <button type="button" name="createQuestion"> Create Question </button>
-            <button type="button" name="createSurvey"> Create Survey </button>
-		</form>
-        
-	</article>
+
+            <button type="button" name="createQuestion"> Create Question</button>
+            <button type="button" name="createSurvey"> Create Survey</button>
+          </form>
+        </article>
+
+      </div>
+
+      <div id="footer"><!-- populated by AJAX in site.js --></div>
+
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="javascript/site.js"></script>
+    <script type="text/javascript" src="javascript/createsurvey.js"> </script>
   </body>
+
 </html>
