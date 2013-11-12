@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TapVote!</title>
-	<link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Home - TapVote</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
+
   <body>
-	<header>
-		<h1>TapVote</h1>
-		<h3>"Because clickers are SO 1999."</h3>
-	</header>
-	<article>
-		Welcome to TapVote! Let's get started
-    <div id="controls">
-      <a href="takesurvey.html"><button type="button">Take Survey</button></a>
-      <a href="createsurvey.html"><button type="button">Create Survey</button></a>
+    <div id="header"><!-- populated by AJAX in site.js --></div>
+
+    <!-- is div is where content specific to this page should be placed -->
+    <div id="content">
+      <article>
+        Welcome to TapVote! Let's get started
+        <div id="controls">
+          <a href="takesurvey.html"><button type="button">Take Survey</button></a>
+          <a href="createsurvey.html"><button type="button">Create Survey</button></a>
+        </div>
+      </article>
     </div>
-	</article>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
-  <script type="text/javascript" src="javascript/index.js"> </script>
+
+    <div id="footer"><!-- populated by AJAX in site.js --></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="javascript/site.js"></script>
+    <script type="text/javascript" src="javascript/index.js"> </script>
   </body>
+
 </html>
