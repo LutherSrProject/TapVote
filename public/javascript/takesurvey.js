@@ -86,7 +86,7 @@ function displaySurvey(results) {
     });
 
     $("#survey").append("<button onclick='submitSurvey();'>Vote!</button>");
-    $("#survey").append("<div id='vote-status'></div>");
+    $("#survey").append("<br><br><div id='vote-status'></div>");
     console.log(results);
 }
 
