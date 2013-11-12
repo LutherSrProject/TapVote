@@ -1,12 +1,19 @@
-body{
-	background-color:#DDD;
+body {
+    background-color:#DDD;
 	font-family: Arial;
-
 }
-header{
+
+
+
+#header {
 	color: #FFF;
 	text-shadow: -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000; 
-	}
+                 1px -1px 0 #000,
+                 -1px 1px 0 #000,
+                 1px 1px 0 #000;
+}
+
+#footer {
+    position:fixed;
+    bottom:10px;
+}

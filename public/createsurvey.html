@@ -6,38 +6,42 @@
   </head>
 
   <body>
-    <div id="header"><!-- populated by AJAX in site.js --></div>
+    <div class="container">
 
-    <!-- is div is where content specific to this page should be placed -->
-    <div id="content">
+      <div id="header"><!-- populated by AJAX in site.js --></div>
 
-      <article>
-        <form>
-          <!-- make a button for adding a question.
-          that brings up a place to ask the question and 4 possible answers that can be filled in
-          Then make a button that registers the survey
-          and gives people links to administor the test and look at results
-          -->
-          Survey Password: <input type="password" name="adminPwd" id="adminPwd"></input> <br>
-          <br>
-          Survey Title: <input type="text" id="title"> </input> <br>
+      <!-- is div is where content specific to this page should be placed -->
+      <div id="content">
 
-          <div id="multipleChoiceQ">
-            Question: <input type="text" class="question" id="1"> </input> <br>
-            Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-            Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-            Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-            Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-          </div>
+        <article>
+          <form>
+            <!-- make a button for adding a question.
+            that brings up a place to ask the question and 4 possible answers that can be filled in
+            Then make a button that registers the survey
+            and gives people links to administor the test and look at results
+            -->
+            Survey Password: <input type="password" name="adminPwd" id="adminPwd"></input> <br>
+            <br>
+            Survey Title: <input type="text" id="title"> </input> <br>
 
-          <button type="button" name="createQuestion"> Create Question</button>
-          <button type="button" name="createSurvey"> Create Survey</button>
-        </form>
-      </article>
+            <div id="multipleChoiceQ">
+              Question: <input type="text" class="question" id="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+              Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+            </div>
+
+            <button type="button" name="createQuestion"> Create Question</button>
+            <button type="button" name="createSurvey"> Create Survey</button>
+          </form>
+        </article>
+
+      </div>
+
+      <div id="footer"><!-- populated by AJAX in site.js --></div>
 
     </div>
-
-    <div id="footer"><!-- populated by AJAX in site.js --></div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
     <script type="text/javascript" src="javascript/site.js"></script>
