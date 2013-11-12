@@ -29,11 +29,15 @@ function getSurveyInfo(){
         dataForDB['surveyId'] = parseInt(data['surveyId']);
         database.getSurveyInfo(dataForDB, function(err, results) {
             if (err) {
-                err["httpStatus"] = 500;
-                err["httpResponse"] = "500 Internal Server Error";
-                if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error retrieving survey info";
-                }
+                if (!err["httpStatus"])
+                    err["httpStatus"] = 500;
+
+                if(!err["httpResponse"])
+                    err["httpResponse"] = "500 Internal Server Error";
+
+                if (!err["friendlyName"])
+                    err["friendlyName"] = "Error getting survey info";
+
                 httpresponses.errorResponse(err, response);
                 return;
             }
