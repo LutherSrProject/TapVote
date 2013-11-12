@@ -37,11 +37,15 @@ function example(){
         // TODO update with actual data (timestamp, uid, etc?)
         database.recordVote(data, function(err, results) {
             if (err) {
-                err["httpStatus"] = 500;
-                err["httpResponse"] = "500 Internal Server Error";
-                if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error recording vote";
-                }
+                if (!err["httpStatus"])
+                    err["httpStatus"] = 500;
+
+                if(!err["httpResponse"])
+                    err["httpResponse"] = "500 Internal Server Error";
+
+                if (!err["friendlyName"])
+                    err["friendlyName"] = "Something broke with the database request";
+
                 httpresponses.errorResponse(err, response);
                 return;
             }
