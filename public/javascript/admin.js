@@ -2,6 +2,10 @@
  * Created by isaac on 10/29/13.
  */
 
+// GLOBAL PAGE VARIABLES //
+pageTitle = "Admin";
+
+
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     $.ajax({

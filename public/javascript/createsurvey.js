@@ -1,3 +1,7 @@
+// GOBAL PAGE VARIABLES //
+pageTitle = "Create Survey";
+
+
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
         //Make this stuff actually match our app.

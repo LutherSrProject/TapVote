@@ -1,3 +1,5 @@
+// GLOBAL PAGE VARIABLES //
+pageTitle = "Take Survey";
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
