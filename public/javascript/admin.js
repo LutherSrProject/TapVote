@@ -20,12 +20,12 @@ $(function getSurveyInfo() {
 function getSurveyResults() {
     var survey = $.QueryString['survey'];
     $.ajax({
-               type:'GET',
-               url: '/getSurveyResults',
-               data: {surveyId: survey},
-               success: displaySurveyResults,
-               error: displayAjaxError
-           });
+        type:'GET',
+        url: '/getSurveyResults',
+        data: {surveyId: survey},
+        success: displaySurveyResults,
+        error: displayAjaxError
+    });
 }
 
 function displayAjaxError(error) {
