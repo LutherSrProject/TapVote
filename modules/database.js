@@ -6,14 +6,37 @@ var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
-    runQuery('INSERT INTO vote("answerId", "questionId") VALUES($1, $2)', [voteData['answerId'], voteData['questionId']])
+
+    // need to check that voteData['answerId'] has a questionId == voteData['questionId']
+    runQuery('SELECT "questionId" FROM answer WHERE id=$1', [voteData['answerId']])
     .then(function (results) {
-        logger.info("Recorded vote in database.");
-        callback(null, results);
-        return;
+        var qid = results.rows[0].questionId;
+        if(qid == voteData['questionId']) {
+            return;
+        } else {
+            var err = Error();
+            err['httpStatus'] = 400;
+            err['httpResponse'] = '400 Bad Request';
+            err['friendlyName'] = "questionId and answerId don't match";
+            throw err;
+        }
+    })
+    .then(function (results) {
+        runQuery('INSERT INTO vote("answerId", "questionId") VALUES($1, $2)', [voteData['answerId'], voteData['questionId']])
+        .then(function (results) {
+            logger.info("Recorded vote in database.");
+            callback(null, results);
+            return;
+        })
+        .fail(function (error) {
+            logger.error("Error logging vote to database.", error);
+            callback(error);
+            return;
+        });
+
     })
     .fail(function (error) {
-        logger.error("Error logging vote to database.", error);
+        logger.error("Question doesn't have that answer as an option.", error);
         callback(error);
         return;
     });
@@ -47,7 +70,6 @@ var getSurveyInfo = function(surveyData, callback) {
             err['httpResponse'] = '404 Not Found';
             err['friendlyName'] = "Non-existent survey ID";
             throw err;
-            return;
         }
         return runQuery('SELECT * FROM survey WHERE id=$1', [surveyId])
         .then(function (survey) {
