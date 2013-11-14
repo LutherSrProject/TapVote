@@ -37,28 +37,35 @@ $(document).ready(function () {
             questions[i] = question;
         });
 
-
         $.ajax({
-                   type: "POST",
-                   url: "/createSurvey",
-                   data: '{"title":"' + title + '","questions":' + JSON.stringify(questions) + ', "password":"' + password + '"}',
-                   contentType: 'application/json',
-                   success: function (data) {
-                       shareSurvey(data["surveyId"])
-                   },
-                   error: function (data) {
-                       console.log(data);
-                   }
-               });
+            type: "POST",
+            url: "/createSurvey",
+            data: '{"title":"' + title + '","questions":' + JSON.stringify(questions) + ', "password":"' + password + '"}',
+            contentType: 'application/json',
+            success: function (data) {
+               shareSurvey(data["surveyId"])
+            },
+            error: function (data) {
+               console.log(data);
+            }
+        });
         event.preventDefault();
 
         return false;
-
     });
 
     function shareSurvey(id) {
-        var takesurvey = "<br> To take your survey go to <a href='../takesurvey.html?survey=" + id + "'> www.TapVote.com/takesurvey.html?survey=" + id + "</a><br>"
-        var adminsurvey = "To view the results of your survey go to <a href='../admin.html?survey=" + id + "'> www.TapVote.com/admin.html?survey=" + id + "</a><br>"
+        var takesurveyLink = "/?page=takesurvey&survey=" + id;
+        var adminsurveyLink = "/?page=admin&survey=" + id;
+
+        var takesurvey = "<br> To take your survey go to " +
+                         "<a href='" + takesurveyLink + "'>" +
+                         "TapVote.com" + takesurveyLink + "</a><br>";
+
+        var adminsurvey = "To view the results of your survey go to " +
+                          "<a href='" + adminsurveyLink + "'>" +
+                          "TapVote.com" + adminsurveyLink + "</a><br>";
+
         $("article").append(takesurvey);
         $("article").append(adminsurvey);
 

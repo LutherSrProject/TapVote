@@ -2,10 +2,6 @@
  * Created by isaac on 10/29/13.
  */
 
-// eventually this plugin should be included in a global fashion
-
-
-
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     $.ajax({
