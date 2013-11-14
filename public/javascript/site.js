@@ -21,7 +21,7 @@ $(function() {
     $("#header").load("header.html");
     $("#footer").load("footer.html");
 
-    var page = $.QueryString["page"];
+    var page = $.QueryString["p"];
 
     if(!page) {
         // load home by default

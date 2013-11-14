@@ -26,7 +26,7 @@ function displayAjaxError(error) {
 }
 
 function redirectToSurvey() {
-    window.location.href="/?page=takesurvey&survey=" + $("#survey-id").val();
+    window.location.href="/?p=takesurvey&survey=" + $("#survey-id").val();
 }
 
 function displaySurvey(results) {

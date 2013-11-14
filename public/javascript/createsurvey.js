@@ -55,8 +55,8 @@ $(document).ready(function () {
     });
 
     function shareSurvey(id) {
-        var takesurveyLink = "/?page=takesurvey&survey=" + id;
-        var adminsurveyLink = "/?page=admin&survey=" + id;
+        var takesurveyLink = "/?p=takesurvey&survey=" + id;
+        var adminsurveyLink = "/?p=admin&survey=" + id;
 
         var takesurvey = "<br> To take your survey go to " +
                          "<a href='" + takesurveyLink + "'>" +
