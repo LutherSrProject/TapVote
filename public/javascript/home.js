@@ -1,3 +1,6 @@
+// GOBAL PAGE VARIABLES //
+pageTitle = "Home";
+
 $(document).ready(function() {
     $("#voter").submit(function(event) {
         $.ajax({
