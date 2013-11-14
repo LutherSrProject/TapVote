@@ -15,9 +15,6 @@ var recordVote = function (voteData, callback) {
             return;
         } else {
             var err = Error();
-            err['httpStatus'] = 400;
-            err['httpResponse'] = '400 Bad Request';
-            err['friendlyName'] = "questionId and answerId don't match";
             throw err;
         }
     })
@@ -37,6 +34,9 @@ var recordVote = function (voteData, callback) {
     })
     .fail(function (error) {
         logger.error("Question doesn't have that answer as an option.", error);
+        error['httpStatus'] = 400;
+        error['httpResponse'] = '400 Bad Request';
+        error['friendlyName'] = "questionId and answerId don't match";
         callback(error);
         return;
     });
