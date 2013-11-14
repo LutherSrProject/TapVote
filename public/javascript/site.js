@@ -1,3 +1,5 @@
+var pageTitle;
+
 // usage: $.QueryString["param"]
 (function($) {
     $.QueryString = (function(a) {
@@ -23,11 +25,14 @@ $(function() {
 
     var page = $.QueryString["p"];
 
-    if(!page) {
-        // load home by default
-        $("#content").load("home.html");
-    } else {
+    if(!page)
+        $("#content").load("home.html"); // load home by default
+    else
         $("#content").load(page + ".html");
-    }
+
+    // set the page title. pageTitle is declared globally in site specific JS files
+    // (if it isn't declared, just use "TapVote" as the title)
+    if(!pageTitle) $("title").html("TapVote");
+    else $("title").html(pageTitle + " - TapVote" )
 
 });
