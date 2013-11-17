@@ -14,10 +14,12 @@ function createSurvey(){
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
             "title":"string",
-            "questions":"object",
-            "password":"string"};
+            "password":"string"
+    };
     //Indicates the optional API parameters and their basic expected types.
-    apiOptions.optionalApiParameters = {};
+    apiOptions.optionalApiParameters = {
+            "questions":"object"
+    };
     
     //Provides additional validation functions after the basic check on required parameters. 
     //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
