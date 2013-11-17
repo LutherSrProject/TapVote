@@ -3,7 +3,7 @@
  */
 
 // GLOBAL PAGE VARIABLES //
-pageTitle = "Admin";
+pageTitle = "Results";
 
 
 $(function getSurveyInfo() {
