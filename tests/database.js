@@ -1,6 +1,6 @@
 //Attach global variables
 require('../modules/globals');
-
+var Q = require("q");
 var should = require('should');
 
 var database = require('../modules/database');
@@ -19,7 +19,17 @@ describe("Database", function(){
         it("inserts an invalid vote into the database", function(done) {
             database.recordVote({'answerId':5,'questionId':1},function(err,results) {
                 try {
-                    should.exist(err);
+                    should.exist(err,"expected to receive an error");
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it("inserts an invalid vote for an answer that doesn't exist into the database", function(done) {
+            database.recordVote({'answerId':0,'questionId':1},function(err,results) {
+                try {
+                    should.exist(err,"expected to receive an error");
                     done();
                 } catch(testerror) {
                     done(testerror);
@@ -46,7 +56,7 @@ describe("Database", function(){
         it("gets an invalid survey", function(done) {
             database.getSurveyInfo({'surveyId':0},function(err,results) {
                 try {
-                    should.exist(err);
+                    should.exist(err,"expected to receive an error");
                     done();
                 } catch(testerror) {
                     done(testerror);
@@ -86,16 +96,23 @@ describe("Database", function(){
                     } 
                 });
             });
-            //TODO: new vote + compare
-            it.skip("should increment with a new vote", function(done) {
-                database.getSurveyResults({'surveyId':1},function(err,results) {
-                    try {
-                        
-                        
+            it("should increment with a new vote", function(done) {
+                var getSurveyResults = Q.denodeify(database.getSurveyResults);
+                var recordVote = Q.denodeify(database.recordVote);
+                
+                getSurveyResults({'surveyId':1})
+                .then(function(initialResults){
+                    return recordVote({'answerId':2,'questionId':1})
+                    .then(function(){
+                        return getSurveyResults({'surveyId':1});
+                    })
+                    .then(function(finalResults){
+                        (finalResults["2"] - initialResults["2"]).should.eql(1);
                         done();
-                    } catch(testerror) {
-                        done(testerror);
-                    } 
+                    });
+                })
+                .fail(function(error) {
+                    done(error);
                 });
             });
         });
@@ -103,7 +120,7 @@ describe("Database", function(){
         it("gets an invalid survey", function(done) {
             database.getSurveyResults({'surveyId':0},function(err,results) {
                 try {
-                    should.exist(err);
+                    should.exist(err,"expected to receive an error");
                     done();
                 } catch(testerror) {
                     done(testerror);
