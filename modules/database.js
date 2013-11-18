@@ -5,7 +5,7 @@ var Q = require("q");
 var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 
-var addQuestion = function(data, callback) {
+var addQuestions = function(data, callback) {
     // { "surveyId":1,
     //   "questions": [
     //       { "question": "Which is best?",
@@ -212,7 +212,7 @@ exports.recordVote = recordVote;
 exports.getSurveyResults = getSurveyResults;
 exports.getSurveyInfo = getSurveyInfo;
 exports.createSurvey = createSurvey;
-exports.addQuestion = addQuestion;
+exports.addQuestion = addQuestions;
 
 // ==================================================================================================
 // local scope, don't export
