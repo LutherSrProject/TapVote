@@ -4,6 +4,26 @@ var Q = require("q");
 // this should be used anytime we need to connect to the DB
 var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
+
+var addQuestion = function(data, callback) {
+    // { "surveyId":1,
+    //   "questions": [
+    //       { "question": "Which is best?",
+    //         "answers": [
+    //              "Puppies",
+    //              "Cheese",
+    //              "Joss Whedon",
+    //              "Naps"
+    //         ]
+    //       }
+    //   ],
+    //   "password":"supersecretpassword" }
+
+    callback(null, {status:"success"});
+    return;
+};
+
+
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
 
@@ -192,7 +212,7 @@ exports.recordVote = recordVote;
 exports.getSurveyResults = getSurveyResults;
 exports.getSurveyInfo = getSurveyInfo;
 exports.createSurvey = createSurvey;
-
+exports.addQuestion = addQuestion;
 
 // ==================================================================================================
 // local scope, don't export
