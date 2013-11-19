@@ -25,12 +25,12 @@ var addQuestions = function(data, callback) {
         var value = question["question"];
         var answers = question["answers"];
 
-        return runQuery("INSERT INTO question(surveyId, value) VALUES($1, $2) RETURNING *", [surveyId, value])
+        return runQuery("INSERT INTO question(\"surveyId\", value) VALUES($1, $2) RETURNING *", [surveyId, value])
         .then(function (results) {
             var questionId = results.rows[0].id;
-            answers.map(function (answer) {
-                return runQuery("INSERT INTO answer(questionId, value) VALUES($1, $2)", [questionId, answer]);
-            })
+            return Q.all(answers.map(function (answer) {
+                return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2)", [questionId, answer])
+            }))
             .thenResolve();
         });
     }))
