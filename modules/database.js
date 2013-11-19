@@ -26,9 +26,17 @@ var addQuestions = function(data, callback) {
 var removeQuestion = function(data, callback) {
     // var data = {questionId: 2}
     var questionId = data['questionId'];
-    callback(null, {status:"success"});
-};
 
+    runQuery("DELETE FROM question WHERE id=$1", [questionId])
+    .then(function (results) {
+        callback(null, results);
+        return;
+    })
+    .fail(function (error) {
+        callback(error);
+        return;
+    });
+};
 
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
