@@ -35,7 +35,7 @@ var addQuestions = function(data, callback) {
         });
     }))
     .then(function (results) {
-        callback(null, results);
+        callback(null); // status success
     })
     .fail(function (error) {
         callback(error);
@@ -48,7 +48,14 @@ var removeQuestion = function(data, callback) {
 
     runQuery("DELETE FROM question WHERE id=$1", [questionId])
     .then(function (results) {
-        callback(null, results);
+        if(results.rowCount == 0) {
+            var error = Error();
+            error['httpStatus'] = 404;
+            error['httpResponse'] = '404 Not Found';
+            error['friendlyName'] = "questionId does not exist";
+            throw error;
+        }
+        callback(null); // status success
         return;
     })
     .fail(function (error) {
