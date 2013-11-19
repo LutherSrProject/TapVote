@@ -23,8 +23,9 @@ var addQuestions = function(data, callback) {
     return;
 };
 
-var removeQuestions = function(data, callback) {
-    // var data = {questionIds: [2, 4, 5, 8]}
+var removeQuestion = function(data, callback) {
+    // var data = {questionId: 2}
+    var questionId = data['questionId'];
     callback(null, {status:"success"});
 };
 
@@ -218,7 +219,7 @@ exports.getSurveyResults = getSurveyResults;
 exports.getSurveyInfo = getSurveyInfo;
 exports.createSurvey = createSurvey;
 exports.addQuestions = addQuestions;
-exports.removeQuestions = removeQuestions;
+exports.removeQuestion = removeQuestion;
 
 // ==================================================================================================
 // local scope, don't export
