@@ -33,10 +33,14 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-    var queryString = "DELETE FROM vote WHERE \"questionId\"=1;\
-                       DELETE FROM answer WHERE \"questionId\"=1;\
-                       DELETE FROM question WHERE id=1;\
-                       DELETE FROM survey WHERE id=1;\
+    var queryString = "DELETE FROM vote WHERE \"questionId\">0;\
+                       DELETE FROM answer WHERE \"questionId\">0;\
+                       DELETE FROM question WHERE \"surveyId\">0;\
+                       DELETE FROM survey WHERE id>0;\
+                       ALTER SEQUENCE vote_id_seq RESTART WITH 1;\
+                       ALTER SEQUENCE answer_id_seq RESTART WITH 1;\
+                       ALTER SEQUENCE question_id_seq RESTART WITH 1;\
+                       ALTER SEQUENCE survey_id_seq RESTART WITH 1;\
                       ";
     db.runSql(queryString, callback);
 };

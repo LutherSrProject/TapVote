@@ -4,6 +4,66 @@ var Q = require("q");
 // this should be used anytime we need to connect to the DB
 var CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
+
+var addQuestions = function(data, callback) {
+    // { "surveyId":1,
+    //   "questions": [
+    //       { "question": "Which is best?",
+    //         "answers": [
+    //              "Puppies",
+    //              "Cheese",
+    //              "Joss Whedon",
+    //              "Naps"
+    //         ]
+    //       }
+    //   ],
+    //   "password":"supersecretpassword" }
+    var surveyId = data["surveyId"];
+    var questions = data["questions"];
+
+    Q.all(questions.map(function (question) {
+        var value = question["question"];
+        var answers = question["answers"];
+
+        return runQuery("INSERT INTO question(\"surveyId\", value) VALUES($1, $2) RETURNING *", [surveyId, value])
+        .then(function (results) {
+            var questionId = results.rows[0].id;
+            return Q.all(answers.map(function (answer) {
+                return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2)", [questionId, answer])
+            }))
+            .thenResolve();
+        });
+    }))
+    .then(function (results) {
+        callback(null); // status success
+    })
+    .fail(function (error) {
+        callback(error);
+    });
+};
+
+var removeQuestion = function(data, callback) {
+    // var data = {questionId: 2}
+    var questionId = data['questionId'];
+
+    runQuery("DELETE FROM question WHERE id=$1", [questionId])
+    .then(function (results) {
+        if(results.rowCount == 0) {
+            var error = Error();
+            error['httpStatus'] = 404;
+            error['httpResponse'] = '404 Not Found';
+            error['friendlyName'] = "questionId does not exist";
+            throw error;
+        }
+        callback(null); // status success
+        return;
+    })
+    .fail(function (error) {
+        callback(error);
+        return;
+    });
+};
+
 var recordVote = function (voteData, callback) {
     // voteData = {'answerId':5, 'questionId':5}
 
@@ -192,7 +252,8 @@ exports.recordVote = recordVote;
 exports.getSurveyResults = getSurveyResults;
 exports.getSurveyInfo = getSurveyInfo;
 exports.createSurvey = createSurvey;
-
+exports.addQuestions = addQuestions;
+exports.removeQuestion = removeQuestion;
 
 // ==================================================================================================
 // local scope, don't export
