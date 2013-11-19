@@ -18,9 +18,28 @@ var addQuestions = function(data, callback) {
     //       }
     //   ],
     //   "password":"supersecretpassword" }
+    var surveyId = data["surveyId"];
+    var questions = data["questions"];
 
-    callback(null, {status:"success"});
-    return;
+    Q.all(questions.map(function (question) {
+        var value = question["question"];
+        var answers = question["answers"];
+
+        return runQuery("INSERT INTO question(surveyId, value) VALUES($1, $2) RETURNING *", [surveyId, value])
+        .then(function (results) {
+            var questionId = results.rows[0].id;
+            answers.map(function (answer) {
+                return runQuery("INSERT INTO answer(questionId, value) VALUES($1, $2)", [questionId, answer]);
+            })
+            .thenResolve();
+        });
+    }))
+    .then(function (results) {
+        callback(null, results);
+    })
+    .fail(function (error) {
+        callback(error);
+    });
 };
 
 var removeQuestion = function(data, callback) {
