@@ -167,8 +167,6 @@ var getSurveyResults = function (surveyData, callback) {
     .then(function (results) {
         var ret = {};
 
-        logger.info(results); // TODO remove
-
         if(results.rowCount == 0) {
             // either there are simply no votes for this survey, or this survey ID is non-existent
 
