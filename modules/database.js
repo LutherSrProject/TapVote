@@ -125,15 +125,16 @@ var getSurveyInfo = function(surveyData, callback) {
     .then(function (results) {
         // results is a list of questions each annotated with a list of answers.
         // Still need to do a query to get survey info from DB (mainly the survey title).
-        if(results.length == 0) {
-            var err = Error();
-            err['httpStatus'] = 404;
-            err['httpResponse'] = '404 Not Found';
-            err['friendlyName'] = "Non-existent survey ID";
-            throw err;
-        }
         return runQuery('SELECT * FROM survey WHERE id=$1', [surveyId])
         .then(function (survey) {
+            if (survey.rowCount == 0) {
+                logger.error("Attempted to get survey info for non-existent survey ID");
+                var err = Error();
+                err['httpStatus'] = 404;
+                err['httpResponse'] = '404 Not Found';
+                err['friendlyName'] = "Non-existent survey ID";
+                throw err;
+            }
             var title = survey.rows[0].title;
             return {title: title, questions: results};
         });
