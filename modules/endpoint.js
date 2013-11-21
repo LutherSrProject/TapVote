@@ -43,6 +43,19 @@ Endpoint.prototype.handle = function(req, response){
             return;
         }
     }
+    for (param in this.optionalApiParameters) {
+        if (data[param] !== undefined && typeof data[param] != this.optionalApiParameters[param]) {
+            var err = new Error();
+            err["httpStatus"] = 400;
+            err["httpResponse"] = "400 Bad Request";
+            err["friendlyName"] =
+                    'Provided optional parameter "' + param + '" was not of the expected type. ' +
+                    'Got "' + typeof data[param] + '", ' +
+                    'expected "' + this.optionalApiParameters[param] + '".';
+            httpresponses.errorResponse(err, response);
+            return;
+        }
+    }
     return this.conclusion(data, response);
 };
 
