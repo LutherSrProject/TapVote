@@ -165,15 +165,14 @@ var getSurveyResults = function (surveyData, callback) {
 
     runQuery(queryString, [surveyId])
     .then(function (results) {
-        var ret = {};
 
         if(results.rowCount == 0) {
             // either there are simply no votes for this survey, or this survey ID is non-existent
 
             // check if survey exists
-            runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
-            .then(function (results) {
-                if(results.rowCount == 0) {
+            return runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
+            .then(function (res) {
+                if(res.rowCount == 0) {
                     // survey doesn't exist, throw 404
                     logger.error("Attempt to get survey results for non-existent survey ID");
                     var err = Error();
@@ -182,9 +181,14 @@ var getSurveyResults = function (surveyData, callback) {
                     err['friendlyName'] = "Non-existent survey ID";
                     throw err;
                 }
+                return results;
             });
-
+        } else {
+            return results;
         }
+    })
+    .then(function (results) {
+        var ret = {};
         for (var r=0; r<results.rowCount; r++) {
             var answerId = results.rows[r].answerId;
             ret[answerId] = parseInt(results.rows[r].count);
