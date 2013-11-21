@@ -7,7 +7,7 @@ var database = require('../modules/database');
 describe("Database", function(){
     describe("createSurvey", function(){
         it("inserts a survey with questions and answers into the database", function(done) {
-            database.createSurvey({ "title":"Test survey with questions and answers", "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.createSurvey({ "title":"Test survey with questions and answers", "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
@@ -17,7 +17,7 @@ describe("Database", function(){
             });
         });
         it("inserts a survey with two questions and answers into the database", function(done) {
-            database.createSurvey({ "title":"Test survey with two questions and answers", "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.createSurvey({ "title":"Test survey with two questions and answers", "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "type":"MCSR", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
@@ -39,7 +39,7 @@ describe("Database", function(){
     });
     describe("addQuestions", function(){
         it("inserts questions and answers into the database for a survey that already has questions into the database", function(done) {
-            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
@@ -49,7 +49,7 @@ describe("Database", function(){
             });
         });
         it("inserts two questions and answers for a survey that already has questions into the database", function(done) {
-            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "type":"MCSR", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
@@ -59,7 +59,7 @@ describe("Database", function(){
             });
         });
         it.skip("inserts questions and answers into the database for a survey that has no questions into the database", function(done) {
-            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
@@ -69,7 +69,7 @@ describe("Database", function(){
             });
         });
         it.skip("inserts two questions and answers into the database for a survey that has no questions into the database", function(done) {
-            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
                 try {
                     should.not.exist(err);
                     done();
