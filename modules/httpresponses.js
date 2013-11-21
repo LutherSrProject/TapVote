@@ -3,16 +3,24 @@ function errorResponse(err, response) {
         err = new Error();
     }
     
-    if (!err["httpStatus"]) {
+    if (typeof err == "string") {
+        err = new Error(err);
+    }
+    
+    if (err["httpStatus"] === undefined) {
         err["httpStatus"] = 500;
     }
 
-    if(!err["httpResponse"]) {
+    if(err["httpResponse"] === undefined) {
         err["httpResponse"] = "500 Internal Server Error";
     }
 
-    if (!err["friendlyName"]) {
-        err["friendlyName"] = "Internal Server Error";
+    if (err["friendlyName"] === undefined) {
+        if (err.name !== undefined && err.message !== undefined) {
+            err["friendlyName"] = err.name + ": "+ err.message;
+        } else {
+            err["friendlyName"] = "Internal Server Error";
+        }
     }
     message = {'status':'error', 'message':err['friendlyName']};
 
