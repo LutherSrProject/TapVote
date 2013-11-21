@@ -1,4 +1,19 @@
 function errorResponse(err, response) {
+    if (err === undefined) {
+        err = new Error();
+    }
+    
+    if (!err["httpStatus"]) {
+        err["httpStatus"] = 500;
+    }
+
+    if(!err["httpResponse"]) {
+        err["httpResponse"] = "500 Internal Server Error";
+    }
+
+    if (!err["friendlyName"]) {
+        err["friendlyName"] = "Internal Server Error";
+    }
     message = {'status':'error', 'message':err['friendlyName']};
 
     response.writeHead(err["httpStatus"], {"Content-Type": "application/json"});
