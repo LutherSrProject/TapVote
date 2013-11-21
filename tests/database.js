@@ -119,7 +119,11 @@ describe("Database", function(){
                     should.not.exist(err);
                     
                     //test the default db response
-                    results.should.eql({"title":"A sweet survey","questions":[{"id":1,"surveyId":1,"value":"What is your favorite color?","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]}]});
+                    results.should.have.keys('title', 'questions');
+                    results['title'].should.eql("A sweet survey");
+                    results["questions"].should.be.type("object");
+                    results["questions"].length.should.not.be.below(1);
+                    results["questions"][0].should.eql({"id":1,"surveyId":1,"value":"What is your favorite color?","type": "MCSR","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]});
                     
                     done();
                 } catch(testerror) {
