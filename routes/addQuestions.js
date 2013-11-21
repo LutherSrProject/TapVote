@@ -3,7 +3,7 @@ var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
 //Test this endpoint with
-//curl -d '{ "surveyId":1, "questions": [{"question": "Which is best?", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/addQuestions
+//curl -d '{ "surveyId":1, "questions": [{"question": "Which is best?", "type":"MCSR", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/addQuestions
 
 function addQuestions(){
     var apiOptions = {};

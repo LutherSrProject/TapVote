@@ -23,9 +23,10 @@ var addQuestions = function(data, callback) {
 
     Q.all(questions.map(function (question) {
         var value = question["question"];
+        var type = question["type"];
         var answers = question["answers"];
 
-        return runQuery("INSERT INTO question(\"surveyId\", value) VALUES($1, $2) RETURNING *", [surveyId, value])
+        return runQuery("INSERT INTO question(\"surveyId\", value, type) VALUES($1, $2, $3) RETURNING *", [surveyId, value, type])
         .then(function (results) {
             var questionId = results.rows[0].id;
             return Q.all(answers.map(function (answer) {
@@ -220,8 +221,9 @@ var createSurvey = function (surveyData, callback) {
         for (var q=0; q<questions.length; q++) {
             var question = questions[q];
             var value = question['question'];
+            var type = question['type'];
             var answers = question['answers'];
-            runQuery('INSERT INTO question("surveyId", value) VALUES($1, $2) RETURNING *', [sid, value])
+            runQuery('INSERT INTO question("surveyId", value, type) VALUES($1, $2, $3) RETURNING *', [sid, value, type])
 
             .then(function (result) {
                 // insert all the answers for this question
