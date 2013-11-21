@@ -224,15 +224,14 @@ var createSurvey = function (surveyData, callback) {
                 var type = question['type'];
                 var answers = question['answers'];
                 runQuery('INSERT INTO question("surveyId", value, type) VALUES($1, $2, $3) RETURNING *', [sid, value, type])
-
-                    .then(function (result) {
-                              // insert all the answers for this question
-                              var qid = result.rows[0].id;
-                              for (var a=0; a<answers.length; a++) {
-                                  var answer = answers[a];
-                                  runQuery('INSERT INTO answer("questionId", value) VALUES($1, $2)', [qid, answer])
-                              }
-                          });
+                .then(function (result) {
+                    // insert all the answers for this question
+                    var qid = result.rows[0].id;
+                    for (var a=0; a<answers.length; a++) {
+                        var answer = answers[a];
+                        runQuery('INSERT INTO answer("questionId", value) VALUES($1, $2)', [qid, answer])
+                    }
+                });
             }
         }
         return sid;
