@@ -23,9 +23,10 @@ var addQuestions = function(data, callback) {
 
     Q.all(questions.map(function (question) {
         var value = question["question"];
+        var type = question["type"];
         var answers = question["answers"];
 
-        return runQuery("INSERT INTO question(\"surveyId\", value) VALUES($1, $2) RETURNING *", [surveyId, value])
+        return runQuery("INSERT INTO question(\"surveyId\", value, type) VALUES($1, $2) RETURNING *", [surveyId, value, type])
         .then(function (results) {
             var questionId = results.rows[0].id;
             return Q.all(answers.map(function (answer) {
