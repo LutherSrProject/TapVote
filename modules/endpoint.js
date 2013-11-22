@@ -43,6 +43,50 @@ Endpoint.prototype.handle = function(req, response){
             return;
         }
     }
+    for (param in this.optionalApiParameters) {
+        if (data[param] !== undefined && typeof data[param] != this.optionalApiParameters[param]) {
+            var err = new Error();
+            err["httpStatus"] = 400;
+            err["httpResponse"] = "400 Bad Request";
+            err["friendlyName"] =
+                    'Provided optional parameter "' + param + '" was not of the expected type. ' +
+                    'Got "' + typeof data[param] + '", ' +
+                    'expected "' + this.optionalApiParameters[param] + '".';
+            httpresponses.errorResponse(err, response);
+            return;
+        }
+    }
+    for (param in this.validators) {
+        try {
+            if (data[param] !== undefined && !this.validators[param](data[param])) {
+                //if the validator just returns false, throw a default error
+                throw new Error("General failure");
+            }
+        } catch (err) {
+            if (typeof err == "string") {
+                err = new Error(err);
+            }
+            
+            if (err["httpStatus"] === undefined) {
+                err["httpStatus"] = 400;
+            }
+
+            if(err["httpResponse"] === undefined) {
+                err["httpResponse"] = "400 Bad Request";
+            }
+            
+            if (err["friendlyName"] === undefined) {
+                var errorString = "";
+                if (err.name !== undefined && err.message !== undefined) {
+                    errorString = err.name + ": "+ err.message;
+                }
+                err["friendlyName"] = 'Provided parameter "' + param + '" failed vaidation. ' + errorString;
+            }
+            httpresponses.errorResponse(err, response);
+            return;
+        }
+        
+    }
     return this.conclusion(data, response);
 };
 
