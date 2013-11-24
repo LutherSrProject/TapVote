@@ -13,8 +13,10 @@
         <div class="question mcsr" id="question-1">
           Question: <input type="text" size="40" class="question-text" name="question-1" /> <br>
           <div class="answers">
-            Answer Choice: <input type="text" class="answer" name="question-1" />
-            <button type="button" class="remove-answer" name="question-1"> x </button><br>
+            <div class="answer">
+              Answer Choice: <input type="text" class="answer-text" name="question-1" />
+              <button type="button" class="remove-answer" name="question-1" onclick="removeAnswer(this);"> x </button><br>
+            </div>
           </div>
           <button type="button" class="add-answer" name="question-1"> + </button>
         </div>

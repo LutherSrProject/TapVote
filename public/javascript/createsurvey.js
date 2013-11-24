@@ -1,6 +1,13 @@
 // GOBAL PAGE VARIABLES //
 pageTitle = "Create Survey";
 
+function removeAnswer(el) {
+    var target = $(el);
+    var answerDiv = target.parent();
+
+    answerDiv.remove();
+}
+
 
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
@@ -12,8 +19,10 @@ $(document).ready(function () {
         var target = $(event.target); // this will be the + button (with name=question-%questionId%)
         var targetName = target.attr('name');
 
-        var answerHtml = 'Answer Choice: <input type="text" class="answer" name="' + targetName + '" /> ' +
-                         '<button type="button" class="remove-answer" name="question-1"> x </button> <br />';
+        var answerHtml = '<div class="answer">' +
+                         '  Answer Choice: <input type="text" class="answer-text" name="' + targetName + '" /> ' +
+                         '  <button type="button" class="remove-answer" name="question-1" onclick="removeAnswer(this);"> x </button> <br />' +
+                         '</div>';
 
         $("#" + targetName).find(".answers").append(answerHtml);
 
@@ -30,7 +39,7 @@ $(document).ready(function () {
             var answerList = [];
             var questionText = el.find(".question-text").val();
 
-            var answers = el.find(".answer");
+            var answers = el.find(".answer-text");
             $.each(answers, function (idx, v) {
                 var answerText = $(v).val();
                 answerList.push(answerText);
