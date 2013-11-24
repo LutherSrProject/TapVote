@@ -8,24 +8,36 @@ function removeAnswer(el) {
     answerDiv.remove();
 }
 
+function addAnswer(el) {
+    // find the question, add another answer option
+    var answerHtml = '<div class="answer">' +
+        '  Answer Choice: <input type="text" class="answer-text"/> ' +
+        '  <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button> <br />' +
+        '</div>';
+
+    var target = $(el); // this will be the + button (with name=question-%questionId%)
+    var answersDiv = target.siblings(".answers");
+    answersDiv.append(answerHtml);
+
+}
+
 
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
+        var questionHtml = '<div class="question mcsr">' +
+                           '  Question: <input type="text" size="40" class="question-text" /> <br>' +
+                           '  <div class="answers">' +
+                           '    <div class="answer">' +
+                           '      Answer Choice: <input type="text" class="answer-text" />' +
+                           '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+                           '    </div>' +
+                           '  </div>' +
+                           '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
+                           '  <br /><br />' +
+                           '</div>';
+
+        $(".questions").append(questionHtml);
         return false;
-    });
-
-    $('.add-answer').click(function (event) {
-        // find the question, add another answer option
-        var target = $(event.target); // this will be the + button (with name=question-%questionId%)
-        var targetName = target.attr('name');
-
-        var answerHtml = '<div class="answer">' +
-                         '  Answer Choice: <input type="text" class="answer-text" name="' + targetName + '" /> ' +
-                         '  <button type="button" class="remove-answer" name="question-1" onclick="removeAnswer(this);"> x </button> <br />' +
-                         '</div>';
-
-        $("#" + targetName).find(".answers").append(answerHtml);
-
     });
 
     $('[name="createSurvey"]').click(function (event) {

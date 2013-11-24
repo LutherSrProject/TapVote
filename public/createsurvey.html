@@ -10,16 +10,18 @@
       Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
 
       <div class="questions">
-        <div class="question mcsr" id="question-1">
-          Question: <input type="text" size="40" class="question-text" name="question-1" /> <br>
+        <div class="question mcsr">
+          Question: <input type="text" size="40" class="question-text" /> <br>
           <div class="answers">
             <div class="answer">
-              Answer Choice: <input type="text" class="answer-text" name="question-1" />
-              <button type="button" class="remove-answer" name="question-1" onclick="removeAnswer(this);"> x </button><br>
+              Answer Choice: <input type="text" class="answer-text" />
+              <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
             </div>
           </div>
-          <button type="button" class="add-answer" name="question-1"> + </button>
+          <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
+          <br /><br />
         </div>
+        <!-- more questions will be embedded here by addQuestion -->
       </div>
 
       <br />
@@ -28,6 +30,5 @@
     </form>
   </article>
 
-  <script type="text/javascript" src="javascript/createsurvey.js"> </script>
 </div>
 
