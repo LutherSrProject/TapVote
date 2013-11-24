@@ -12,7 +12,8 @@ $(document).ready(function () {
         var target = $(event.target); // this will be the + button (with name=question-%questionId%)
         var targetName = target.attr('name');
 
-        var answerHtml = 'Answer Choice: <input type="text" class="answer" name="' + targetName + '" /> <br>';
+        var answerHtml = 'Answer Choice: <input type="text" class="answer" name="' + targetName + '" /> ' +
+                         '<button type="button" class="remove-answer" name="question-1"> x </button> <br />';
 
         $("#" + targetName).find(".answers").append(answerHtml);
 
@@ -38,7 +39,6 @@ $(document).ready(function () {
             var question = {"question":questionText, "answers":answerList};
             questions.push(question);
         });
-
 
         var data = {"title":title, "questions":questions, "password": password};
         var jsonData = JSON.stringify(data);
