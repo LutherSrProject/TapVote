@@ -6,20 +6,22 @@
       Then make a button that registers the survey
       and gives people links to administor the test and look at results
       -->
-      Survey Password: <input type="password" name="adminPwd" id="adminPwd"></input> <br>
-      <br>
-      Survey Title: <input type="text" id="title"> </input> <br>
+      Survey Title: <input type="text" id="title"/> <br />
+      Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
 
-      <div id="multipleChoiceQ">
-        Question: <input type="text" class="question" id="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+      <div class="questions">
+        <div class="question mcsr" id="question-1">
+          Question: <input type="text" size="40" class="question-text" name="question-1" /> <br>
+          <div class="answers">
+            Answer Choice: <input type="text" class="answer" name="question-1" /> <br>
+          </div>
+          <button type="button" class="add-answer" name="question-1"> + </button>
+        </div>
       </div>
 
-      <button type="button" name="createQuestion"> Create Question</button>
-      <button type="button" name="createSurvey"> Create Survey</button>
+      <br />
+      <button type="button" name="createQuestion">Add Question</button>
+      <button type="button" name="createSurvey">Create Survey</button>
     </form>
   </article>
 
