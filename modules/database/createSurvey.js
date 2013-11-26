@@ -15,39 +15,36 @@ var createSurvey = function (surveyData, callback) {
         logger.info("Inserted survey. New survey ID is", result.rows[0].id);
         return result.rows[0].id;
     })
-
     .then(function (sid) {
-        // insert all the questions for this survey (if there are any questions!)
+        // insert all the questions for this survey
+        if(questions) {
+            Q.all(questions.map(function (question) {
+                var value = question["question"];
+                var type = question["type"];
+                var answers = question["answers"];
 
-        if (questions) {
-            for (var q=0; q<questions.length; q++) {
-                var question = questions[q];
-                var value = question['question'];
-                var type = question['type'];
-                var answers = question['answers'];
-                runQuery('INSERT INTO question("surveyId", value, type) VALUES($1, $2, $3) RETURNING *', [sid, value, type])
-                .then(function (result) {
-                    // insert all the answers for this question
-                    var qid = result.rows[0].id;
-                    for (var a=0; a<answers.length; a++) {
-                        var answer = answers[a];
-                        runQuery('INSERT INTO answer("questionId", value) VALUES($1, $2)', [qid, answer])
-                    }
+                return runQuery("INSERT INTO question(\"surveyId\", value, type) VALUES($1, $2, $3) RETURNING *", [sid, value, type])
+                .then(function (results) {
+                    var questionId = results.rows[0].id;
+                    return Q.all(answers.map(function (answer) {
+                        return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2)", [questionId, answer])
+                    }))
+                    .thenResolve();
                 });
-            }
+            }));
+
         }
         return sid;
     })
-
     .then(function (surveyId) {
-              logger.info("All questions and answers inserted");
-              callback(null, {"surveyId": surveyId});
-              return;
+        logger.info("All questions and answers inserted");
+        callback(null, {"surveyId": surveyId});
+        return;
     })
     .fail(function (error) {
-              logger.error("Error creating survey.", error);
-              callback(error);
-              return;
+        logger.error("Error creating survey.", error);
+        callback(error);
+        return;
     })
 };
 
