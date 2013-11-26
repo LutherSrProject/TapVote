@@ -17,20 +17,23 @@ var createSurvey = function (surveyData, callback) {
     })
     .then(function (sid) {
         // insert all the questions for this survey
-        Q.all(questions.map(function (question) {
-            var value = question["question"];
-            var type = question["type"];
-            var answers = question["answers"];
+        if(questions) {
+            Q.all(questions.map(function (question) {
+                var value = question["question"];
+                var type = question["type"];
+                var answers = question["answers"];
 
-            return runQuery("INSERT INTO question(\"surveyId\", value, type) VALUES($1, $2, $3) RETURNING *", [sid, value, type])
-            .then(function (results) {
-                var questionId = results.rows[0].id;
-                return Q.all(answers.map(function (answer) {
-                    return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2)", [questionId, answer])
-                }))
-                .thenResolve();
-            });
-        }));
+                return runQuery("INSERT INTO question(\"surveyId\", value, type) VALUES($1, $2, $3) RETURNING *", [sid, value, type])
+                .then(function (results) {
+                    var questionId = results.rows[0].id;
+                    return Q.all(answers.map(function (answer) {
+                        return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2)", [questionId, answer])
+                    }))
+                    .thenResolve();
+                });
+            }));
+
+        }
         return sid;
     })
     .then(function (surveyId) {
