@@ -3,22 +3,22 @@ var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
 //Test this endpoint with
-//curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "type":"MCSR", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
+//curl -d '{"questionId": 3}' -H "Content-Type: application/json" http://localhost:8000/removeQuestion
 
-function createSurvey(){
+function removeQuestion(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "createSurvey";
+    apiOptions.endpointName = "removeQuestion";
     
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
-            "title":"string",
-            "password":"string"
+            "questionId":"number"
     };
     //Indicates the optional API parameters and their basic expected types.
     apiOptions.optionalApiParameters = {
-            "questions":"object"
+            "surveyId":"number",
+            "password":"string"
     };
     
     //Provides additional validation functions after the basic check on required parameters. 
@@ -28,10 +28,10 @@ function createSurvey(){
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
-        logger.info("Incoming survey: " + data['title']);
+        logger.info("Received request to remove question with id: " + data['questionId']);
         // TODO update with actual data (timestamp, uid, etc?)
         console.log(data);
-        database.createSurvey(data, function(err, results) {
+        database.removeQuestion(data, function(err, results) {
             if (err) {
                 if (!err["httpStatus"]) {
                     err["httpStatus"] = 500;
@@ -42,13 +42,13 @@ function createSurvey(){
                 }
 
                 if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error recording survey";
+                    err["friendlyName"] = "Error removing question";
                 }
                 httpresponses.errorResponse(err, response);
                 return;
             }
             else {
-                logger.info("Logged survey to database");
+                logger.info("Removed question from database");
                 httpresponses.successResponse(response, results);
                 return;
             }
@@ -61,4 +61,4 @@ function createSurvey(){
     }; //return the handler function for the endpoint
 }
 
-exports.createSurvey = createSurvey;
+exports.removeQuestion = removeQuestion;

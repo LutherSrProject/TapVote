@@ -56,10 +56,16 @@ function displaySurvey(results) {
             answerDiv.attr('id', 'answer-'+answer['id']);
             answerDiv.attr('class', 'answer');
 
-            var answerOptionHtml = "<input type='radio'" + 
-                                          "value='" + answer['id'] + "'" +
-                                          "name='question-" + question['id'] + "-answer'>" +
-                                        answer['value'] +
+            var radioAnswerId = answer['id'];
+            var radioQuestionId = question['id'];
+            var radioName = 'question-' + question['id'] + '-answer';
+
+            var radioOnclick = 'submitVote(' + radioQuestionId + ',' + radioAnswerId + ')';
+            var answerOptionHtml = "<input type='radio'" +
+                                          "value='" + radioAnswerId + "'" +
+                                          "name='" + radioName + "'" +
+                                          "onclick='" + radioOnclick + ";'>" +
+                                          answer['value'] +
                                    "</input>";
             var answerValue = $(answerOptionHtml);
 
@@ -69,32 +75,20 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    $("#survey").append("<button onclick='submitSurvey();'>Vote!</button>");
     $("#survey").append("<br><br><div id='vote-status'></div>");
     console.log(results);
 }
 
-function submitSurvey() {
-    $.each($(".question"), function (index, element) {
-        var selected = $(element).find("input[type=radio]:checked");
-        var answerId = selected.attr('value');
+function submitVote(questionId, answerId) {
+    var data = { questionId: questionId, answerId: answerId};
 
-        var name = selected.attr('name');
-        var questionId = name.substring(9, name.indexOf('answer')-1);
-
-        answerId = parseInt(answerId);
-        questionId = parseInt(questionId);
-
-        var data = { questionId: questionId, answerId: answerId};
-
-        $.ajax({
-            type: 'POST',
-            url: '/vote',
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            success: showSubmitSuccess,
-            error: showSubmitFailure
-        });
+    $.ajax({
+        type: 'POST',
+        url: '/vote',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: showSubmitSuccess,
+        error: showSubmitFailure
     });
 }
 

@@ -5,6 +5,80 @@ var should = require('should');
 
 var database = require('../modules/database');
 describe("Database", function(){
+    describe("createSurvey", function(){
+        it("inserts a survey with questions and answers into the database", function(done) {
+            database.createSurvey({ "title":"Test survey with questions and answers", "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it("inserts a survey with two questions and answers into the database", function(done) {
+            database.createSurvey({ "title":"Test survey with two questions and answers", "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "type":"MCSR", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it("inserts a survey without questions into the database", function(done) {
+            database.createSurvey({ "title":"Test survey with no questions","password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+    });
+    describe("addQuestions", function(){
+        it("inserts questions and answers into the database for a survey that already has questions into the database", function(done) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it("inserts two questions and answers for a survey that already has questions into the database", function(done) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]},{"question": "Question 2", "type":"MCSR", "answers": ["Q2a1", "Q2a2", "Q2a3", "Q2a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it.skip("inserts questions and answers into the database for a survey that has no questions into the database", function(done) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+        it.skip("inserts two questions and answers into the database for a survey that has no questions into the database", function(done) {
+            database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
+                try {
+                    should.not.exist(err);
+                    done();
+                } catch(testerror) {
+                    done(testerror);
+                } 
+            });
+        });
+    });
     describe("recordVote", function(){
         it("inserts a valid vote into the database", function(done) {
             database.recordVote({'answerId':1,'questionId':1},function(err,results) {
@@ -45,7 +119,11 @@ describe("Database", function(){
                     should.not.exist(err);
                     
                     //test the default db response
-                    results.should.eql({"title":"A sweet survey","questions":[{"id":1,"surveyId":1,"value":"What is your favorite color?","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]}]});
+                    results.should.have.keys('title', 'questions');
+                    results['title'].should.eql("A sweet survey");
+                    results["questions"].should.be.type("object");
+                    results["questions"].length.should.not.be.below(1);
+                    results["questions"][0].should.eql({"id":1,"surveyId":1,"value":"What is your favorite color?","type": "MCSR","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]});
                     
                     done();
                 } catch(testerror) {

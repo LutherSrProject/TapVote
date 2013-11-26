@@ -9,6 +9,8 @@ var vote = require('./routes/vote');
 var getSurveyResults = require('./routes/getSurveyResults');
 var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
+var addQuestions = require('./routes/addQuestions');
+var removeQuestion = require('./routes/removeQuestion');
 var http = require('http');
 var path = require('path');
 
@@ -36,6 +38,8 @@ if ('development' == app.get('env')) {
 
 app.post('/vote', vote.vote());
 app.post('/createSurvey', createSurvey.createSurvey());
+app.post('/addQuestions', addQuestions.addQuestions());
+app.post('/removeQuestion', removeQuestion.removeQuestion());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 
