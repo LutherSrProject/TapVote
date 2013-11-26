@@ -1,50 +1,72 @@
 // GOBAL PAGE VARIABLES //
 pageTitle = "Create Survey";
 
+function removeAnswer(el) {
+    var target = $(el);
+    var answerDiv = target.parent();
+
+    answerDiv.remove();
+}
+
+function addAnswer(el) {
+    // find the question, add another answer option
+    var answerHtml = '<div class="answer">' +
+        '  Answer Choice: <input type="text" class="answer-text"/> ' +
+        '  <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button> <br />' +
+        '</div>';
+
+    var target = $(el); // this will be the + button (with name=question-%questionId%)
+    var answersDiv = target.siblings(".answers");
+    answersDiv.append(answerHtml);
+
+}
+
 
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
-        //Make this stuff actually match our app.
-        //var counter = 1;
-        //var limit = 3;
-        //function addInput(divName){
-        //if (counter == limit)  {
-        //alert("You have reached the limit of adding " + counter + " inputs");
-        //}
-        //else {
-        //var newdiv = document.createElement('div');
-        //newdiv.innerHTML = "Entry " + (counter + 1) + " <br><input type='text' name='myInputs[]'>";
-        //document.getElementById(divName).appendChild(newdiv);
-        //counter++;
-        //}
-        //}
+        var questionHtml = '<div class="question mcsr">' +
+                           '  Question: <input type="text" size="40" class="question-text" /> <br>' +
+                           '  <div class="answers">' +
+                           '    <div class="answer">' +
+                           '      Answer Choice: <input type="text" class="answer-text" />' +
+                           '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+                           '    </div>' +
+                           '  </div>' +
+                           '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
+                           '  <br /><br />' +
+                           '</div>';
+
+        $(".questions").append(questionHtml);
         return false;
     });
 
     $('[name="createSurvey"]').click(function (event) {
-        var title, questions, password, mcQuestions;
-        title = $("#title").val();
-        password = $("#adminPwd").val();
-        questions = [];
-        mcQuestions = $("#multipleChoiceQ").find(".question");
+        var title = $("#title").val();
+        var password = $("#adminPwd").val();
+
+        var questions = [];
+        var mcQuestions = $(".questions").find(".question");
         $.each(mcQuestions, function (i, val) {
-            var wrapped = $(val);
-            var question = {};
-            question.question = wrapped.val();
-            var name = wrapped.attr("id");
-            var alist = [];
-            $.each($('.answer[name=' + name + ']'), function (idx, v) {
-                var answer = $(v);
-                alist[idx] = (answer.val());
+            var el = $(val);
+            var answerList = [];
+            var questionText = el.find(".question-text").val();
+
+            var answers = el.find(".answer-text");
+            $.each(answers, function (idx, v) {
+                var answerText = $(v).val();
+                answerList.push(answerText);
             });
-            question.answers = alist;
-            questions[i] = question;
+
+            var question = {"question":questionText, "answers":answerList};
+            questions.push(question);
         });
 
+        var data = {"title":title, "questions":questions, "password": password};
+        var jsonData = JSON.stringify(data);
         $.ajax({
             type: "POST",
             url: "/createSurvey",
-            data: '{"title":"' + title + '","questions":' + JSON.stringify(questions) + ', "password":"' + password + '"}',
+            data: jsonData,
             contentType: 'application/json',
             success: function (data) {
                shareSurvey(data["surveyId"])

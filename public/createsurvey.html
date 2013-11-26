@@ -6,23 +6,31 @@
       Then make a button that registers the survey
       and gives people links to administor the test and look at results
       -->
-      Survey Password: <input type="password" name="adminPwd" id="adminPwd"></input> <br>
-      <br>
-      Survey Title: <input type="text" id="title"> </input> <br>
+      Survey Title: <input type="text" id="title"/> <br />
+      Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
 
-      <div id="multipleChoiceQ">
-        Question: <input type="text" class="question" id="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
-        Answer Choice: <input type="text" class="answer" name="1"> </input> <br>
+      <div class="questions">
+        <div class="question mcsr">
+          Question: <input type="text" size="40" class="question-text" /> <br>
+          <div class="answers">
+            <div class="answer">
+              Answer Choice: <input type="text" class="answer-text" />
+              <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
+            </div>
+          </div>
+          <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
+          <br /><br />
+        </div>
+        <!-- more questions will be embedded here by addQuestion -->
       </div>
 
-      <button type="button" name="createQuestion"> Create Question</button>
-      <button type="button" name="createSurvey"> Create Survey</button>
+      <br />
+      <button type="button" name="createQuestion">Add Question</button>
+      <button type="button" name="createSurvey">Create Survey</button>
     </form>
   </article>
 
-  <script type="text/javascript" src="javascript/createsurvey.js"> </script>
+  <script type="text/javascript" src="javascript/createsurvey.js"></script>
+
 </div>
 
