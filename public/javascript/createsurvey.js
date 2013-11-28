@@ -33,6 +33,7 @@ $(document).ready(function () {
                            '    </div>' +
                            '  </div>' +
                            '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
+                           '  <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>' +
                            '  <br /><br />' +
                            '</div>';
 
