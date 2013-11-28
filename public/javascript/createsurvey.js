@@ -1,4 +1,4 @@
-// GOBAL PAGE VARIABLES //
+// GLOBAL PAGE VARIABLES //
 pageTitle = "Create Survey";
 
 function removeAnswer(el) {
