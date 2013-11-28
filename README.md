@@ -43,3 +43,69 @@ $ nodejs index.js
 ```
 
 Browse to `http://localhost:8000` to start using TapVote!
+
+
+###API
+
+The API is made up of a series of JSON endpoints that can be utilized to do all operations related to creating, presenting, editing, and removing surveys.
+
+The base URL is `%host%/`.
+
+
+#####`/createSurvey`
+
+POST body:
+```
+{ 
+  'title':'"Because clickers are SO 1999."', 
+  'questions': [
+                {'question': 'Which is best?', 
+                 'type': MCSR,
+                 'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
+                }
+               ],
+  'password':'supersecretpassword'
+}
+```
+
+Note that the attribute `type` of a question object can by any one of {'MCSR', 'MCMR', 'MCRANK', 'FR'}
+
+
+POST response (contains the ID of the new survey):
+``` 
+{"surveyId" : 2}
+```
+
+
+#####`/getSurveyInfo`
+
+GET body:
+```
+{"surveyId" : 2}
+```
+
+GET response (contains all the information needed to present the survey):
+```
+{ 
+  title: "A sweet survey",
+  questions: [
+              { id:12,
+                value: "What is your favorite color",
+                type: "MCSR",
+                answers: [
+                          {id:45, value:"blue"},
+                          {id:32, value:"red"}
+                         ]
+              },
+              { id:14,
+                value: "What is your favorite food",
+                type: "MCSR",
+                answers: [
+                          {id:21, value:"pizza"},
+                          {id:18, value:"cake"},
+                          {id:12, value:"brains"}
+                         ]
+              }
+            ]
+}
+```
