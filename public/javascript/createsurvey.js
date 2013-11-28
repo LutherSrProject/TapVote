@@ -23,7 +23,7 @@ function addAnswer(el) {
 
 
 function createQuestion(type) {
-    var questionHtml = '<div class="question mcsr">' +
+    var questionHtml = '<div class="question ' + type + '" data-question-type="'+type+'">' +
         '  Question: <input type="text" size="40" class="question-text" /> <br>' +
         '  <div class="answers">' +
         '    <div class="answer">' +
@@ -51,6 +51,7 @@ $(document).ready(function () {
             var el = $(val);
             var answerList = [];
             var questionText = el.find(".question-text").val();
+            var questionType = el.attr("data-question-type");
 
             var answers = el.find(".answer-text");
             $.each(answers, function (idx, v) {
@@ -58,7 +59,7 @@ $(document).ready(function () {
                 answerList.push(answerText);
             });
 
-            var question = {"question":questionText, "answers":answerList};
+            var question = {"question":questionText, "type":questionType, "answers":answerList};
             questions.push(question);
         });
 
