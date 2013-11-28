@@ -21,6 +21,12 @@ function addAnswer(el) {
 
 }
 
+function removeQuestion(el) {
+    var target = $(el);
+    var questionDiv = target.parent();
+
+    questionDiv.remove();
+}
 
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
