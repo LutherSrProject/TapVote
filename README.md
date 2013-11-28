@@ -61,7 +61,7 @@ POST body:
   'title':'"Because clickers are SO 1999."', 
   'questions': [
                 {'question': 'Which is best?', 
-                 'type': MCSR,
+                 'type': 'MCSR',
                  'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
                 }
                ],
@@ -91,18 +91,18 @@ GET response (contains all the information needed to present the survey):
 { 
   title: "A sweet survey",
   questions: [
-              { id:12,
-                value: "What is your favorite color",
-                type: "MCSR",
-                answers: [
+              { 'id':12,
+                'value': 'What is your favorite color?',
+                'type': 'MCSR',
+                'answers': [
                           {id:45, value:"blue"},
                           {id:32, value:"red"}
                          ]
               },
-              { id:14,
-                value: "What is your favorite food",
-                type: "MCSR",
-                answers: [
+              { 'id':14,
+                'value': 'What is your favorite food?',
+                'type': 'MCSR',
+                'answers: [
                           {id:21, value:"pizza"},
                           {id:18, value:"cake"},
                           {id:12, value:"brains"}
