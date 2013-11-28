@@ -22,23 +22,24 @@ function addAnswer(el) {
 }
 
 
-$(document).ready(function () {
-    $('[name="createQuestion"]').click(function (event) {
-        var questionHtml = '<div class="question mcsr">' +
-                           '  Question: <input type="text" size="40" class="question-text" /> <br>' +
-                           '  <div class="answers">' +
-                           '    <div class="answer">' +
-                           '      Answer Choice: <input type="text" class="answer-text" />' +
-                           '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
-                           '    </div>' +
-                           '  </div>' +
-                           '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
-                           '  <br /><br />' +
-                           '</div>';
+function createQuestion(type) {
+    var questionHtml = '<div class="question ' + type + '" data-question-type="'+type+'">' +
+        '  Question: <input type="text" size="40" class="question-text" /> <br>' +
+        '  <div class="answers">' +
+        '    <div class="answer">' +
+        '      Answer Choice: <input type="text" class="answer-text" />' +
+        '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+        '    </div>' +
+        '  </div>' +
+        '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
+        '  <br /><br />' +
+        '</div>';
 
-        $(".questions").append(questionHtml);
-        return false;
-    });
+    $(".questions").append(questionHtml);
+
+}
+
+$(document).ready(function () {
 
     $('[name="createSurvey"]').click(function (event) {
         var title = $("#title").val();
@@ -50,6 +51,7 @@ $(document).ready(function () {
             var el = $(val);
             var answerList = [];
             var questionText = el.find(".question-text").val();
+            var questionType = el.attr("data-question-type");
 
             var answers = el.find(".answer-text");
             $.each(answers, function (idx, v) {
@@ -57,7 +59,7 @@ $(document).ready(function () {
                 answerList.push(answerText);
             });
 
-            var question = {"question":questionText, "answers":answerList};
+            var question = {"question":questionText, "type":questionType, "answers":answerList};
             questions.push(question);
         });
 
