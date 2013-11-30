@@ -64,6 +64,9 @@ function displaySurvey(results) {
 
             var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
             answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
+            answerEl.attr('data-question-id', questionId);
+            answerEl.attr('data-answer-id', answerId);
+
 
             if (questionType == "MCSR") {
                 answerEl.attr('name', 'question-'+questionId+'-answers');
@@ -73,6 +76,7 @@ function displaySurvey(results) {
 
             if (questionType == "MCMR") {
                 answerEl.attr('type', 'checkbox');
+                answerEl.change(checkMCMR);
             }
 
             answerDiv.append(answerEl);
@@ -93,8 +97,35 @@ function displaySurvey(results) {
     console.log(results);
 }
 
+function checkMCMR(event) {
+    var el = $(this);
+    var questionId = parseInt(el.attr('data-question-id'));
+    var answerId = parseInt(el.attr('data-answer-id'));
+
+    if(this.checked) {
+        submitVote(questionId, answerId);
+    }
+
+    if(! this.checked) {
+        deVote(questionId, answerId);
+    }
+}
+
+function deVote(questionId, answerId) {
+    var data = { "questionId": questionId, "answerId": answerId};
+
+    $.ajax({
+        type: 'POST',
+        url: '/deVote',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (results) { console.log(results); },
+        error: function (results) { console.log(results); }
+    })
+}
+
 function submitVote(questionId, answerId) {
-    var data = { questionId: questionId, answerId: answerId};
+    var data = { "questionId": questionId, "answerId": answerId};
 
     $.ajax({
         type: 'POST',
