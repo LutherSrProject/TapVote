@@ -50,27 +50,41 @@ function displaySurvey(results) {
         questionTitle.text(question['value']);
         questionDiv.append(questionTitle);
 
+        var questionType = question['type'];
+        var questionId = question['id'];
+
         var answers = question['answers'];
         $.each(answers, function (index, answer) {
+            var answerId = answer['id'];
+            var answerValue = answer['value'];
+
             var answerDiv = $("<div></div>");
-            answerDiv.attr('id', 'answer-'+answer['id']);
+            answerDiv.attr('id', 'answer-'+answerId);
             answerDiv.attr('class', 'answer');
 
-            var radioAnswerId = answer['id'];
-            var radioQuestionId = question['id'];
-            var radioName = 'question-' + question['id'] + '-answer';
+            var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
+            answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
 
-            var radioOnclick = 'submitVote(' + radioQuestionId + ',' + radioAnswerId + ')';
-            var answerOptionHtml = "<input type='radio'" +
-                                          "value='" + radioAnswerId + "'" +
-                                          "name='" + radioName + "'" +
-                                          "onclick='" + radioOnclick + ";'>" +
-                                          answer['value'] +
-                                   "</input>";
-            var answerValue = $(answerOptionHtml);
+            if (questionType == "MCSR") {
+                answerEl.attr('name', 'question-'+questionId+'-answers');
+                answerEl.attr('type', 'radio');
+                answerEl.attr('onclick', 'submitVote('+questionId + ', ' + answerId + ');');
+            }
 
-            answerDiv.append(answerValue);
+            if (questionType == "MCMR") {
+                answerEl.attr('type', 'checkbox');
+            }
+
+            answerDiv.append(answerEl);
+
+            // make the label (containing the value of the answer_
+            var answerLabel = $("<label></label>");
+            answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
+            answerLabel.text(answerValue);
+            answerDiv.append(answerLabel);
+
             questionDiv.append(answerDiv);
+
         });
         questionsDiv.append(questionDiv);
     });
