@@ -74,7 +74,7 @@ function displaySurvey(results) {
                 answerEl.change(checkMCSR);
             }
 
-            if (questionType == "MCMR") {
+            else if (questionType == "MCMR") {
                 answerEl.attr('type', 'checkbox');
                 // this works for checkbox because the 'change' event is fired on deselect as well as select
                 answerEl.change(checkMCMR);
@@ -85,7 +85,7 @@ function displaySurvey(results) {
                 console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
                 console.log("WARNING: Treating unknown type as MCSR!");
 
-                // just treat this unkown type as an MCSR
+                // just treat this unknown type as an MCSR
                 answerEl.attr('name', 'question-'+questionId+'-answers');
                 answerEl.attr('type', 'radio');
                 answerEl.change(checkMCSR);
@@ -116,14 +116,14 @@ function checkMCSR(event) {
     var answerId = parseInt(el.attr('data-answer-id'));
 
     // send a deVote for the old answer before submitting the new vote
-    var prevAnswerId = previousMCSR['questionId'];
+    var prevAnswerId = previousMCSR[questionId];
     if (prevAnswerId) {
         deVote(questionId, prevAnswerId);
     }
 
     // send vote for newly select answer, and remember this vote (so that we can properly
     // deVote if the user changes their vote)
-    previousMCSR['questionId'] = answerId;
+    previousMCSR[questionId] = answerId;
     submitVote(questionId, answerId);
 }
 
