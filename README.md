@@ -168,10 +168,26 @@ Gets all information needed to present a survey to the user. Requires a survey I
 <a name="getSurveyResults"></a>
 ####`/getSurveyResults`
 
-TODO
+Get the results of a survey. The returned data contains a count of the votes for each answer. Note that the answers
+in the result of this call are not separated by question; it's assumed that the client already has that information
+from a call to /getSurveyInfo.
+
+**GET request body**:
+```
+{"surveyId": 1}
+```
+
+**GET response body** (object keys are answerIds, object values are a count of the number of votes for that answer) :
+```
+{
+  1: 13,
+  2: 21,
+  3: 12
+}
+```
 
 **Possible Errors**:
-* `404 Not Found: Non-existent survey ID` - returned when requesting info for non-existent survey ID
+* `404 Not Found: Non-existent survey ID` - returned when requesting results for non-existent survey ID
 
 =================================================================================================================
 =================================================================================================================
