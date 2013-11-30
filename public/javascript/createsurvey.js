@@ -1,4 +1,4 @@
-// GOBAL PAGE VARIABLES //
+// GLOBAL PAGE VARIABLES //
 pageTitle = "Create Survey";
 
 function removeAnswer(el) {
@@ -21,6 +21,12 @@ function addAnswer(el) {
 
 }
 
+function removeQuestion(el) {
+    var target = $(el);
+    var questionDiv = target.parent();
+
+    questionDiv.remove();
+}
 
 $(document).ready(function () {
     $('[name="createQuestion"]').click(function (event) {
@@ -33,6 +39,7 @@ $(document).ready(function () {
                            '    </div>' +
                            '  </div>' +
                            '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
+                           '  <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>' +
                            '  <br /><br />' +
                            '</div>';
 
