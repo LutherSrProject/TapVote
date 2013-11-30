@@ -121,7 +121,8 @@ function checkMCSR(event) {
         deVote(questionId, prevAnswerId);
     }
 
-    // send vote for newly select answer, and remember this vote
+    // send vote for newly select answer, and remember this vote (so that we can properly
+    // deVote if the user changes their vote)
     previousMCSR['questionId'] = answerId;
     submitVote(questionId, answerId);
 }
@@ -131,10 +132,12 @@ function checkMCMR(event) {
     var questionId = parseInt(el.attr('data-question-id'));
     var answerId = parseInt(el.attr('data-answer-id'));
 
+    // if newly checked, submit a vote
     if (this.checked) {
         submitVote(questionId, answerId);
     }
 
+    // if unchecked, send a deVote
     if (! this.checked) {
         deVote(questionId, answerId);
     }
