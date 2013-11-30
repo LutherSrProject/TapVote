@@ -61,21 +61,23 @@ The base URL is `%host%/`.
 [/vote](#vote)  
 
 
--------------------------------------------------------------------------------------------------------------
+=================================================================================================================
+=================================================================================================================
 
 <a name="addQuestions"></a>
-#####`/addQuestions`
+####`/addQuestions`
 
 TODO
 
------------------------------------------------------------------------------------------------------------------
+=================================================================================================================
+=================================================================================================================
 
 <a name="createSurvey"></a>
-#####`/createSurvey`
+####`/createSurvey`
 
 Sends information needed to create a new survey. Returns the new survey ID.
 
-POST request body:
+**POST request body**:
 ```
 { 
   'title':'"Because clickers are SO 1999."', 
@@ -92,41 +94,46 @@ POST request body:
 Note that the attribute `type` of a question object can by any one of {'MCSR', 'MCMR', 'MCRANK', 'FR'}
 
 
-POST response body:
+**POST response body**:
 ``` 
 {"surveyId" : 2}
 ```
 
------------------------------------------------------------------------------------------------------------------
+=================================================================================================================
+=================================================================================================================
 
 <a name="deVote"></a> 
-#####`/deVote`
+####`/deVote`
 
 Removes a vote from the database. This will be used if/when a user changes their vote.
 
-POST request body:
+**POST request body**:
 ```
 {"questionId" : 1, "answerId": 3}
 ```
 
-POST response body:
+**POST response body**:
 ```
 {"status" : "success"}
 ```
 
------------------------------------------------------------------------------------------------------------------
+**Possible errors**:
+* `400 Bad Request: questionId and answerId don't match` - returned when the specified answerId isn't associated with the specified questionId.
+
+=================================================================================================================
+=================================================================================================================
 
 <a name="getSurveyInfo"></a>
-#####`/getSurveyInfo`
+####`/getSurveyInfo`
 
 Gets all information needed to present a survey to the user. Requires a survey ID, responds with all survey data.
 
-GET request body:
+**GET request body**:
 ```
 {"surveyId" : 2}
 ```
 
-GET response body:
+**GET response body**:
 ```
 { 
   title: "A sweet survey",
@@ -152,36 +159,49 @@ GET response body:
 }
 ```
 
------------------------------------------------------------------------------------------------------------------
+**Possible Errors**:
+* `404 Not Found: Non-existent survey ID` - returned when requesting info for non-existent survey ID
+
+=================================================================================================================
+=================================================================================================================
 
 <a name="getSurveyResults"></a>
-#####`/getSurveyResults`
+####`/getSurveyResults`
 
 TODO
 
------------------------------------------------------------------------------------------------------------------
+**Possible Errors**:
+* `404 Not Found: Non-existent survey ID` - returned when requesting info for non-existent survey ID
+
+=================================================================================================================
+=================================================================================================================
 
 <a name="removeQuestion"></a> 
-#####`/removeQuestion`
+####`/removeQuestion`
 
 TODO
 
------------------------------------------------------------------------------------------------------------------
+=================================================================================================================
+=================================================================================================================
 
 <a name="vote"></a> 
-#####`/vote`
+####`/vote`
 
 Record a vote to the database.
 
-POST request body:
+**POST request body**:
 ```
 {"questionId" : 1, "answerId" : 3} 
 ```
 
-POST response body:
+**POST response body**:
 ```
 {"status" : "success"}
 ```
 
------------------------------------------------------------------------------------------------------------------
+**Possible Errors**:
+* `400 Bad Request: questionId and answerId don't match` - returned when the specified answerId isn't associated with the specified questionId.
+
+=================================================================================================================
+=================================================================================================================
 
