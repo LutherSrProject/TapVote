@@ -1,5 +1,6 @@
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Take Survey";
+var previousMCSR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
@@ -67,17 +68,17 @@ function displaySurvey(results) {
             answerEl.attr('data-question-id', questionId);
             answerEl.attr('data-answer-id', answerId);
 
-
             if (questionType == "MCSR") {
                 answerEl.attr('name', 'question-'+questionId+'-answers');
                 answerEl.attr('type', 'radio');
-                //answerEl.attr('onclick', 'submitVote('+questionId + ', ' + answerId + ');');
-                answerEl.change(checkMC);
+                // 'change' event is *not* fired on deselected element, only the selected element
+                answerEl.change(checkMCSR);
             }
 
             if (questionType == "MCMR") {
                 answerEl.attr('type', 'checkbox');
-                answerEl.change(checkMC);
+                // this works for checkbox because the 'change' event is fired on deselect as well as select
+                answerEl.change(checkMCMR);
             }
 
             answerDiv.append(answerEl);
@@ -98,7 +99,23 @@ function displaySurvey(results) {
     console.log(results);
 }
 
-function checkMC(event) {
+function checkMCSR(event) {
+    var el = $(this);
+    var questionId = parseInt(el.attr('data-question-id'));
+    var answerId = parseInt(el.attr('data-answer-id'));
+
+    // send a deVote for the old answer before submitting the new vote
+    var prevAnswerId = previousMCSR['questionId'];
+    if (prevAnswerId) {
+        deVote(questionId, prevAnswerId);
+    }
+
+    // send vote for newly select answer, and remember this vote
+    previousMCSR['questionId'] = answerId;
+    submitVote(questionId, answerId);
+}
+
+function checkMCMR(event) {
     var el = $(this);
     var questionId = parseInt(el.attr('data-question-id'));
     var answerId = parseInt(el.attr('data-answer-id'));
