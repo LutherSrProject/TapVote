@@ -7,6 +7,7 @@ exports.createSurvey = require("./database/createSurvey").createSurvey;
 exports.getSurveyInfo = require("./database/getSurveyInfo").getSurveyInfo;
 exports.getSurveyResults = require("./database/getSurveyResults").getSurveyResults;
 exports.recordVote = require("./database/recordVote").recordVote;
+exports.deleteVote = require("./database/deleteVote").deleteVote;
 exports.removeQuestion = require("./database/removeQuestion").removeQuestion;
 exports.addQuestions = require("./database/addQuestions").addQuestions;
 
