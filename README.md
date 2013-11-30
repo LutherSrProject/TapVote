@@ -73,7 +73,9 @@ TODO
 <a name="createSurvey"></a>
 #####`/createSurvey`
 
-POST body:
+Sends information needed to create a new survey. Returns the new survey ID.
+
+POST request body:
 ```
 { 
   'title':'"Because clickers are SO 1999."', 
@@ -90,7 +92,7 @@ POST body:
 Note that the attribute `type` of a question object can by any one of {'MCSR', 'MCMR', 'MCRANK', 'FR'}
 
 
-POST response (contains the ID of the new survey):
+POST response body:
 ``` 
 {"surveyId" : 2}
 ```
@@ -100,19 +102,31 @@ POST response (contains the ID of the new survey):
 <a name="deVote"></a> 
 #####`/deVote`
 
-TODO
+Removes a vote from the database. This will be used if/when a user changes their vote.
+
+POST request body:
+```
+{"questionId" : 1, "answerId": 3}
+```
+
+POST response body:
+```
+{"status" : "success"}
+```
 
 -----------------------------------------------------------------------------------------------------------------
 
 <a name="getSurveyInfo"></a>
 #####`/getSurveyInfo`
 
-GET body:
+Gets all information needed to present a survey to the user. Requires a survey ID, responds with all survey data.
+
+GET request body:
 ```
 {"surveyId" : 2}
 ```
 
-GET response (contains all the information needed to present the survey):
+GET response body:
 ```
 { 
   title: "A sweet survey",
@@ -157,7 +171,17 @@ TODO
 <a name="vote"></a> 
 #####`/vote`
 
-TODO
+Record a vote to the database.
+
+POST request body:
+```
+{"questionId" : 1, "answerId" : 3} 
+```
+
+POST response body:
+```
+{"status" : "success"}
+```
 
 -----------------------------------------------------------------------------------------------------------------
 
