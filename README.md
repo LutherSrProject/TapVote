@@ -51,15 +51,26 @@ The API is made up of a series of JSON endpoints that can be utilized to do all 
 
 The base URL is `%host%/`.
 
+**API methods**  
+[/addQuestions](#addQuestions)  
+[/createSurvey](#createSurvey)  
+[/deVote](#deVote)  
+[/getSurveyInfo](#getSurveyInfo)  
+[/getSurveyResults](#getSurveyResults)  
+[/removeQuestion](#removeQuestion)  
+[/vote](#vote)  
+
 
 -------------------------------------------------------------------------------------------------------------
 
+<a name="addQuestions"></a>
 #####`/addQuestions`
 
 TODO
 
 -----------------------------------------------------------------------------------------------------------------
 
+<a name="createSurvey"></a>
 #####`/createSurvey`
 
 POST body:
@@ -86,12 +97,14 @@ POST response (contains the ID of the new survey):
 
 -----------------------------------------------------------------------------------------------------------------
 
+<a name="deVote"></a> 
 #####`/deVote`
 
 TODO
 
 -----------------------------------------------------------------------------------------------------------------
 
+<a name="getSurveyInfo"></a>
 #####`/getSurveyInfo`
 
 GET body:
@@ -127,20 +140,21 @@ GET response (contains all the information needed to present the survey):
 
 -----------------------------------------------------------------------------------------------------------------
 
-
+<a name="getSurveyResults"></a>
 #####`/getSurveyResults`
 
 TODO
 
 -----------------------------------------------------------------------------------------------------------------
 
-
+<a name="removeQuestion"></a> 
 #####`/removeQuestion`
 
 TODO
 
 -----------------------------------------------------------------------------------------------------------------
 
+<a name="vote"></a> 
 #####`/vote`
 
 TODO
