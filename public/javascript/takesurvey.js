@@ -71,7 +71,6 @@ function displaySurvey(results) {
             if (questionType == "MCSR") {
                 answerEl.attr('name', 'question-'+questionId+'-answers');
                 answerEl.attr('type', 'radio');
-                // 'change' event is *not* fired on deselected element, only the selected element
                 answerEl.change(checkMCSR);
             }
 
@@ -80,6 +79,18 @@ function displaySurvey(results) {
                 // this works for checkbox because the 'change' event is fired on deselect as well as select
                 answerEl.change(checkMCMR);
             }
+
+            else {
+                // unimplemented question type (i.e. MCRANK, FR, etc)
+                console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
+                console.log("WARNING: Treating unknown type as MCSR!");
+
+                // just treat this unkown type as an MCSR
+                answerEl.attr('name', 'question-'+questionId+'-answers');
+                answerEl.attr('type', 'radio');
+                answerEl.change(checkMCSR);
+            }
+
 
             answerDiv.append(answerEl);
 
