@@ -71,12 +71,13 @@ function displaySurvey(results) {
             if (questionType == "MCSR") {
                 answerEl.attr('name', 'question-'+questionId+'-answers');
                 answerEl.attr('type', 'radio');
-                answerEl.attr('onclick', 'submitVote('+questionId + ', ' + answerId + ');');
+                //answerEl.attr('onclick', 'submitVote('+questionId + ', ' + answerId + ');');
+                answerEl.change(checkMC);
             }
 
             if (questionType == "MCMR") {
                 answerEl.attr('type', 'checkbox');
-                answerEl.change(checkMCMR);
+                answerEl.change(checkMC);
             }
 
             answerDiv.append(answerEl);
@@ -97,16 +98,16 @@ function displaySurvey(results) {
     console.log(results);
 }
 
-function checkMCMR(event) {
+function checkMC(event) {
     var el = $(this);
     var questionId = parseInt(el.attr('data-question-id'));
     var answerId = parseInt(el.attr('data-answer-id'));
 
-    if(this.checked) {
+    if (this.checked) {
         submitVote(questionId, answerId);
     }
 
-    if(! this.checked) {
+    if (! this.checked) {
         deVote(questionId, answerId);
     }
 }
