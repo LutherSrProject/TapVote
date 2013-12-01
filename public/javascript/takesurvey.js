@@ -34,8 +34,9 @@ function redirectToSurvey() {
 function displaySurvey(results) {
     var titleDiv = $("#survey-title");
 
-    var el = $("<h2></h2>");
+    var el = $("<div></div>");
     el.text(results['title']);
+    el.addClass('survey-title');
     titleDiv.append(el);
 
     var questionsDiv = $("#survey-questions");
@@ -48,6 +49,7 @@ function displaySurvey(results) {
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
+        questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
 
         var answers = question['answers'];
