@@ -22,8 +22,8 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
+    font: inherit;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 
@@ -33,7 +33,7 @@ html {
 }
 
 body {
-    top: 0px;
+    top: 0;
     margin: 0;
     padding: 0;
     background-color: #FFE;
@@ -41,6 +41,20 @@ body {
     height: 100%;
 }
 
+.survey-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 5px 15px 5px;
+}
+
+.question-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.answer {
+    margin-bottom: 5px;
+}
 
 .container {
     margin: 0;
