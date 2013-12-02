@@ -1,5 +1,6 @@
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Take Survey";
+var previousMCSR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
@@ -52,27 +53,57 @@ function displaySurvey(results) {
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
 
+        var questionType = question['type'];
+        var questionId = question['id'];
+
         var answers = question['answers'];
         $.each(answers, function (index, answer) {
+            var answerId = answer['id'];
+            var answerValue = answer['value'];
+
             var answerDiv = $("<div></div>");
-            answerDiv.attr('id', 'answer-'+answer['id']);
+            answerDiv.attr('id', 'answer-'+answerId);
             answerDiv.attr('class', 'answer');
 
-            var radioAnswerId = answer['id'];
-            var radioQuestionId = question['id'];
-            var radioName = 'question-' + question['id'] + '-answer';
+            var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
+            answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
+            answerEl.attr('data-question-id', questionId);
+            answerEl.attr('data-answer-id', answerId);
 
-            var radioOnclick = 'submitVote(' + radioQuestionId + ',' + radioAnswerId + ')';
-            var answerOptionHtml = "<input type='radio'" +
-                                          "value='" + radioAnswerId + "'" +
-                                          "name='" + radioName + "'" +
-                                          "onclick='" + radioOnclick + ";'>" +
-                                          answer['value'] +
-                                   "</input>";
-            var answerValue = $(answerOptionHtml);
+            if (questionType == "MCSR") {
+                answerEl.attr('name', 'question-'+questionId+'-answers');
+                answerEl.attr('type', 'radio');
+                answerEl.change(checkMCSR);
+            }
 
-            answerDiv.append(answerValue);
+            else if (questionType == "MCMR") {
+                answerEl.attr('type', 'checkbox');
+                // this works for checkbox because the 'change' event is fired on deselect as well as select
+                answerEl.change(checkMCMR);
+            }
+
+            else {
+                // unimplemented question type (i.e. MCRANK, FR, etc)
+                console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
+                console.log("WARNING: Treating unknown type as MCSR!");
+
+                // just treat this unknown type as an MCSR
+                answerEl.attr('name', 'question-'+questionId+'-answers');
+                answerEl.attr('type', 'radio');
+                answerEl.change(checkMCSR);
+            }
+
+
+            answerDiv.append(answerEl);
+
+            // make the label (containing the value of the answer_
+            var answerLabel = $("<label></label>");
+            answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
+            answerLabel.text(answerValue);
+            answerDiv.append(answerLabel);
+
             questionDiv.append(answerDiv);
+
         });
         questionsDiv.append(questionDiv);
     });
@@ -81,8 +112,54 @@ function displaySurvey(results) {
     console.log(results);
 }
 
+function checkMCSR(event) {
+    var el = $(this);
+    var questionId = parseInt(el.attr('data-question-id'));
+    var answerId = parseInt(el.attr('data-answer-id'));
+
+    // send a deVote for the old answer before submitting the new vote
+    var prevAnswerId = previousMCSR[questionId];
+    if (prevAnswerId || prevAnswerId === 0) {
+        deVote(questionId, prevAnswerId);
+    }
+
+    // send vote for newly select answer, and remember this vote (so that we can properly
+    // deVote if the user changes their vote)
+    previousMCSR[questionId] = answerId;
+    submitVote(questionId, answerId);
+}
+
+function checkMCMR(event) {
+    var el = $(this);
+    var questionId = parseInt(el.attr('data-question-id'));
+    var answerId = parseInt(el.attr('data-answer-id'));
+
+    // if newly checked, submit a vote
+    if (this.checked) {
+        submitVote(questionId, answerId);
+    }
+
+    // if unchecked, send a deVote
+    if (! this.checked) {
+        deVote(questionId, answerId);
+    }
+}
+
+function deVote(questionId, answerId) {
+    var data = { "questionId": questionId, "answerId": answerId};
+
+    $.ajax({
+        type: 'POST',
+        url: '/deVote',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (results) { console.log(results); },
+        error: function (results) { console.log(results); }
+    })
+}
+
 function submitVote(questionId, answerId) {
-    var data = { questionId: questionId, answerId: answerId};
+    var data = { "questionId": questionId, "answerId": answerId};
 
     $.ajax({
         type: 'POST',

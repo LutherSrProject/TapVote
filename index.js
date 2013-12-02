@@ -6,6 +6,7 @@ require('./modules/globals');
  */
 var express = require('express');
 var vote = require('./routes/vote');
+var deVote = require('./routes/deVote');
 var getSurveyResults = require('./routes/getSurveyResults');
 var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
@@ -37,6 +38,7 @@ if ('development' == app.get('env')) {
 }
 
 app.post('/vote', vote.vote());
+app.post('/deVote', deVote.deVote());
 app.post('/createSurvey', createSurvey.createSurvey());
 app.post('/addQuestions', addQuestions.addQuestions());
 app.post('/removeQuestion', removeQuestion.removeQuestion());
