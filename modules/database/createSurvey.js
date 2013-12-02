@@ -18,7 +18,9 @@ var createSurvey = function (surveyData, callback) {
     .then(function (sid) {
         // insert all the questions for this survey
         if(questions) {
-            addQuestions({"surveyId":sid, "questions":questions});
+            addQuestions({"surveyId":sid, "questions":questions}, function(err) {
+                if(err) throw err;
+            });
         }
         return sid;
     })
