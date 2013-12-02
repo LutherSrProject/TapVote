@@ -117,7 +117,7 @@ function checkMCSR(event) {
 
     // send a deVote for the old answer before submitting the new vote
     var prevAnswerId = previousMCSR[questionId];
-    if (prevAnswerId) {
+    if (prevAnswerId || prevAnswerId === 0) {
         deVote(questionId, prevAnswerId);
     }
 
