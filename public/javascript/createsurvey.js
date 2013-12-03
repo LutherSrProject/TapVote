@@ -99,8 +99,7 @@ $(document).ready(function () {
                           "<a href='" + adminsurveyLink + "'>" +
                           "TapVote.com" + adminsurveyLink + "</a><br>";
 
-        $("article").append(takesurvey);
-        $("article").append(adminsurvey);
+        $("#new-survey-links").html(takesurvey + adminsurvey);
 
     }
 });

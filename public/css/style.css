@@ -63,7 +63,18 @@ body {
 .container {
     margin: 0;
     width: 100%;
-    
+}
+
+.highlight-orange {
+    background-color: orange;
+}
+
+.highlight-red {
+    background-color: red;
+}
+
+.highlight-green {
+    background-color: green;
 }
 
 #header {

@@ -108,7 +108,6 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    $("#survey").append("<br><br><div id='vote-status'></div>");
     console.log(results);
 }
 
@@ -148,18 +147,40 @@ function checkMCMR(event) {
 function deVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
+    el.addClass("highlight-orange");
+
     $.ajax({
         type: 'POST',
         url: '/deVote',
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: function (results) { console.log(results); },
-        error: function (results) { console.log(results); }
-    })
+        success: showDevoteSuccess,
+        error: showDevoteFailure
+    });
+
+    function showDevoteSuccess(results) {
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-red");
+        el.removeClass("highlight-green");
+    }
+
+    function showDevoteFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+    }
 }
 
 function submitVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
+
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
+    el.addClass("highlight-orange");
 
     $.ajax({
         type: 'POST',
@@ -169,17 +190,22 @@ function submitVote(questionId, answerId) {
         success: showSubmitSuccess,
         error: showSubmitFailure
     });
+
+    function showSubmitSuccess(results) {
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-red");
+        el.addClass("highlight-green");
+    }
+
+    function showSubmitFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-green");
+        el.addClass("highlight-red");
+    }
 }
 
-function showSubmitSuccess(results) {
-    console.log(results);
-    $("#vote-status").text("Success! Your vote has been recorded");
-}
-
-function showSubmitFailure(results) {
-    console.log("Error submitting vote: ");
-    console.log(results);
-    $("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
-}
 
 
