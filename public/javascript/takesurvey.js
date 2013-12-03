@@ -108,7 +108,6 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    $("#survey").append("<br><br><div id='vote-status'></div>");
     console.log(results);
 }
 
@@ -164,7 +163,6 @@ function deVote(questionId, answerId) {
 
     function showDevoteSuccess(results) {
         console.log(results);
-        //$("#vote-status").text("Success! Your vote has been recorded");
         el.removeClass("highlight-orange");
         el.removeClass("highlight-red");
         el.removeClass("highlight-green");
@@ -173,7 +171,6 @@ function deVote(questionId, answerId) {
     function showDevoteFailure(results) {
         console.log("Error submitting vote: ");
         console.log(results);
-        //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
     }
 }
 
@@ -196,7 +193,6 @@ function submitVote(questionId, answerId) {
 
     function showSubmitSuccess(results) {
         console.log(results);
-        //$("#vote-status").text("Success! Your vote has been recorded");
         el.removeClass("highlight-orange");
         el.removeClass("highlight-red");
         el.addClass("highlight-green");
@@ -205,7 +201,6 @@ function submitVote(questionId, answerId) {
     function showSubmitFailure(results) {
         console.log("Error submitting vote: ");
         console.log(results);
-        //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
         el.removeClass("highlight-orange");
         el.removeClass("highlight-green");
         el.addClass("highlight-red");
