@@ -33,6 +33,7 @@ var createSurvey = function (surveyData, callback) {
         }
     })
     .then(function (surveyId) {
+        logger.info("Finished creating survey.", error);
         callback(null, {"surveyId": surveyId});
         return;
     })
