@@ -148,18 +148,37 @@ function checkMCMR(event) {
 function deVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+
     $.ajax({
         type: 'POST',
         url: '/deVote',
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: function (results) { console.log(results); },
-        error: function (results) { console.log(results); }
-    })
+        success: showSubmitSuccess,
+        error: showSubmitFailure
+    });
+
+    function showSubmitSuccess(results) {
+        console.log(results);
+        //$("#vote-status").text("Success! Your vote has been recorded");
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-yellow");
+        el.removeClass("highlight-green");
+    }
+
+    function showSubmitFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+        //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
+    }
 }
 
 function submitVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
+
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.addClass("highlight-orange");
 
     $.ajax({
         type: 'POST',
@@ -169,17 +188,22 @@ function submitVote(questionId, answerId) {
         success: showSubmitSuccess,
         error: showSubmitFailure
     });
+
+    function showSubmitSuccess(results) {
+        console.log(results);
+        //$("#vote-status").text("Success! Your vote has been recorded");
+        el.removeClass("highlight-orange");
+        el.addClass("highlight-green");
+    }
+
+    function showSubmitFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+        //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
+        el.removeClass("highlight-orange");
+        el.addClass("highlight-red");
+    }
 }
 
-function showSubmitSuccess(results) {
-    console.log(results);
-    $("#vote-status").text("Success! Your vote has been recorded");
-}
-
-function showSubmitFailure(results) {
-    console.log("Error submitting vote: ");
-    console.log(results);
-    $("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
-}
 
 

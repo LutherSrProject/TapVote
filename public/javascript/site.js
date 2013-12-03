@@ -18,7 +18,7 @@ var pageTitle;
 // load the header, footer, content
 $(function() {
     $.ajaxSetup({
-        async: false
+        async: true
     });
     $("#header").load("header.html");
     $("#footer").load("footer.html");
@@ -26,13 +26,15 @@ $(function() {
     var page = $.QueryString["p"];
 
     if(!page)
-        $("#content").load("home.html"); // load home by default
+        $("#content").load("home.html", null, setTitle); // load home by default
     else
-        $("#content").load(page + ".html");
+        $("#content").load(page + ".html", null, setTitle);
 
-    // set the page title. pageTitle is declared globally in site specific JS files
-    // (if it isn't declared, just use "TapVote" as the title)
-    if(!pageTitle) $("title").html("TapVote");
-    else $("title").html(pageTitle + " - TapVote" )
+    function setTitle() {
+        // set the page title. pageTitle is declared globally in site specific JS files
+        // (if it isn't declared, just use "TapVote" as the title)
+        if(!pageTitle) $("title").html("TapVote");
+        else $("title").html(pageTitle + " - TapVote" )
+    }
 
 });
