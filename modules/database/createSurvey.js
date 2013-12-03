@@ -16,14 +16,24 @@ var createSurvey = function (surveyData, callback) {
         return result.rows[0].id;
     })
     .then(function (sid) {
-        // insert all the questions for this survey
-        if(questions) {
-            addQuestions({"surveyId":sid, "questions":questions});
+        // insert all the questions for this survey (if any)
+
+        // Client sends an empty list if there aren't any questions. However, we'd like to
+        // preserve the ability to add a survey without the questions parameter being present at all
+        if(questions  && !(questions.length == 0)) {
+            return Q.nfcall(addQuestions, {"surveyId":sid, "questions":questions})
+            .then(function () {
+                 logger.info("All questions and answers inserted");
+                 return sid;
+            });
         }
-        return sid;
+        else {
+            logger.warn("New survey has no questions");
+            return sid;
+        }
     })
     .then(function (surveyId) {
-        logger.info("All questions and answers inserted");
+        logger.info("Finished creating survey.");
         callback(null, {"surveyId": surveyId});
         return;
     })
