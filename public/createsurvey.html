@@ -1,34 +1,35 @@
 <div id="createsurvey-content">
   <article>
-    <form>
-      <!-- make a button for adding a question.
-      that brings up a place to ask the question and 4 possible answers that can be filled in
-      Then make a button that registers the survey
-      and gives people links to administor the test and look at results
-      -->
-      Survey Title: <input type="text" id="title"/> <br />
-      Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
+    <!-- make a button for adding a question.
+    that brings up a place to ask the question and 4 possible answers that can be filled in
+    Then make a button that registers the survey
+    and gives people links to administor the test and look at results
+    -->
+    Survey Title: <input type="text" id="title"/> <br />
+    Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
 
-      <div class="questions">
-        <div class="question MCSR" data-question-type="MCSR">
-          Question: <input type="text" size="40" class="question-text" /> <br>
-          <div class="answers">
-            <div class="answer">
-              Answer Choice: <input type="text" class="answer-text" />
-              <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
-            </div>
+    <div class="questions">
+      <div class="question MCSR" data-question-type="MCSR">
+        Question: <input type="text" size="40" class="question-text" /> <br>
+        <div class="answers">
+          <div class="answer">
+            Answer Choice: <input type="text" class="answer-text" />
+            <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
           </div>
-          <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
-          <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>
-          <br /><br />
         </div>
-        <!-- more questions will be embedded here by addQuestion -->
+        <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
+        <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>
+        <br /><br />
       </div>
+      <!-- more questions will be embedded here by addQuestion -->
+    </div>
 
-      <br />
-      <button type="button" name="createQuestion" data-dropdown="#question-type-dropdown">Add Question</button>
-      <button type="button" name="createSurvey">Create Survey</button>
-    </form>
+    <br />
+    <button type="button" name="createQuestion" data-dropdown="#question-type-dropdown">Add Question</button>
+    <button type="button" name="createSurvey">Create Survey</button>
+
+    <div id="new-survey-links"></div>
+
   </article>
 
   <!-- below is the div containing the dropdown menu for question type selection -->
