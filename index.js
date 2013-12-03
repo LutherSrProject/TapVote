@@ -30,7 +30,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 
 // artificially add a second of latency to every request :)
-//app.use(function(req,res,next){setTimeout(next,2000)});
+app.use(function(req,res,next){setTimeout(next,1000)});
 
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));

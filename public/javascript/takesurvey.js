@@ -149,25 +149,28 @@ function deVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
     var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
+    el.addClass("highlight-orange");
 
     $.ajax({
         type: 'POST',
         url: '/deVote',
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: showSubmitSuccess,
-        error: showSubmitFailure
+        success: showDevoteSuccess,
+        error: showDevoteFailure
     });
 
-    function showSubmitSuccess(results) {
+    function showDevoteSuccess(results) {
         console.log(results);
         //$("#vote-status").text("Success! Your vote has been recorded");
         el.removeClass("highlight-orange");
-        el.removeClass("highlight-yellow");
+        el.removeClass("highlight-red");
         el.removeClass("highlight-green");
     }
 
-    function showSubmitFailure(results) {
+    function showDevoteFailure(results) {
         console.log("Error submitting vote: ");
         console.log(results);
         //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
@@ -178,6 +181,8 @@ function submitVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
     var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
     el.addClass("highlight-orange");
 
     $.ajax({
@@ -193,6 +198,7 @@ function submitVote(questionId, answerId) {
         console.log(results);
         //$("#vote-status").text("Success! Your vote has been recorded");
         el.removeClass("highlight-orange");
+        el.removeClass("highlight-red");
         el.addClass("highlight-green");
     }
 
@@ -201,6 +207,7 @@ function submitVote(questionId, answerId) {
         console.log(results);
         //$("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
         el.removeClass("highlight-orange");
+        el.removeClass("highlight-green");
         el.addClass("highlight-red");
     }
 }
