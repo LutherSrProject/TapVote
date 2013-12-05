@@ -58,12 +58,18 @@ body {
 }
 
 .question {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff7b1;
 }
 
 .container {
     margin: 0;
     width: 100%;
+}
+
+.rounded {
+    border-radius: 4px;
 }
 
 .highlight-orange {
