@@ -52,7 +52,7 @@ function displaySurvey(results) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question');
+        questionDiv.attr('class', 'question rounded');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);

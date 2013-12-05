@@ -76,7 +76,7 @@ function displaySurveyInfo(results) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question');
+        questionDiv.attr('class', 'question rounded');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -87,7 +87,7 @@ function displaySurveyInfo(results) {
         $.each(answers, function (index, answer) {
             var answerDiv = $("<div></div>");
             answerDiv.attr('id', 'answer-'+answer['id']);
-            answerDiv.attr('class', 'answer');
+            answerDiv.attr('class', 'answer rounded');
 
             var questionValue = $("<div></div>");
             questionValue.text(answer['value']);
