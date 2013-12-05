@@ -4,19 +4,21 @@ var previousMCSR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
-    $.ajax({
-        type:'GET',
-        url: '/getSurveyInfo',
-        data: {surveyId: survey},
-        success: displaySurvey,
-        error: displayAjaxError
-    });
+    if (survey) {
+        $.ajax({
+            type:'GET',
+            url: '/getSurveyInfo',
+            data: {surveyId: survey},
+            success: displaySurvey,
+            error: displayAjaxError
+        });
+    } else {
+        askForSurveyId();
+    }
 });
 
-function displayAjaxError(error) {
-    console.log(error.statusText);
-    console.log(error.responseText);
-
+function askForSurveyId() {
+    // This function is called when a survey Id isn't provided or when an invalid sId is given
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
 
@@ -37,6 +39,14 @@ function displayAjaxError(error) {
 
 function redirectToSurvey() {
     window.location.href="/?p=takesurvey&survey=" + $("#survey-id").val();
+}
+
+function displayAjaxError(error) {
+    if (error.status == 404)
+        askForSurveyId(); // 404 happens when an invalid survey ID is specified
+    else
+        console.log(error);
+
 }
 
 function displaySurvey(results) {
