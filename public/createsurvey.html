@@ -1,19 +1,20 @@
 <div id="createsurvey-content">
   <article>
-    <form>
+    <form class="pure-form pure-form-stacked">
       <!-- make a button for adding a question.
       that brings up a place to ask the question and 4 possible answers that can be filled in
       Then make a button that registers the survey
       and gives people links to administor the test and look at results
       -->
-      Survey Title: <input type="text" id="title"/> <br />
-      Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
+      Survey Title: <input type="text" id="title" size="40"/>
+      Survey Password: <input type="password" name="adminPwd" id="adminPwd" size="30" />
+    </form>
 
+    <form class="pure-form">
       <div class="questions">
         <!-- more questions will be embedded here by addQuestion -->
       </div>
 
-      <br />
       <button type="button"
               class="pure-button pure-button-secondary pure-button-small"
               data-dropdown="#question-type-dropdown">Add Question</button>
@@ -22,7 +23,6 @@
               class="pure-button pure-button-success pure-button-small">Create Survey</button>
 
       <div id="new-survey-links"></div>
-
     </form>
   </article>
 

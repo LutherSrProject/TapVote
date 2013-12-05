@@ -41,6 +41,10 @@ body {
     height: 100%;
 }
 
+.questions {
+    margin-top: 20px;
+}
+
 .survey-title {
     font-size: 1.5em;
     font-weight: bold;
@@ -52,9 +56,12 @@ body {
     margin-bottom: 5px;
 }
 
+.question-text {
+    margin-bottom: 8px;
+}
+
 .answer {
     margin-bottom: 5px;
-    border-radius: 4px;
 }
 
 .question {
