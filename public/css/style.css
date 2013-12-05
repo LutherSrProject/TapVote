@@ -39,6 +39,11 @@ body {
     background-color: #FFE;
 	font-family: 'aller_lightregular', Arial;
     height: 100%;
+    width: 100%;
+}
+
+h1 {
+    font-size: 60pt;
 }
 
 .questions {
@@ -100,20 +105,16 @@ body {
     box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
 }
 
-h1{
-    font-size: 60pt;
-}
-
 #footer {
-    width: 100%;
-    padding: 15px 20px;
-    position: fixed;
-    bottom: 0;
-    box-shadow: 0 -3px 14px rgba(50, 50, 50, 0.75);
+    height: 100%;
+    padding: 20px;
+    margin-top: 40px;
 }
 
 #content {
     padding: 25px 15px 40px 20px;
+    overflow: auto;
+
 }
 
 /* override some pure-button styles */
