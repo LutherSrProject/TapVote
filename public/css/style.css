@@ -99,3 +99,12 @@ h1{
     padding: 25px 15px 40px 20px;
 }
 
+/* override some pure-button styles */
+.pure-button {
+    border-radius: 4px;
+}
+
+.pure-button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+    color: white;
+}
