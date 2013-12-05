@@ -34,13 +34,17 @@ function displayAjaxError(error) {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'See Results'.");
 
-    var surveyDiv = $("#survey-questions");
     var idBox = $("<input id='survey-id' type='text' size=5 />");
-    var button = $("<button type='button'>See Results</button>");
+    var button = $("<button type='button' class='pure-button pure-button-success pure-button-small'>See Results</button>");
     button.attr('onclick', 'redirectToSurvey()');
 
-    surveyDiv.append(idBox);
-    surveyDiv.append(button);
+    var form = $("<form></form>");
+    form.addClass("pure-form");
+    form.append(idBox);
+    form.append(button);
+
+    var surveyDiv = $("#survey-questions");
+    surveyDiv.append(form);
 }
 
 function redirectToSurvey() {
@@ -72,7 +76,7 @@ function displaySurveyInfo(results) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question');
+        questionDiv.attr('class', 'question rounded');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -83,7 +87,7 @@ function displaySurveyInfo(results) {
         $.each(answers, function (index, answer) {
             var answerDiv = $("<div></div>");
             answerDiv.attr('id', 'answer-'+answer['id']);
-            answerDiv.attr('class', 'answer');
+            answerDiv.attr('class', 'answer rounded');
 
             var questionValue = $("<div></div>");
             questionValue.text(answer['value']);

@@ -11,8 +11,8 @@ function removeAnswer(el) {
 function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
-        '  Answer Choice: <input type="text" class="answer-text"/> ' +
-        '  <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button> <br />' +
+        '  Answer Choice: <input type="text" class="answer-text" size="30"/> ' +
+        '  <button type="button" class="remove-answer pure-button pure-button-error pure-button-small" onclick="removeAnswer(this);">X</button> <br />' +
         '</div>';
 
     var target = $(el); // this will be the + button (with name=question-%questionId%)
@@ -29,17 +29,16 @@ function removeQuestion(el) {
 }
 
 function createQuestion(type) {
-    var questionHtml = '<div class="question ' + type + '" data-question-type="'+type+'">' +
+    var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  Question: <input type="text" size="40" class="question-text" /> <br>' +
         '  <div class="answers">' +
         '    <div class="answer">' +
-        '      Answer Choice: <input type="text" class="answer-text" />' +
-        '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+        '      Answer Choice: <input type="text" class="answer-text" size="30" />' +
+        '     <button type="button" class="remove-answer pure-button pure-button-error pure-button-small" onclick="removeAnswer(this);">X</button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
-        '  <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>' +
-        '  <br /><br />' +
+        '  <button type="button" class="add-answer pure-button pure-button-secondary pure-button-small" onclick="addAnswer(this);">+</button>' +
+        '  <button type="button" class="remove-question pure-button pure-button-error pure-button-small" onclick="removeQuestion(this);">Remove Question</button>' +
         '</div>';
 
     $(".questions").append(questionHtml);
