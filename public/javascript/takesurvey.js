@@ -21,12 +21,13 @@ function displayAjaxError(error) {
     titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
 
     var idBox = $("<input id='survey-id' type='text' size=5 />");
-    var button = $("<button type='button'>Take Survey</button>");
+    var button = $("<button type='button' id='take-survey'>Take Survey</button>");
     button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
 
     var form = $("<form></form>");
     form.addClass("pure-form");
+    form.attr("action", "javascript:$('#take-survey').click();");
     form.append(idBox);
     form.append(button);
 
