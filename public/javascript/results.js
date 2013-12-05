@@ -8,29 +8,42 @@ pageTitle = "Results";
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
-    $.ajax({
-        type:'GET',
-        url: '/getSurveyInfo',
-        data: {surveyId: survey},
-        success: displaySurveyInfo,
-        error: displayAjaxError
-    });
+    if (survey) {
+        $.ajax({
+            type:'GET',
+            url: '/getSurveyInfo',
+            data: {surveyId: survey},
+            success: displaySurveyInfo,
+            error: displayAjaxError
+        });
+    } else {
+        askForSurveyId();
+    }
 });
 
 function getSurveyResults() {
     var survey = $.QueryString['survey'];
-    $.ajax({
-        type:'GET',
-        url: '/getSurveyResults',
-        data: {surveyId: survey},
-        success: displaySurveyResults,
-        error: displayAjaxError
-    });
+    if (survey) {
+        $.ajax({
+            type:'GET',
+            url: '/getSurveyResults',
+            data: {surveyId: survey},
+            success: displaySurveyResults,
+            error: displayAjaxError
+        });
+    }
 }
 
 function displayAjaxError(error) {
-    console.log(error.statusText);
-    console.log(error.responseText);
+    if (error.status == 404) {
+        // 404 happens when the survey id is invalid
+        askForSurveyId();
+    } else {
+        console.log(error);
+    }
+}
+
+function askForSurveyId() {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'See Results'.");
 
