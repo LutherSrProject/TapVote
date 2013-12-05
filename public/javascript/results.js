@@ -34,13 +34,17 @@ function displayAjaxError(error) {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'See Results'.");
 
-    var surveyDiv = $("#survey-questions");
     var idBox = $("<input id='survey-id' type='text' size=5 />");
     var button = $("<button type='button' class='pure-button pure-button-success pure-button-small'>See Results</button>");
     button.attr('onclick', 'redirectToSurvey()');
 
-    surveyDiv.append(idBox);
-    surveyDiv.append(button);
+    var form = $("<form></form>");
+    form.addClass("pure-form");
+    form.append(idBox);
+    form.append(button);
+
+    var surveyDiv = $("#survey-questions");
+    surveyDiv.append(form);
 }
 
 function redirectToSurvey() {

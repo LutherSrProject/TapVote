@@ -16,17 +16,22 @@ $(function getSurveyInfo() {
 function displayAjaxError(error) {
     console.log(error.statusText);
     console.log(error.responseText);
+
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
 
-    var surveyDiv = $("#survey-questions");
     var idBox = $("<input id='survey-id' type='text' size=5 />");
     var button = $("<button type='button'>Take Survey</button>");
     button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
 
-    surveyDiv.append(idBox);
-    surveyDiv.append(button);
+    var form = $("<form></form>");
+    form.addClass("pure-form");
+    form.append(idBox);
+    form.append(button);
+
+    var surveyDiv = $("#survey-questions");
+    surveyDiv.append(form);
 }
 
 function redirectToSurvey() {
