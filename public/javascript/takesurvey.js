@@ -69,7 +69,7 @@ function displaySurvey(results) {
 
             var answerDiv = $("<div></div>");
             answerDiv.attr('id', 'answer-'+answerId);
-            answerDiv.attr('class', 'answer');
+            answerDiv.attr('class', 'answer rounded');
 
             var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
             answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
