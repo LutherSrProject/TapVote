@@ -12,7 +12,7 @@ function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
         '  Answer Choice: <input type="text" class="answer-text"/> ' +
-        '  <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button> <br />' +
+        '  <button type="button" class="remove-answer pure-button pure-button-warning pure-button-small" onclick="removeAnswer(this);">X</button> <br />' +
         '</div>';
 
     var target = $(el); // this will be the + button (with name=question-%questionId%)
@@ -34,11 +34,11 @@ function createQuestion(type) {
         '  <div class="answers">' +
         '    <div class="answer">' +
         '      Answer Choice: <input type="text" class="answer-text" />' +
-        '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+        '     <button type="button" class="remove-answer pure-button pure-button-warning pure-button-small" onclick="removeAnswer(this);">X</button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
-        '  <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>' +
+        '  <button type="button" class="add-answer pure-button pure-button-secondary pure-button-small" onclick="addAnswer(this);">+</button>' +
+        '  <button type="button" class="remove-question pure-button pure-button-error pure-button-small" onclick="removeQuestion(this);">Remove Question</button>' +
         '  <br /><br />' +
         '</div>';
 

@@ -10,24 +10,16 @@
       Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
 
       <div class="questions">
-        <div class="question MCSR" data-question-type="MCSR">
-          Question: <input type="text" size="40" class="question-text" /> <br>
-          <div class="answers">
-            <div class="answer">
-              Answer Choice: <input type="text" class="answer-text" />
-              <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
-            </div>
-          </div>
-          <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
-          <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>
-          <br /><br />
-        </div>
         <!-- more questions will be embedded here by addQuestion -->
       </div>
 
       <br />
-      <button type="button" name="createQuestion" data-dropdown="#question-type-dropdown">Add Question</button>
-      <button type="button" name="createSurvey">Create Survey</button>
+      <button type="button"
+              class="pure-button pure-button-secondary pure-button-small"
+              data-dropdown="#question-type-dropdown">Add Question</button>
+      <button type="button"
+              name="createSurvey"
+              class="pure-button pure-button-success pure-button-small">Create Survey</button>
 
       <div id="new-survey-links"></div>
 

@@ -75,7 +75,7 @@ body {
 }
 
 .highlight-green {
-    background-color: #00a900;
+    background: rgb(28, 184, 65);
 }
 
 #header {
@@ -102,9 +102,27 @@ h1{
 /* override some pure-button styles */
 .pure-button {
     border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-weight: bold;
 }
 
 .pure-button-success {
     background: rgb(28, 184, 65); /* this is a green */
-    color: white;
+}
+
+.pure-button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.pure-button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.pure-button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.pure-button-small {
+    font-size: 70%;
 }

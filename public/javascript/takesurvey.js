@@ -22,6 +22,7 @@ function displayAjaxError(error) {
     var surveyDiv = $("#survey-questions");
     var idBox = $("<input id='survey-id' type='text' size=5 />");
     var button = $("<button type='button'>Take Survey</button>");
+    button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
 
     surveyDiv.append(idBox);

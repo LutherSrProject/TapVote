@@ -36,7 +36,7 @@ function displayAjaxError(error) {
 
     var surveyDiv = $("#survey-questions");
     var idBox = $("<input id='survey-id' type='text' size=5 />");
-    var button = $("<button type='button'>See Results</button>");
+    var button = $("<button type='button' class='pure-button pure-button-success pure-button-small'>See Results</button>");
     button.attr('onclick', 'redirectToSurvey()');
 
     surveyDiv.append(idBox);
