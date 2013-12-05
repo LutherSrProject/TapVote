@@ -54,6 +54,7 @@ body {
 
 .answer {
     margin-bottom: 5px;
+    border-radius: 4px;
 }
 
 .question {
@@ -74,7 +75,7 @@ body {
 }
 
 .highlight-green {
-    background-color: green;
+    background-color: #00a900;
 }
 
 #header {
@@ -82,7 +83,7 @@ body {
     font-family: 'aller_displayregular', Arial;
     background-color: #FFE;
 	color:  #000;
-    box-shadow: 0px 3px 14px rgba(50, 50, 50, 0.75);
+    box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
 }
 
 h1{
