@@ -12,7 +12,7 @@ function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
         '  Answer Choice: <input type="text" class="answer-text" size="30"/> ' +
-        '  <button type="button" class="remove-answer pure-button pure-button-error pure-button-small" onclick="removeAnswer(this);">X</button> <br />' +
+        '  <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);">&#10006;</button><br>' +
         '</div>';
 
     var target = $(el); // this will be the + button (with name=question-%questionId%)
@@ -30,15 +30,15 @@ function removeQuestion(el) {
 
 function createQuestion(type) {
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
+        '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><span>&#10006;</span></button> ' +
         '  Question: <input type="text" size="40" class="question-text" /> <br>' +
         '  <div class="answers">' +
         '    <div class="answer">' +
         '      Answer Choice: <input type="text" class="answer-text" size="30" />' +
-        '     <button type="button" class="remove-answer pure-button pure-button-error pure-button-small" onclick="removeAnswer(this);">X</button><br>' +
+        '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"<span>&#10006;</span></button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer pure-button pure-button-secondary pure-button-small" onclick="addAnswer(this);">+</button>' +
-        '  <button type="button" class="remove-question pure-button pure-button-error pure-button-small" onclick="removeQuestion(this);">Remove Question</button>' +
+        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><span>&#10133;</span></button>' +
         '</div>';
 
     $(".questions").append(questionHtml);
