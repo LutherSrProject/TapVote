@@ -31,7 +31,7 @@ function removeQuestion(el) {
 function createQuestion(type) {
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><img src="../img/delete.png" /></button> ' +
-        '  Question: <input type="text" size="40" class="question-text" /> <br>' +
+        '  Question: <input type="text" size="39" class="question-text" /> <br>' +
         '  <div class="answers">' +
         '    <div class="answer">' +
         '      Answer Choice: <input type="text" class="answer-text no-wrap" size="30" />' +
