@@ -11,7 +11,7 @@ function removeAnswer(el) {
 function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
-        '  Answer Choice: <input type="text" class="answer-text" size="30" /> ' +
+        '  Answer Choice: <input type="text" class="answer-text no-wrap" size="30" /> ' +
         '  <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><img src="../img/delete.png" /></button><br>' +
         '</div>';
 
@@ -34,7 +34,7 @@ function createQuestion(type) {
         '  Question: <input type="text" size="40" class="question-text" /> <br>' +
         '  <div class="answers">' +
         '    <div class="answer">' +
-        '      Answer Choice: <input type="text" class="answer-text" size="30" />' +
+        '      Answer Choice: <input type="text" class="answer-text no-wrap" size="30" />' +
         '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><img src="../img/delete.png" /></button><br>' +
         '    </div>' +
         '  </div>' +

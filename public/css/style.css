@@ -69,8 +69,8 @@ h1 {
     margin-bottom: 8px;
 }
 
-.answer-text {
-    display: inline-block !important; /* override a media query in the purecss that makes the delete-answer button wrap */
+.no-wrap {
+    display: inline-block !important; /* override a media query in purecss that makes buttons wrap on mobile */
 }
 
 .answer {
