@@ -106,11 +106,14 @@ function displaySurveyInfo(results) {
             answerDiv.attr('id', 'answer-'+answer['id']);
             answerDiv.attr('class', 'answer rounded');
 
+            // create the div that holds the textual value of this answer
+            var questionValue = $("<div></div>");
+            questionValue.attr("class", "answer-value");
+            questionValue.text(answer['value']);
+
+            // create the div that holds the count of responses for this answer
             var answerResultDiv  = $("<div></div>");
             answerResultDiv.attr("class", "answer-result");
-
-            var questionValue = $("<div></div>");
-            questionValue.text(answer['value']);
 
             answerDiv.append(questionValue);
             answerDiv.append(answerResultDiv);
