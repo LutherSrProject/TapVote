@@ -42,18 +42,30 @@ body {
     width: 100%;
 }
 
-h1 {
+h1 a {
     font-size: 60pt;
+    text-decoration: none;
+    color: black;
 }
 
 .questions {
     margin-top: 20px;
 }
 
+.answers {
+    width: auto;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
 .survey-title {
     font-size: 1.5em;
     font-weight: bold;
     margin: 10px 5px 15px 5px;
+}
+
+.survey-info-form {
+    margin-bottom: 30px;
 }
 
 .question-title {
@@ -63,6 +75,10 @@ h1 {
 
 .question-text {
     margin-bottom: 8px;
+}
+
+.no-wrap {
+    display: inline-block !important; /* override a media query in purecss that makes buttons wrap on mobile */
 }
 
 .answer {
@@ -114,7 +130,6 @@ h1 {
 #content {
     padding: 25px 15px 40px 20px;
     overflow: auto;
-
 }
 
 /* override some pure-button styles */
@@ -143,4 +158,79 @@ h1 {
 
 .pure-button-small {
     font-size: 80%;
+}
+
+.pure-button-tiny {
+    font-size: 65%;
+}
+
+
+/* more specific button styles */
+.remove-question-button {
+    display: block;
+    box-shadow: 3px 3px 10px rgba(50, 50, 50, 0.75);
+    padding: 3px;
+    margin-bottom: 10px;
+    margin-top: -17px;
+    margin-left: -17px;
+    height: 23px;
+    width: 23px;
+}
+
+.remove-question-button i.fa-lg {
+    vertical-align: super;
+    line-height: 15px;
+}
+
+.remove-answer-button,
+.add-answer-button {
+    padding: 2px;
+    width: 18px;
+    height: 18px;
+}
+.remove-answer-button {
+    /* override */
+    vertical-align: -7px;
+}
+
+.add-answer-button {
+    /* override */
+    vertical-align: -6px;
+}
+
+/* target Firefox only with this rule - Firefox has some spacing oddities w/ inline-block elements */
+@-moz-document url-prefix() {
+    .add-answer-button {
+        vertical-align: -4px;
+    }
+}
+
+.remove-answer-button i.fa {
+    vertical-align: super;
+    line-height: 0.9;
+}
+
+.add-answer-button i.fa {
+    vertical-align: super;
+    line-height: 1.2;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+
+    /* override */
+    .remove-question-button i.fa-lg {
+        vertical-align: super;
+        line-height: 0.9;
+    }
+
+    /* override */
+    .add-answer-button i.fa {
+        vertical-align: super;
+        line-height: 1.35;
+    }
+
+
 }
