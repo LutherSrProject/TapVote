@@ -162,26 +162,43 @@ h1 a {
 .remove-question-button {
     display: block;
     box-shadow: 3px 3px 10px rgba(50, 50, 50, 0.75);
-    padding: 3px;
-    width: 25px;
-    height: 25px;
+    padding: 2px 4px;
     margin-bottom: 10px;
     margin-top: -17px;
     margin-left: -17px;
 }
 
-.remove-answer-button {
-    padding: 0;
-    width: 15px;
-    height: 15px;
+.remove-question-button i.fa-lg {
+    vertical-align: -13%;
 }
 
-.remove-question-button img,
-.remove-answer-button img {
-    width: 100%;
+.remove-answer-button {
+    padding: 0 5px;
+    /*width: 15px;
+    height: 15px;*/
+}
+
+.remove-answer-button i.fa {
+    font-size: 0.9em;
 }
 
 .add-answer-button {
     display: block;
     font-size: 75%;
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+/* Styles for mobile - there is inconsistency between desktop and mobile in centering the delete icons */
+
+    .remove-question-button i.fa-lg {
+        vertical-align: -10%;
+    }
+
+    .remove-answer-button i.fa {
+        vertical-align: 10%;
+    }
+
+
 }
