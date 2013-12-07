@@ -130,7 +130,6 @@ h1 a {
 #content {
     padding: 25px 15px 40px 20px;
     overflow: auto;
-
 }
 
 /* override some pure-button styles */
@@ -188,7 +187,22 @@ h1 a {
     padding: 2px;
     width: 18px;
     height: 18px;
+}
+.remove-answer-button {
+    /* override */
     vertical-align: -7px;
+}
+
+.add-answer-button {
+    /* override */
+    vertical-align: -6px;
+}
+
+/* target Firefox only with this rule - Firefox has some spacing oddities w/ inline-block elements */
+@-moz-document url-prefix() {
+    .add-answer-button {
+        vertical-align: -4px;
+    }
 }
 
 .remove-answer-button i.fa {
