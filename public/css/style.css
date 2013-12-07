@@ -52,6 +52,12 @@ h1 a {
     margin-top: 20px;
 }
 
+.answers {
+    width: auto;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
 .survey-title {
     font-size: 1.5em;
     font-weight: bold;
