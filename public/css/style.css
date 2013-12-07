@@ -52,6 +52,7 @@ b {
 
 .questions {
     margin-top: 20px;
+    text-align: left;
 }
 
 .answers {
@@ -77,6 +78,11 @@ b {
 
 .question-text {
     margin-bottom: 8px;
+    width: 100%;
+}
+
+.answer-text {
+    width: 50%;
 }
 
 .no-wrap {
@@ -90,12 +96,16 @@ b {
 
 .question {
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 10px 30px;
     background-color: #fff7b1;
 }
 
 .rounded {
     border-radius: 4px;
+}
+
+.pure-form label {
+    font-size: 100%;
 }
 
 .survey-id-input-box {
@@ -122,9 +132,20 @@ b {
     box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
 }
 
-#content {
+#content-container {
     padding: 40px 20px;
-    overflow: auto;
+    text-align: center;
+}
+
+#content {
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#home-content {
+    /* we want home to be aligned centered */
+    text-align: center
 }
 
 #footer {
@@ -146,21 +167,28 @@ b {
     color: grey;
 }
 
-#home-content {
-    text-align: center;
-}
-
 #header h1 a {
-    margin-left: 40px;
     font-size: 60pt;
     text-decoration: none;
     color: black;
 }
 
+
 #take-survey-button,
 #see-results-button {
     margin-left: 6px;
 }
+
+.dropdown {
+    position: inherit;
+    margin-top: -1px;
+}
+
+.dropdown-menu {
+    text-align: left;
+    width: 100px;
+}
+
 
 /* override some pure-button styles */
 .pure-button {
@@ -206,7 +234,7 @@ b {
     padding: 3px;
     margin-bottom: 10px;
     margin-top: -17px;
-    margin-left: -17px;
+    margin-left: -36px;
     height: 23px;
     width: 23px;
 }
@@ -266,5 +294,22 @@ and (max-device-width : 480px) {
         line-height: 1.35;
     }
 
+    .answer-text {
+        width: 85%;
+    }
+}
 
+/* Following styles are used to center content on page w/o having set a width on the content div */
+.outer-center {
+    float: right;
+    right: 50%;
+    position: relative;
+}
+.inner-center {
+    float: right;
+    right: -50%;
+    position: relative;
+}
+.clear {
+    clear: both;
 }

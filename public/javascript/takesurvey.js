@@ -58,6 +58,7 @@ function displaySurvey(results) {
     titleDiv.append(el);
 
     var questionsDiv = $("#survey-questions");
+    questionsDiv.addClass("questions");
     var questions = results['questions'];
     $.each(questions, function (index, question) {
         // create a div for each question in questions
