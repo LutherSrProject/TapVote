@@ -32,6 +32,9 @@ function getSurveyResults() {
             error: displayAjaxError
         });
     }
+
+    // poll for updated results every second
+    setTimeout(getSurveyResults, 1000)
 }
 
 function displayAjaxError(error) {
@@ -69,10 +72,9 @@ function redirectToSurvey() {
 function displaySurveyResults(results) {
     $.each(results, function (key, value) {
         var elementId = '#answer-' + key;
-        var resultSpan = $("<span></span>");
-        resultSpan.text(value);
 
-        $(elementId).append(resultSpan);
+        var resultSpan = $(elementId).find("div.answer-result");
+        resultSpan.text(value);
     });
     console.log(results);
 }
@@ -104,10 +106,17 @@ function displaySurveyInfo(results) {
             answerDiv.attr('id', 'answer-'+answer['id']);
             answerDiv.attr('class', 'answer rounded');
 
+            // create the div that holds the textual value of this answer
             var questionValue = $("<div></div>");
+            questionValue.attr("class", "answer-value");
             questionValue.text(answer['value']);
 
+            // create the div that holds the count of responses for this answer
+            var answerResultDiv  = $("<div></div>");
+            answerResultDiv.attr("class", "answer-result");
+
             answerDiv.append(questionValue);
+            answerDiv.append(answerResultDiv);
 
             questionDiv.append(answerDiv);
         });
