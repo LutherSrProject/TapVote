@@ -159,6 +159,8 @@ h1 a {
     font-size: 65%;
 }
 
+
+/* more specific button styles */
 .remove-question-button {
     display: block;
     box-shadow: 3px 3px 10px rgba(50, 50, 50, 0.75);
@@ -175,11 +177,12 @@ h1 a {
     line-height: 15px;
 }
 
-.remove-answer-button {
+.remove-answer-button,
+.add-answer-button {
     padding: 2px;
     width: 18px;
     height: 18px;
-    vertical-align: -6px;
+    vertical-align: -7px;
 }
 
 .remove-answer-button i.fa {
@@ -187,7 +190,27 @@ h1 a {
     line-height: 0.9;
 }
 
-.add-answer-button {
-    display: block;
-    font-size: 75%;
+.add-answer-button i.fa {
+    vertical-align: super;
+    line-height: 1.2;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+
+    /* override */
+    .remove-question-button i.fa-lg {
+        vertical-align: super;
+        line-height: 0.9;
+    }
+
+    /* override */
+    .add-answer-button i.fa {
+        vertical-align: super;
+        line-height: 1.35;
+    }
+
+
 }

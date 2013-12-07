@@ -38,7 +38,7 @@ function createQuestion(type) {
         '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><span>&#10133;</span></button>' +
+        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><i class="fa fa-plus"></i></button>' +
         '</div>';
 
     $(".questions").append(questionHtml);
