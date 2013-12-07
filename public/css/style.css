@@ -105,6 +105,10 @@ b {
     border-radius: 4px;
 }
 
+.survey-id-input-box {
+    margin-top: 8px;
+}
+
 .highlight-orange {
     background-color: orange;
 }
@@ -136,8 +140,14 @@ b {
     overflow: auto;
 }
 
-#take-survey {
+#take-survey-action-button {
+    /* applied to the big "Take Survey" button on the home page */
     margin-left: 30px;
+}
+
+#take-survey-button,
+#see-results-button {
+    margin-left: 6px;
 }
 
 /* override some pure-button styles */
