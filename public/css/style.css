@@ -57,7 +57,6 @@ h3 {
 .questions {
     margin-top: 20px;
     text-align: left;
-    max-width: 500px;
 }
 
 .answers {
@@ -80,6 +79,7 @@ h3 {
 .question-title {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .question-text {
@@ -129,7 +129,7 @@ h3 {
 }
 
 .survey-id-input-box {
-    margin-top: 8px;
+    margin-top: 8px !important;
 }
 
 .highlight-orange {
@@ -162,7 +162,8 @@ h3 {
 
 #home-content,
 #takesurvey-content,
-#results-content {
+#results-content,
+#admin-content {
     /* some of the pages should be aligned centered (e.g. home) */
     text-align: center
 }
@@ -194,7 +195,8 @@ h3 {
 
 
 #take-survey-button,
-#see-results-button {
+#see-results-button,
+#edit-survey-button {
     margin-left: 6px;
 }
 
@@ -206,6 +208,10 @@ h3 {
 .dropdown-menu {
     text-align: left;
     width: 270px;
+}
+
+.align-left {
+    text-align: left;
 }
 
 .disabled a {
@@ -288,7 +294,7 @@ h3 {
 /* target Firefox only with this rule - Firefox has some spacing oddities w/ inline-block elements */
 @-moz-document url-prefix() {
     .add-answer-button {
-        vertical-align: -4px;
+        vertical-align: -4px !important;
     }
 }
 

@@ -1,10 +1,22 @@
 <div id="admin-content">
-  <div id="survey">
-    IMPORTANT: this page is the same as results.html right now. We need to fix this so that it actually does admin
-    functionality. <br><br>
+  <form class="pure-form pure-form-stacked">
+    <div id="survey">
+      <div id="survey-title"></div>
+      <div id="survey-questions"></div>
+    </div>
 
-    <div id="survey-title"></div>
-    <div id="survey-questions"></div>
+    <div id="create-question-button-container" class="align-left"></div>
+  </form>
+
+    <!-- below is the div containing the dropdown menu for question type selection -->
+  <div id="question-type-dropdown" class="dropdown">
+    <ul class="dropdown-menu">
+      <li><a href="javascript:createQuestion('MCSR')">Multiple Choice, Single Response</a></li>
+      <li><a href="javascript:createQuestion('MCMR')">Multiple Choice, Multiple Choice</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('MCRANK')">Multiple Choice, Ranked Response</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('FR')">Free Response</a></li>
+    </ul>
   </div>
+
   <script type="text/javascript" src="javascript/admin.js"> </script>
 </div>
