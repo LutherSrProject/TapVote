@@ -18,7 +18,6 @@ function addAnswer(el) {
     var target = $(el); // this will be the + button (with name=question-%questionId%)
     var answersDiv = target.siblings(".answers");
     answersDiv.append(answerHtml);
-
 }
 
 function removeQuestion(el) {

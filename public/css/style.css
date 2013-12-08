@@ -210,6 +210,10 @@ h3 {
     width: 270px;
 }
 
+.align-left {
+    text-align: left;
+}
+
 .disabled a {
     color: grey !important;
     text-decoration: line-through !important;

@@ -1,8 +1,26 @@
 <div id="admin-content">
-  <div id="survey">
+  <form class="pure-form pure-form-stacked">
+    <div id="survey">
+      <div id="survey-title"></div>
+      <div id="survey-questions"></div>
+    </div>
 
-    <div id="survey-title"></div>
-    <div id="survey-questions"></div>
+    <div class="align-left">
+      <button type="button"
+              class="pure-button pure-button-success pure-button-small"
+              data-dropdown="#question-type-dropdown">Create Question</button>
+    </div>
+  </form>
+
+    <!-- below is the div containing the dropdown menu for question type selection -->
+  <div id="question-type-dropdown" class="dropdown">
+    <ul class="dropdown-menu">
+      <li><a href="javascript:createQuestion('MCSR')">Multiple Choice, Single Response</a></li>
+      <li><a href="javascript:createQuestion('MCMR')">Multiple Choice, Multiple Choice</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('MCRANK')">Multiple Choice, Ranked Response</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('FR')">Free Response</a></li>
+    </ul>
   </div>
+
   <script type="text/javascript" src="javascript/admin.js"> </script>
 </div>

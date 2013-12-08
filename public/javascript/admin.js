@@ -2,7 +2,9 @@
 pageTitle = "Admin";
 
 
-$(function getSurveyInfo() {
+$(getSurveyInfo);
+
+function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
         $.ajax({
@@ -15,7 +17,7 @@ $(function getSurveyInfo() {
     } else {
         askForSurveyId();
     }
-});
+}
 
 function askForSurveyId() {
     // This function is called when a survey Id isn't provided or when an invalid sId is given
@@ -55,7 +57,7 @@ function displaySurvey(results) {
     el.text(results['title']);
     el.prepend("<i class='fa fa-pencil' onclick='editSurveyTitle();'></i>");
     el.addClass('survey-title');
-    titleDiv.append(el);
+    titleDiv.html(el);
 
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
@@ -97,17 +99,79 @@ function displaySurvey(results) {
 
         questionsDiv.append(questionDiv);
     });
-
     console.log(results);
 }
 
-function deleteQuestion(el) {
+/* create the HTML for a new question form - doesn't actually submit anything to the server */
+function createQuestion(type) {
+    var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
+        '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><i class="fa fa-times fa-lg"></i></button> ' +
+        '  <label for="question-text">Question</label><input type="text" class="question-text" />' +
+        '  <div class="answers">' +
+        '    <div class="answer">' +
+        '     <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
+        '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
+        '    </div>' +
+        '  </div>' +
+        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><i class="fa fa-plus"></i></button>' +
+        '  <button type="button" class="pure-button pure-button-primary pure-button-small" onclick="saveQuestion(this);">Save Question</button>' +
+        '</div>';
+
+    $(".questions").append(questionHtml);
+}
+
+/* send a newly created question to the server */
+function saveQuestion(el) {
     var target = $(el);
     var questionDiv = target.parent();
 
-    var questionId = questionDiv.attr('data-question-id');
+    var answerList = [];
+    var questionText = questionDiv.find(".question-text").val();
+    var questionType = questionDiv.attr("data-question-type");
 
-    console.log(typeof parseInt(questionId));
+    var answers = questionDiv.find(".answer-text");
+    $.each(answers, function (idx, v) {
+        var answerText = $(v).val();
+        answerList.push(answerText);
+    });
+
+    var question = {"question":questionText, "type":questionType, "answers":answerList};
+    var surveyId = parseInt($.QueryString['survey']);
+    var data = JSON.stringify({"surveyId":surveyId, "questions":[question]});
+
+    $.ajax({
+        type: "POST",
+        url: "/addQuestions",
+        data: data,
+        contentType: 'application/json',
+        success: function(data) {
+            updateNewQuestion(questionDiv, data);
+        },
+        error: function(data) { console.log(data); }
+    })
+}
+
+/* update the display of the new question to reflect that it has been stored on the server */
+function updateNewQuestion(questionDiv, serverResponse) {
+    /* for now, just re-request the survey info and display it */
+    var questionsDiv = $("#survey-questions");
+    questionsDiv.empty();
+
+    getSurveyInfo();
+}
+
+/* remove the HTML for a new (unsubmitted) question */
+function removeQuestion(el) {
+    var target = $(el);
+    var questionDiv = target.parent();
+    questionDiv.remove();
+}
+
+/* delete the question from the server-side */
+function deleteQuestion(el) {
+    var target = $(el);
+    var questionDiv = target.parent();
+    var questionId = questionDiv.attr('data-question-id');
 
     $.ajax({
         type:'POST',
@@ -118,6 +182,26 @@ function deleteQuestion(el) {
         error: displayAjaxError
     });
 }
+
+function addAnswer(el) {
+    // find the question, add another answer option
+    var answerHtml = '<div class="answer">' +
+        '  <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
+        '  <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
+        '</div>';
+
+    var target = $(el); // this will be the + button (with name=question-%questionId%)
+    var answersDiv = target.siblings(".answers");
+    answersDiv.append(answerHtml);
+}
+
+function removeAnswer(el) {
+    var target = $(el);
+    var answerDiv = target.parent();
+
+    answerDiv.remove();
+}
+
 
 function editSurveyTitle() {
     console.log("Changing survey title is not implemented");
