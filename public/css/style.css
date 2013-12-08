@@ -129,7 +129,7 @@ h3 {
 }
 
 .survey-id-input-box {
-    margin-top: 8px;
+    margin-top: 8px !important;
 }
 
 .highlight-orange {
@@ -196,7 +196,7 @@ h3 {
 
 #take-survey-button,
 #see-results-button,
-#edit-survey-button, {
+#edit-survey-button {
     margin-left: 6px;
 }
 

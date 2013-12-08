@@ -96,10 +96,14 @@ function displaySurvey(results) {
 
             questionDiv.append(answerDiv);
         });
-
         questionsDiv.append(questionDiv);
     });
-    console.log(results);
+
+    var createQuestionButton ='<button type="button"' +
+                              '        class="pure-button pure-button-success pure-button-small"' +
+                              '        data-dropdown="#question-type-dropdown">Create Question' +
+                              '</button>';
+    $("#create-question-button-container").html(createQuestionButton);
 }
 
 /* create the HTML for a new question form - doesn't actually submit anything to the server */
@@ -113,7 +117,7 @@ function createQuestion(type) {
         '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><i class="fa fa-plus"></i></button>' +
+        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" style="vertical-align:-7px;" onclick="addAnswer(this);"><i class="fa fa-plus"></i></button>' +
         '  <button type="button" class="pure-button pure-button-primary pure-button-small" onclick="saveQuestion(this);">Save Question</button>' +
         '</div>';
 
@@ -153,7 +157,7 @@ function saveQuestion(el) {
 
 /* update the display of the new question to reflect that it has been stored on the server */
 function updateNewQuestion(questionDiv, serverResponse) {
-    /* for now, just re-request the survey info and display it */
+    // re-request the survey info and display it
     var questionsDiv = $("#survey-questions");
     questionsDiv.empty();
 
