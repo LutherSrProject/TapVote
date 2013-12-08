@@ -46,6 +46,10 @@ b {
     font-weight: bold;
 }
 
+h3 {
+    font-size: 20pt;
+}
+
 .container {
     margin: 0 auto;
 }
@@ -53,11 +57,14 @@ b {
 .questions {
     margin-top: 20px;
     text-align: left;
+    max-width: 500px;
 }
 
 .answers {
     display: inline-block;
     margin-bottom: 5px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .survey-title {
@@ -76,12 +83,14 @@ b {
 }
 
 .question-text {
-    margin-bottom: 8px;
     width: 100%;
+    max-width: 475px;
+    margin-bottom: 8px;
 }
 
 .answer-text {
-    width: 50%;
+    width: 90%;
+    margin-right: 5px !important;
 }
 
 .no-wrap {
@@ -89,8 +98,10 @@ b {
 }
 
 .answer {
-    margin-bottom: 5px;
     padding: 3px;
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .question {
@@ -105,6 +116,16 @@ b {
 
 .pure-form label {
     font-size: 100%;
+}
+
+.pure-form .answers label {
+    margin-bottom: 0;
+    font-size: 90%;
+}
+
+#new-survey-title {
+    width: 100%;
+    max-width: 500px;
 }
 
 .survey-id-input-box {
@@ -131,19 +152,18 @@ b {
     box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
 }
 
-#content-container {
-    padding: 40px 20px;
-    text-align: center;
-}
-
 #content {
+    padding: 40px 20px;
     text-align: left;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
 }
 
-#home-content {
-    /* we want home to be aligned centered */
+#home-content,
+#takesurvey-content,
+#results-content {
+    /* some of the pages should be aligned centered (e.g. home) */
     text-align: center
 }
 
@@ -237,12 +257,11 @@ b {
 /* more specific button styles */
 .remove-question-button {
     display: block;
-    padding: 3px;
-    margin-bottom: 12px;
+    padding: 2px;
     margin-top: -4px;
     margin-left: -23px;
-    height: 23px;
-    width: 23px;
+    height: 20px;
+    width: 20px;
 }
 
 .remove-question-button i.fa-lg {
@@ -310,17 +329,3 @@ and (max-device-width : 480px) {
     }
 }
 
-/* Following styles are used to center content on page w/o having set a width on the content div */
-.outer-center {
-    float: right;
-    right: 50%;
-    position: relative;
-}
-.inner-center {
-    float: right;
-    right: -50%;
-    position: relative;
-}
-.clear {
-    clear: both;
-}

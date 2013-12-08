@@ -11,7 +11,7 @@ function removeAnswer(el) {
 function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
-        '  Answer Choice: <input type="text" class="answer-text no-wrap" /> ' +
+        '  <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
         '  <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '</div>';
 
@@ -31,10 +31,10 @@ function removeQuestion(el) {
 function createQuestion(type) {
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><i class="fa fa-times fa-lg"></i></button> ' +
-        '  Question: <input type="text" class="question-text" /> <br>' +
+        '  <label for="question-text">Question</label><input type="text" class="question-text" />' +
         '  <div class="answers">' +
         '    <div class="answer">' +
-        '      Answer Choice: <input type="text" class="answer-text no-wrap" />' +
+        '     <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
         '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '    </div>' +
         '  </div>' +
@@ -49,7 +49,7 @@ $(document).ready(function () {
     createQuestion("MCSR");
 
     $('[name="createSurvey"]').click(function (event) {
-        var title = $("#title").val();
+        var title = $("#new-survey-title").val();
         var password = $("#adminPwd").val();
 
         var questions = [];
