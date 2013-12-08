@@ -294,7 +294,7 @@ h3 {
 /* target Firefox only with this rule - Firefox has some spacing oddities w/ inline-block elements */
 @-moz-document url-prefix() {
     .add-answer-button {
-        vertical-align: -4px;
+        vertical-align: -4px !important;
     }
 }
 
