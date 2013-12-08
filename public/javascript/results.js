@@ -50,14 +50,14 @@ function askForSurveyId() {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'See Results'.");
 
-    var idBox = $("<input id='survey-id' type='text' size=5 />");
-    var button = $("<button type='button' id='see-results'>See Results</button>");
+    var idBox = $("<input id='survey-id' type='text' class='no-wrap survey-id-input-box' size='5' />");
+    var button = $("<button type='button' id='see-results-button'>See Results</button>");
     button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
 
     var form = $("<form></form>");
     form.addClass("pure-form");
-    form.attr("action","javascript:$('#see-results').click();");
+    form.attr("action","javascript:$('#see-results-button').click();");
     form.append(idBox);
     form.append(button);
 
@@ -88,6 +88,7 @@ function displaySurveyInfo(results) {
     titleDiv.append(el);
 
     var questionsDiv = $("#survey-questions");
+    questionsDiv.addClass("questions");
     var questions = results['questions'];
     $.each(questions, function (index, question) {
         // create a div for each question in questions
