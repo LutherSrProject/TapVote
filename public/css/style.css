@@ -56,7 +56,6 @@ b {
 }
 
 .answers {
-    width: auto;
     display: inline-block;
     margin-bottom: 5px;
 }
@@ -186,9 +185,13 @@ b {
 
 .dropdown-menu {
     text-align: left;
-    width: 100px;
+    width: 270px;
 }
 
+.disabled a {
+    color: grey !important;
+    text-decoration: line-through !important;
+}
 
 /* override some pure-button styles */
 .pure-button {
