@@ -193,6 +193,10 @@ b {
     text-decoration: line-through !important;
 }
 
+#controls {
+    margin-top: 40px;
+}
+
 /* override some pure-button styles */
 .pure-button {
     border-radius: 4px;
@@ -277,6 +281,11 @@ b {
 .add-answer-button i.fa {
     vertical-align: super;
     line-height: 1.2;
+}
+
+#take-survey-action-button {
+    display: inline-block;
+    margin-bottom: 50px;
 }
 
 /* Smartphones (portrait and landscape) ----------- */
