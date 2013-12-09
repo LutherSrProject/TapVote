@@ -101,3 +101,39 @@ function displaySurveyInfo(results) {
 }
 
 
+$(window).load(function() {
+// Load the Visualization API and the controls package.
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+});
+    
+  // Set a callback to run when the Google Visualization API is loaded.
+  
+
+
+  // Callback that creates and populates a data table,
+  // instantiates a dashboard, a range slider and a pie chart,
+  // passes in the data and draws it.
+function drawChart() {
+        console.log("at least you made it here")
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+      
+//$(document).load(function() {
+//    google.load('visualization', '1.1', {packages: ['controls']});
+//    google.setOnLoadCallback(drawVisualization);
+//});
