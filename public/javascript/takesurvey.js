@@ -7,7 +7,7 @@ $(function getSurveyInfo() {
     if (survey) {
         $.ajax({
             type:'GET',
-            url: '/getSurveyInfo',
+            url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             success: displaySurvey,
             error: displayAjaxError
@@ -172,7 +172,7 @@ function deVote(questionId, answerId) {
 
     $.ajax({
         type: 'POST',
-        url: '/deVote',
+        url: AJAX_REQUEST_URL + '/deVote',
         data: JSON.stringify(data),
         contentType: "application/json",
         success: showDevoteSuccess,
@@ -202,7 +202,7 @@ function submitVote(questionId, answerId) {
 
     $.ajax({
         type: 'POST',
-        url: '/vote',
+        url: AJAX_REQUEST_URL + '/vote',
         data: JSON.stringify(data),
         contentType: "application/json",
         success: showSubmitSuccess,
