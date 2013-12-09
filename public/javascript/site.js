@@ -48,7 +48,6 @@ $(function() {
     function pageLoadHandler(response, status, xhr) {
         if (status == "error") {
             // show a 404
-            //$("#content").load("404.html");
             window.location.href = "/404.html";
         } else {
             // set the page title. pageTitle is declared globally in site specific JS files
