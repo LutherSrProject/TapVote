@@ -1,46 +1,37 @@
-<div id="createsurvey-content">
+<div id="createsurvey-content" class="page-content">
   <article>
-    <form>
-      <!-- make a button for adding a question.
-      that brings up a place to ask the question and 4 possible answers that can be filled in
-      Then make a button that registers the survey
-      and gives people links to administor the test and look at results
-      -->
-      Survey Title: <input type="text" id="title"/> <br />
-      Survey Password: <input type="password" name="adminPwd" id="adminPwd" /> <br /><br />
+    <form class="survey-info-form pure-form pure-form-stacked">
+      <label for="new-survey-title">Survey Title</label>
+      <input type="text" id="new-survey-title"/>
+      <label for="adminPwd">Survey Password</label>
+      <input type="password" name="adminPwd" id="adminPwd" size="30" />
+    </form>
 
+    <form class="pure-form pure-form-stacked">
       <div class="questions">
-        <div class="question MCSR" data-question-type="MCSR">
-          Question: <input type="text" size="40" class="question-text" /> <br>
-          <div class="answers">
-            <div class="answer">
-              Answer Choice: <input type="text" class="answer-text" />
-              <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>
-            </div>
-          </div>
-          <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>
-          <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>
-          <br /><br />
-        </div>
         <!-- more questions will be embedded here by addQuestion -->
       </div>
 
-      <br />
-      <button type="button" name="createQuestion" data-dropdown="#question-type-dropdown">Add Question</button>
-      <button type="button" name="createSurvey">Create Survey</button>
+      <button type="button"
+              class="pure-button pure-button-success pure-button-small"
+              data-dropdown="#question-type-dropdown">Add Question</button>
+      <button type="button"
+              name="createSurvey"
+              class="pure-button pure-button-primary pure-button-small">Create Survey</button>
+
+      <div id="new-survey-links"></div>
     </form>
   </article>
 
   <!-- below is the div containing the dropdown menu for question type selection -->
   <div id="question-type-dropdown" class="dropdown">
     <ul class="dropdown-menu">
-      <li><a href="javascript:createQuestion('MCSR')">MCSR</a></li>
-      <li><a href="javascript:createQuestion('MCMR')">MCMR</a></li>
-      <li><a href="javascript:createQuestion('MCRANK')">MCRANK</a></li>
-      <li><a href="javascript:createQuestion('FR')">FR</a></li>
+      <li><a href="javascript:createQuestion('MCSR')">Multiple Choice, Single Response</a></li>
+      <li><a href="javascript:createQuestion('MCMR')">Multiple Choice, Multiple Choice</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('MCRANK')">Multiple Choice, Ranked Response</a></li>
+      <li class="disabled"><a href="javascript:createQuestion('FR')">Free Response</a></li>
     </ul>
   </div>
-
 
   <script type="text/javascript" src="javascript/createsurvey.js"></script>
 

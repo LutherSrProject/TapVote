@@ -5,6 +5,7 @@ require('./modules/globals');
  * Module dependencies.
  */
 var express = require('express');
+var cors = require('cors');
 var vote = require('./routes/vote');
 var deVote = require('./routes/deVote');
 var getSurveyResults = require('./routes/getSurveyResults');
@@ -28,9 +29,16 @@ app.use(express.urlencoded()); //in the off chance that we use urlencoded reques
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+
+
+// artificially add a second of latency to every request :)
+// app.use(function(req,res,next){setTimeout(next,1000)});
+
+app.use(cors());
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' == app.get('env')) {

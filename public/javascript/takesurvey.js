@@ -4,32 +4,49 @@ var previousMCSR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
-    $.ajax({
-        type:'GET',
-        url: '/getSurveyInfo',
-        data: {surveyId: survey},
-        success: displaySurvey,
-        error: displayAjaxError
-    });
+    if (survey) {
+        $.ajax({
+            type:'GET',
+            url: AJAX_REQUEST_URL + '/getSurveyInfo',
+            data: {surveyId: survey},
+            success: displaySurvey,
+            error: displayAjaxError
+        });
+    } else {
+        askForSurveyId();
+    }
 });
 
-function displayAjaxError(error) {
-    console.log(error.statusText);
-    console.log(error.responseText);
+function askForSurveyId() {
+    // This function is called when a survey Id isn't provided or when an invalid sId is given
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'Take Survey'.");
 
-    var surveyDiv = $("#survey-questions");
-    var idBox = $("<input id='survey-id' type='text' size=5 />");
-    var button = $("<button type='button'>Take Survey</button>");
+    var idBox = $("<input id='survey-id' class='no-wrap survey-id-input-box' type='text' size=5 />");
+    var button = $("<button type='button' id='take-survey-button'>Take Survey</button>");
+    button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
 
-    surveyDiv.append(idBox);
-    surveyDiv.append(button);
+    var form = $("<form></form>");
+    form.addClass("pure-form");
+    form.attr("action", "javascript:$('#take-survey-button').click();");
+    form.append(idBox);
+    form.append(button);
+
+    var surveyDiv = $("#survey-questions");
+    surveyDiv.append(form);
 }
 
 function redirectToSurvey() {
     window.location.href="/?p=takesurvey&survey=" + $("#survey-id").val();
+}
+
+function displayAjaxError(error) {
+    if (error.status == 404)
+        askForSurveyId(); // 404 happens when an invalid survey ID is specified
+    else
+        console.log(error);
+
 }
 
 function displaySurvey(results) {
@@ -41,12 +58,13 @@ function displaySurvey(results) {
     titleDiv.append(el);
 
     var questionsDiv = $("#survey-questions");
+    questionsDiv.addClass("questions");
     var questions = results['questions'];
     $.each(questions, function (index, question) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question');
+        questionDiv.attr('class', 'question rounded');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -63,7 +81,7 @@ function displaySurvey(results) {
 
             var answerDiv = $("<div></div>");
             answerDiv.attr('id', 'answer-'+answerId);
-            answerDiv.attr('class', 'answer');
+            answerDiv.attr('class', 'answer rounded');
 
             var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
             answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
@@ -108,7 +126,6 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    $("#survey").append("<br><br><div id='vote-status'></div>");
     console.log(results);
 }
 
@@ -148,38 +165,65 @@ function checkMCMR(event) {
 function deVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
+    el.addClass("highlight-orange");
+
     $.ajax({
         type: 'POST',
-        url: '/deVote',
+        url: AJAX_REQUEST_URL + '/deVote',
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: function (results) { console.log(results); },
-        error: function (results) { console.log(results); }
-    })
+        success: showDevoteSuccess,
+        error: showDevoteFailure
+    });
+
+    function showDevoteSuccess(results) {
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-red");
+        el.removeClass("highlight-green");
+    }
+
+    function showDevoteFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+    }
 }
 
 function submitVote(questionId, answerId) {
     var data = { "questionId": questionId, "answerId": answerId};
 
+    var el = $("input[data-answer-id=" + answerId + "]").parent();
+    el.removeClass("highlight-green");
+    el.removeClass("highlight-red");
+    el.addClass("highlight-orange");
+
     $.ajax({
         type: 'POST',
-        url: '/vote',
+        url: AJAX_REQUEST_URL + '/vote',
         data: JSON.stringify(data),
         contentType: "application/json",
         success: showSubmitSuccess,
         error: showSubmitFailure
     });
+
+    function showSubmitSuccess(results) {
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-red");
+        el.addClass("highlight-green");
+    }
+
+    function showSubmitFailure(results) {
+        console.log("Error submitting vote: ");
+        console.log(results);
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-green");
+        el.addClass("highlight-red");
+    }
 }
 
-function showSubmitSuccess(results) {
-    console.log(results);
-    $("#vote-status").text("Success! Your vote has been recorded");
-}
-
-function showSubmitFailure(results) {
-    console.log("Error submitting vote: ");
-    console.log(results);
-    $("#vote-status").text("Error! Your vote was not recorded. See the console for more information.");
-}
 
 

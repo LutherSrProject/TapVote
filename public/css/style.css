@@ -15,21 +15,21 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
     font: inherit;
-	font-size: 100%;
-	vertical-align: baseline;
+    font-size: 100%;
+    vertical-align: baseline;
 }
 
 html {
-    height:100%;
-    padding:0;
+    height: 100%;
+    padding: 0;
 }
 
 body {
@@ -37,8 +37,33 @@ body {
     margin: 0;
     padding: 0;
     background-color: #FFE;
-	font-family: 'aller_lightregular', Arial;
+    font-family: 'aller_lightregular', Arial;
     height: 100%;
+    width: 100%;
+}
+
+b {
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 20pt;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+.questions {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.answers {
+    display: inline-block;
+    margin-bottom: 5px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .survey-title {
@@ -47,46 +72,266 @@ body {
     margin: 10px 5px 15px 5px;
 }
 
+.survey-info-form {
+    margin-bottom: 30px;
+}
+
 .question-title {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.question-text {
+    width: 100%;
+    max-width: 475px;
+    margin-bottom: 8px;
+}
+
+.answer-text {
+    width: 90%;
+    margin-right: 5px !important;
+}
+
+.no-wrap {
+    display: inline-block !important; /* override a media query in purecss that makes buttons wrap on mobile */
 }
 
 .answer {
-    margin-bottom: 5px;
+    padding: 3px;
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .question {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    padding: 10px 30px;
+    background-color: #fff7b1;
 }
 
-.container {
-    margin: 0;
+.rounded {
+    border-radius: 4px;
+}
+
+.pure-form label {
+    font-size: 100%;
+}
+
+.pure-form .answers label {
+    margin-bottom: 0;
+    font-size: 90%;
+}
+
+#new-survey-title {
     width: 100%;
-    
+    max-width: 500px;
+}
+
+.survey-id-input-box {
+    margin-top: 8px !important;
+}
+
+.highlight-orange {
+    background-color: orange;
+}
+
+.highlight-red {
+    background-color: red;
+}
+
+.highlight-green {
+    background: rgb(28, 184, 65);
 }
 
 #header {
-    width: 100%;
+    padding-left: 20px;
     font-family: 'aller_displayregular', Arial;
     background-color: #FFE;
-	color:  #000;
-    box-shadow: 0px 3px 14px rgba(50, 50, 50, 0.75);
-}
-
-h1{
-    font-size: 60pt;
-}
-
-#footer {
-    position: absolute;
-    bottom: 10px;
+    color: #000;
+    box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
 }
 
 #content {
-    padding: 25px 15px 40px 20px;
-    /*box-shadow: 3px 3px 14px rgba(50, 50, 50, 0.75);
+    padding: 40px 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+}
+
+#home-content,
+#takesurvey-content,
+#results-content,
+#admin-content {
+    /* some of the pages should be aligned centered (e.g. home) */
+    text-align: center
+}
+
+#footer {
+    height: 100%;
+    padding: 20px;
+    margin-top: 80px;
+    color: grey;
+    text-align: center;
+}
+
+#footer-nav {
+    margin-bottom: 5px;
+    display: block;
+}
+
+#footer-nav a,
+#footer-nav a:hover
+#footer-nav a:visited {
+    color: grey;
+}
+
+#header h1 a {
+    font-size: 60pt;
+    text-decoration: none;
+    color: black;
+}
+
+
+#take-survey-button,
+#see-results-button,
+#edit-survey-button {
+    margin-left: 6px;
+}
+
+.dropdown {
+    position: inherit;
+    margin-top: -1px;
+}
+
+.dropdown-menu {
+    text-align: left;
+    width: 270px;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.disabled a {
+    color: grey !important;
+    text-decoration: line-through !important;
+}
+
+#controls {
+    margin-top: 40px;
+}
+
+/* override some pure-button styles */
+.pure-button {
     border-radius: 4px;
-    */
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-weight: bold;
+}
+
+.pure-button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.pure-button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.pure-button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.pure-button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.pure-button-large {
+    font-size: 175%;
+}
+
+.pure-button-small {
+    font-size: 80%;
+}
+
+.pure-button-tiny {
+    font-size: 65%;
+}
+
+
+/* more specific button styles */
+.remove-question-button {
+    display: block;
+    padding: 2px;
+    margin-top: -4px;
+    margin-left: -23px;
+    height: 20px;
+    width: 20px;
+}
+
+.remove-question-button i.fa-lg {
+    vertical-align: super;
+    line-height: 15px;
+}
+
+.remove-answer-button,
+.add-answer-button {
+    padding: 2px;
+    width: 18px;
+    height: 18px;
+}
+.remove-answer-button {
+    /* override */
+    vertical-align: -7px;
+}
+
+.add-answer-button {
+    /* override */
+    vertical-align: -6px;
+}
+
+/* target Firefox only with this rule - Firefox has some spacing oddities w/ inline-block elements */
+@-moz-document url-prefix() {
+    .add-answer-button {
+        vertical-align: -4px !important;
+    }
+}
+
+.remove-answer-button i.fa {
+    vertical-align: super;
+    line-height: 0.9;
+}
+
+.add-answer-button i.fa {
+    vertical-align: super;
+    line-height: 1.2;
+}
+
+#take-survey-action-button {
+    display: inline-block;
+    margin-bottom: 50px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+
+    /* override */
+    .remove-question-button i.fa-lg {
+        vertical-align: super;
+        line-height: 0.9;
+    }
+
+    /* override */
+    .add-answer-button i.fa {
+        vertical-align: super;
+        line-height: 1.35;
+    }
+
+    .answer-text {
+        width: 85%;
+    }
 }
 

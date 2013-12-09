@@ -11,14 +11,13 @@ function removeAnswer(el) {
 function addAnswer(el) {
     // find the question, add another answer option
     var answerHtml = '<div class="answer">' +
-        '  Answer Choice: <input type="text" class="answer-text"/> ' +
-        '  <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button> <br />' +
+        '  <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
+        '  <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '</div>';
 
     var target = $(el); // this will be the + button (with name=question-%questionId%)
     var answersDiv = target.siblings(".answers");
     answersDiv.append(answerHtml);
-
 }
 
 function removeQuestion(el) {
@@ -29,25 +28,27 @@ function removeQuestion(el) {
 }
 
 function createQuestion(type) {
-    var questionHtml = '<div class="question ' + type + '" data-question-type="'+type+'">' +
-        '  Question: <input type="text" size="40" class="question-text" /> <br>' +
+    var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
+        '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><i class="fa fa-times fa-lg"></i></button> ' +
+        '  <label for="question-text">Question</label><input type="text" class="question-text" />' +
         '  <div class="answers">' +
         '    <div class="answer">' +
-        '      Answer Choice: <input type="text" class="answer-text" />' +
-        '     <button type="button" class="remove-answer" onclick="removeAnswer(this);"> x </button><br>' +
+        '     <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
+        '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswer(this);"><i class="fa fa-times"></i></button><br>' +
         '    </div>' +
         '  </div>' +
-        '  <button type="button" class="add-answer" onclick="addAnswer(this);"> + </button>' +
-        '  <button type="button" class="remove-question" onclick="removeQuestion(this);">Remove Question</button>' +
-        '  <br /><br />' +
+        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" onclick="addAnswer(this);"><i class="fa fa-plus"></i></button>' +
         '</div>';
 
     $(".questions").append(questionHtml);
 }
 
 $(document).ready(function () {
+
+    createQuestion("MCSR");
+
     $('[name="createSurvey"]').click(function (event) {
-        var title = $("#title").val();
+        var title = $("#new-survey-title").val();
         var password = $("#adminPwd").val();
 
         var questions = [];
@@ -72,7 +73,7 @@ $(document).ready(function () {
         var jsonData = JSON.stringify(data);
         $.ajax({
             type: "POST",
-            url: "/createSurvey",
+            url: AJAX_REQUEST_URL + "/createSurvey",
             data: jsonData,
             contentType: 'application/json',
             success: function (data) {
@@ -99,8 +100,7 @@ $(document).ready(function () {
                           "<a href='" + adminsurveyLink + "'>" +
                           "TapVote.com" + adminsurveyLink + "</a><br>";
 
-        $("article").append(takesurvey);
-        $("article").append(adminsurvey);
+        $("#new-survey-links").html(takesurvey + adminsurvey);
 
     }
 });
