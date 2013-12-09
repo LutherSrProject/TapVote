@@ -11,7 +11,7 @@ $(function getSurveyInfo() {
     if (survey) {
         $.ajax({
             type:'GET',
-            url: '/getSurveyInfo',
+            url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             success: displaySurveyInfo,
             error: displayAjaxError
@@ -26,7 +26,7 @@ function getSurveyResults() {
     if (survey) {
         $.ajax({
             type:'GET',
-            url: '/getSurveyResults',
+            url: AJAX_REQUEST_URL + '/getSurveyResults',
             data: {surveyId: survey},
             success: displaySurveyResults,
             error: displayAjaxError

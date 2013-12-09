@@ -9,7 +9,7 @@ function getSurveyInfo() {
     if (survey) {
         $.ajax({
             type:'GET',
-            url: '/getSurveyInfo',
+            url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             success: displaySurvey,
             error: displayAjaxError
@@ -145,7 +145,7 @@ function saveQuestion(el) {
 
     $.ajax({
         type: "POST",
-        url: "/addQuestions",
+        url: AJAX_REQUEST_URL + "/addQuestions",
         data: data,
         contentType: 'application/json',
         success: function(data) {
@@ -179,7 +179,7 @@ function deleteQuestion(el) {
 
     $.ajax({
         type:'POST',
-        url: '/removeQuestion',
+        url: AJAX_REQUEST_URL + '/removeQuestion',
         data: JSON.stringify({questionId:parseInt(questionId)}),
         contentType: 'application/json',
         success: function(data) { questionDiv.remove() },
