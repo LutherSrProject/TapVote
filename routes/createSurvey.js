@@ -1,6 +1,7 @@
 var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
+var questionsObjectValidator = require("../modules/validators/questionsObjectValidator");
 
 //Test this endpoint with
 //curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "type":"MCSR", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
@@ -24,7 +25,9 @@ function createSurvey(){
     //Provides additional validation functions after the basic check on required parameters. 
     //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
     //In the case of a problem, return false or throw an error.
-    apiOptions.validators = {};
+    apiOptions.validators = {
+            "questions": new questionsObjectValidator.questionsObjectValidator()
+    };
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
@@ -55,7 +58,7 @@ function createSurvey(){
         });
     };
     
-    var endpointObject = new endpoint.Endpoint(apiOptions)
+    var endpointObject = new endpoint.Endpoint(apiOptions);
     return function() {  
         (endpointObject.handle).apply(endpointObject, arguments);  
     }; //return the handler function for the endpoint
