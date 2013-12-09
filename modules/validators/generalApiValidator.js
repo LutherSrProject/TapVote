@@ -62,7 +62,7 @@ GeneralApiValidator.prototype.handle = function(data){
                 if (err.name !== undefined && err.message !== undefined) {
                     errorString = err.name + ": "+ err.message;
                 }
-                err["friendlyName"] = 'Provided parameter "' + param + '" failed vaidation. ' + errorString;
+                err["friendlyName"] = 'Provided parameter "' + param + '" failed validation. ' + errorString;
             }
             throw err;
         }

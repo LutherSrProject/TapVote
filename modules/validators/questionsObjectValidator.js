@@ -56,12 +56,12 @@ function singleQuestionValidator(){
 
 
 function QuestionsObjectValidator() {
-    this.singleQuestionValdator = singleQuestionValidator();
+    this.singleQuestionValidator = singleQuestionValidator();
 }
 
 QuestionsObjectValidator.prototype.handle = function(questions){
     for (var i = 0; i < questions.length; i++) {
-        this.singleQuestionValdator(questions[i]);
+        this.singleQuestionValidator(questions[i]);
     }
     return true;
 };
