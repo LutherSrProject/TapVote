@@ -5,6 +5,7 @@ require('./modules/globals');
  * Module dependencies.
  */
 var express = require('express');
+var cors = require('cors');
 var vote = require('./routes/vote');
 var deVote = require('./routes/deVote');
 var getSurveyResults = require('./routes/getSurveyResults');
@@ -29,26 +30,11 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 
-/* CORS middleware */
-/* see: http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-nodejs */
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.send(200);
-    }
-    else {
-      next();
-    }
-};
-app.use(allowCrossDomain);
 
 // artificially add a second of latency to every request :)
 // app.use(function(req,res,next){setTimeout(next,1000)});
 
+app.use(cors());
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));

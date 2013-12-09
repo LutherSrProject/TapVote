@@ -12,7 +12,8 @@
     "pg": ">=2.6",
     "winston": ">=0.7.2",
     "q": ">=0.9.7",
-    "db-migrate": ">=0.6.2"
+    "db-migrate": ">=0.6.2",
+    "cors": ">=2.1.0"
   },
   "devDependencies": {
     "mocha": ">=1.13.0",
