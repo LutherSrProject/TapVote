@@ -9,7 +9,7 @@ function getSurveyInfo() {
     if (survey) {
         $.ajax({
             type:'GET',
-            url: '/getSurveyInfo',
+            url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             success: displaySurvey,
             error: displayAjaxError
