@@ -10,9 +10,6 @@ if (window.document.location.port != "") {
     AJAX_REQUEST_URL = "http://dev.isaacdontjelindell.com:8000";
 }
 
-console.log("port: " + window.document.location.port);
-console.log("url: " + AJAX_REQUEST_URL);
-
 var pageTitle;
 
 
