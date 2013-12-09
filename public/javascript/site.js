@@ -39,15 +39,22 @@ $(function() {
     var page = $.QueryString["p"];
 
     if(!page)
-        $("#content").load("home.html", null, setTitle); // load home by default
-    else
-        $("#content").load(page + ".html", null, setTitle);
+        $("#content").load("home.html", null, pageLoadHandler); // load home by default
+    else {
+        $("#content").load(page + ".html", null, pageLoadHandler);
 
-    function setTitle() {
-        // set the page title. pageTitle is declared globally in site specific JS files
-        // (if it isn't declared, just use "TapVote" as the title)
-        if(!pageTitle) $("title").html("TapVote");
-        else $("title").html(pageTitle + " - TapVote" )
+    }
+
+    function pageLoadHandler(response, status, xhr) {
+        if (status == "error") {
+            // show a 404
+            window.location.href = "/404.html";
+        } else {
+            // set the page title. pageTitle is declared globally in site specific JS files
+            // (if it isn't declared, just use "TapVote" as the title)
+            if(!pageTitle) $("title").html("TapVote");
+            else $("title").html(pageTitle + " - TapVote" )
+        }
     }
 
 });
