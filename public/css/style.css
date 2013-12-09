@@ -48,6 +48,18 @@ b {
 
 h3 {
     font-size: 20pt;
+    margin-bottom: 10px;
+}
+
+.guru-meditation {
+    margin-top: 40px;
+}
+
+.guru-meditation-code {
+    margin-top: 5px;
+    padding: 5px;
+    font-family: monospace;
+    background-color: #EDEDED;
 }
 
 .container {
@@ -212,6 +224,10 @@ h3 {
 
 .align-left {
     text-align: left;
+}
+
+.align-center {
+    text-align: center;
 }
 
 .disabled a {
