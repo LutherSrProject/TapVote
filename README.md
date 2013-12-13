@@ -67,7 +67,26 @@ The base URL is `%host%/`.
 <a name="addQuestions"></a>
 ####`/addQuestions`
 
-TODO
+**POST request body**:
+```
+{ 
+  "surveyId":1, 
+  "questions": [
+                 {
+                   'question': 'Which is best?', 
+                   'type': 'MCSR',
+                   'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
+                 }
+               ],
+  "password":"supersecretpassword" }
+```
+
+**POST response body**:
+
+```
+{"status": "success"}
+```
+
 
 =================================================================================================================
 =================================================================================================================
@@ -80,14 +99,15 @@ Sends information needed to create a new survey. Returns the new survey ID.
 **POST request body**:
 ```
 { 
-  'title':'"Because clickers are SO 1999."', 
-  'questions': [
-                {'question': 'Which is best?', 
-                 'type': 'MCSR',
-                 'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
-                }
+  "title": "Because clickers are SO 1999.", 
+  "questions": [
+                 {
+                   'question': 'Which is best?', 
+                   'type': 'MCSR',
+                   'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
+                 }
                ],
-  'password':'supersecretpassword'
+  "password":"supersecretpassword"
 }
 ```
 
@@ -142,18 +162,18 @@ Gets all information needed to present a survey to the user. Requires a survey I
                 'value': 'What is your favorite color?',
                 'type': 'MCSR',
                 'answers': [
-                          {id:45, value:"blue"},
-                          {id:32, value:"red"}
-                         ]
+                             {id:45, value:"blue"},
+                             {id:32, value:"red"}
+                           ] 
               },
               { 'id':14,
                 'value': 'What is your favorite food?',
                 'type': 'MCSR',
-                'answers: [
-                          {id:21, value:"pizza"},
-                          {id:18, value:"cake"},
-                          {id:12, value:"brains"}
-                         ]
+                'answers': [
+                             {id:21, value:"pizza"},
+                             {id:18, value:"cake"},
+                             {id:12, value:"brains"}
+                           ]
               }
             ]
 }
