@@ -84,6 +84,8 @@ describe("Database", function () {
             database.recordVote({'answerId':1,'questionId':1}, function(err,results) {
                 try {
                     should.not.exist(err);
+                    // avoid polluting the DB with more test data
+                    database.deleteVote({'answerId':1, 'questionId':1});
                     done();
                 } catch(testerror) {
                     done(testerror);
