@@ -78,7 +78,8 @@ The base URL is `%host%/`.
                    'answers': ["Puppies", "Cheese", "Joss Whedon", "Naps"]
                  }
                ],
-  "password":"supersecretpassword" }
+  "password":"supersecretpassword" 
+}
 ```
 
 **POST response body**:
@@ -87,6 +88,8 @@ The base URL is `%host%/`.
 {"status": "success"}
 ```
 
+**Possible Errors**:
+* `404 Not Found: questionId does not exist` - returned when the specified questionId does not exist in the database
 
 =================================================================================================================
 =================================================================================================================
@@ -215,7 +218,15 @@ from a call to /getSurveyInfo.
 <a name="removeQuestion"></a> 
 ####`/removeQuestion`
 
-TODO
+**POST request body**:
+```
+{"questionId": 3}
+```
+
+**POST response body**:
+```
+{"status" : "success"}
+```
 
 =================================================================================================================
 =================================================================================================================
