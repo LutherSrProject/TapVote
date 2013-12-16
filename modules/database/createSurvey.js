@@ -7,9 +7,27 @@ var createSurvey = function (surveyData, callback) {
     var title = surveyData['title'];
     var questions = surveyData['questions'];
     var password = surveyData['password'];
+    var start = surveyData['start'];
+    var finish = surveyData['finish'];
+
+    var queryString;
+    var queryParams;
+    if (start && finish) {
+        queryString = 'INSERT INTO survey(title, password, start, finish) VALUES ($1, $2, $3, $4) RETURNING *';
+        queryParams = [title, password, start, finish];
+    } else if (!start  && !finish) {
+        queryString = 'INSERT INTO survey(title, password) VALUES ($1, $2) RETURNING *';
+        queryParams = [title, password];
+    } else if (!start) {
+        queryString = 'INSERT INTO survey(title, password, finish) VALUES ($1, $2, $3) RETURNING *';
+        queryParams = [title, password, finish];
+    } else {  // !finish
+        queryString = 'INSERT INTO survey(title, password, start) VALUES ($1, $2, $3) RETURNING *';
+        queryParams = [title, password, start];
+    }
 
     logger.info("Inserting new survey into database...");
-    runQuery('INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *', [title, password])
+    runQuery(queryString, queryParams)
     .then(function (result) {
         // insert the new survey (return the survey ID to use in inserting questions)
         logger.info("Inserted survey. New survey ID is", result.rows[0].id);
