@@ -15,15 +15,15 @@ var createSurvey = function (surveyData, callback) {
     if (start && finish) {
         queryString = 'INSERT INTO survey(title, password, start, finish) VALUES ($1, $2, $3, $4) RETURNING *';
         queryParams = [title, password, start, finish];
-    } else if (!start  && !finish) {
-        queryString = 'INSERT INTO survey(title, password) VALUES ($1, $2) RETURNING *';
-        queryParams = [title, password];
-    } else if (!start) {
+    } else if (!start && finish) {
         queryString = 'INSERT INTO survey(title, password, finish) VALUES ($1, $2, $3) RETURNING *';
         queryParams = [title, password, finish];
-    } else {  // !finish
+    } else if (start && !finish){  // !finish
         queryString = 'INSERT INTO survey(title, password, start) VALUES ($1, $2, $3) RETURNING *';
         queryParams = [title, password, start];
+    } else {  // !start && !finish
+        queryString = 'INSERT INTO survey(title, password) VALUES ($1, $2) RETURNING *';
+        queryParams = [title, password];
     }
 
     logger.info("Inserting new survey into database...");
