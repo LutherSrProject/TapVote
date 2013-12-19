@@ -1,4 +1,5 @@
 var Q = require("q");
+var moment = require("moment");
 var runQuery = require("./runQuery").runQuery;
 var addQuestions = require("./addQuestions").addQuestions;
 
@@ -7,20 +8,22 @@ var createSurvey = function (surveyData, callback) {
     var title = surveyData['title'];
     var questions = surveyData['questions'];
     var password = surveyData['password'];
-    var start = surveyData['start'];
-    var finish = surveyData['finish'];
+
+    // off-load validation to moment
+    var start = moment.utc(surveyData['start'], 'YYYY-MM-DD HH:mm:ss');
+    var finish = moment.utc(surveyData['finish'], 'YYYY-MM-DD HH:mm:ss');
 
     var queryString;
     var queryParams;
     if (start && finish) {
         queryString = 'INSERT INTO survey(title, password, start, finish) VALUES ($1, $2, $3, $4) RETURNING *';
-        queryParams = [title, password, start, finish];
+        queryParams = [title, password, start.format(), finish.format()];
     } else if (!start && finish) {
         queryString = 'INSERT INTO survey(title, password, finish) VALUES ($1, $2, $3) RETURNING *';
-        queryParams = [title, password, finish];
+        queryParams = [title, password, finish.format()];
     } else if (start && !finish){  // !finish
         queryString = 'INSERT INTO survey(title, password, start) VALUES ($1, $2, $3) RETURNING *';
-        queryParams = [title, password, start];
+        queryParams = [title, password, start.format()];
     } else {  // !start && !finish
         queryString = 'INSERT INTO survey(title, password) VALUES ($1, $2) RETURNING *';
         queryParams = [title, password];
