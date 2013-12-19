@@ -9,9 +9,13 @@ var createSurvey = function (surveyData, callback) {
     var questions = surveyData['questions'];
     var password = surveyData['password'];
 
+    var start, finish;
+
     // off-load validation to moment
-    var start = moment.utc(surveyData['start'], 'YYYY-MM-DD HH:mm:ss');
-    var finish = moment.utc(surveyData['finish'], 'YYYY-MM-DD HH:mm:ss');
+    if (surveyData['start'])
+        start = moment.utc(surveyData['start'], 'YYYY-MM-DD HH:mm:ss');
+    if (surveyData['finish'])
+        finish = moment.utc(surveyData['finish'], 'YYYY-MM-DD HH:mm:ss');
 
     var queryString;
     var queryParams;
