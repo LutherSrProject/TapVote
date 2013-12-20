@@ -4,8 +4,8 @@ var type = dbm.dataType;
 
 exports.up = function(db, callback) {
     var queryString = "ALTER TABLE survey" +
-                      "    ADD COLUMN start timestamp DEFAULT ('" + moment.utc().format() + "')," +
-                      "    ADD COLUMN finish timestamp DEFAULT '2300-01-01';";
+                      "    ADD COLUMN start timestamp with time zone DEFAULT ('" + moment.utc().format() + "')," +
+                      "    ADD COLUMN finish timestamp with time zone DEFAULT '2300-01-01z';";
 
     db.runSql(queryString, callback);
 };
