@@ -2,6 +2,9 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
+// Test this endpoint with
+// curl -d '{"answerId":5, "questionId":5}' -H "Content-Type: application/json" http://localhost:8000/deVote
+
 function deVote(){
     var apiOptions = {};
     

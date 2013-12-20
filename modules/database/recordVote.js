@@ -13,7 +13,7 @@ var recordVote = function (voteData, callback) {
         if (qid == voteData['questionId']) {
             return;
         } else {
-            logger.error("Question doesn't have that answer as an option.", error);
+            logger.error("Question doesn't have that answer as an option.");
             var error = Error();
             error['httpStatus'] = 400;
             error['httpResponse'] = '400 Bad Request';
@@ -33,7 +33,7 @@ var recordVote = function (voteData, callback) {
             queryParams = [voteData['questionId']];
         }
 
-        // find the survey info associated w/ this (questionId, answerId pair).
+        // find the survey info associated w/ this (questionId, answerId).
         return runQuery(queryString, queryParams)
         .then(function (survey) {
             var error;
@@ -78,7 +78,7 @@ var recordVote = function (voteData, callback) {
         })
     })
     .fail(function (error) {
-        logger.error("Error logging vote to database.", error);
+        logger.error("Error logging vote to database. ", error);
         callback(error);
         return;
     });
