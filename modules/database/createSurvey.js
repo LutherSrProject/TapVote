@@ -1,4 +1,5 @@
 var Q = require("q");
+var moment = require("moment");
 var runQuery = require("./runQuery").runQuery;
 var addQuestions = require("./addQuestions").addQuestions;
 
@@ -8,8 +9,32 @@ var createSurvey = function (surveyData, callback) {
     var questions = surveyData['questions'];
     var password = surveyData['password'];
 
+    var start, finish;
+
+    // off-load validation to moment
+    if (surveyData['start'])
+        start = moment.utc(surveyData['start'], 'YYYY-MM-DD HH:mm:ss');
+    if (surveyData['finish'])
+        finish = moment.utc(surveyData['finish'], 'YYYY-MM-DD HH:mm:ss');
+
+    var queryString;
+    var queryParams;
+    if (start && finish) {
+        queryString = 'INSERT INTO survey(title, password, start, finish) VALUES ($1, $2, $3, $4) RETURNING *';
+        queryParams = [title, password, start.format(), finish.format()];
+    } else if (!start && finish) {
+        queryString = 'INSERT INTO survey(title, password, finish) VALUES ($1, $2, $3) RETURNING *';
+        queryParams = [title, password, finish.format()];
+    } else if (start && !finish){  // !finish
+        queryString = 'INSERT INTO survey(title, password, start) VALUES ($1, $2, $3) RETURNING *';
+        queryParams = [title, password, start.format()];
+    } else {  // !start && !finish
+        queryString = 'INSERT INTO survey(title, password) VALUES ($1, $2) RETURNING *';
+        queryParams = [title, password];
+    }
+
     logger.info("Inserting new survey into database...");
-    runQuery('INSERT INTO survey(title, password) VALUES($1, $2) RETURNING *', [title, password])
+    runQuery(queryString, queryParams)
     .then(function (result) {
         // insert the new survey (return the survey ID to use in inserting questions)
         logger.info("Inserted survey. New survey ID is", result.rows[0].id);

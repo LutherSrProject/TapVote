@@ -4,7 +4,8 @@ var endpoint = require("../modules/endpoint");
 var questionsObjectValidator = require("../modules/validators/questionsObjectValidator");
 
 //Test this endpoint with
-//curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "type":"MCSR", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
+// curl -d '{ "title":"\"Because clickers are SO 1999.\"", "questions": [{"question": "Which is best?", "type":"MCSR", "answers": ["Puppies", "Cheese", "Joss Whedon", "Naps"]}],"password":"supersecretpassword", "start":"1993-04-10", "finish":"2013-12-30" }' -H "Content-Type: application/json" http://localhost:8000/createSurvey
+
 
 function createSurvey(){
     var apiOptions = {};
@@ -19,7 +20,9 @@ function createSurvey(){
     };
     //Indicates the optional API parameters and their basic expected types.
     apiOptions.optionalApiParameters = {
-            "questions":"object"
+            "questions":"object",
+            "start": "string",
+            "finish": "string"
     };
     
     //Provides additional validation functions after the basic check on required parameters. 
