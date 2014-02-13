@@ -10,6 +10,7 @@ exports.recordVote = require("./database/recordVote").recordVote;
 exports.deleteVote = require("./database/deleteVote").deleteVote;
 exports.removeQuestion = require("./database/removeQuestion").removeQuestion;
 exports.addQuestions = require("./database/addQuestions").addQuestions;
+exports.addAnswers = require("./database/addAnswers").addAnswers;
 
 
 
