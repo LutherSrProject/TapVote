@@ -17,7 +17,7 @@ describe("recordVote", function () {
         });
     });
     it("inserts an invalid vote into the database", function(done) {
-        database.recordVote({'answerId':5,'questionId':1},function(err,results) {
+        database.recordVote({'answerId':0,'questionId':1},function(err,results) {
             try {
                 should.exist(err,"expected to receive an error");
                 done();
