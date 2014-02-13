@@ -14,7 +14,20 @@ describe("getSurveyInfo", function(){
                 results['title'].should.eql("A sweet survey");
                 results["questions"].should.be.type("object");
                 results["questions"].length.should.not.be.below(1);
-                results["questions"][0].should.eql({"id":1,"surveyId":1,"value":"What is your favorite color?","type": "MCSR","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]});
+
+                // do some basic sanity checks on the first question in the survey
+                var question = results["questions"][0];
+
+                question["id"].should.eql(1);
+                question["surveyId"].should.eql(1);
+                question["value"].should.eql("What is your favorite color?");
+                question["type"].should.eql("MCSR");
+
+                question["answers"][0]["id"].should.eql(1);
+                question["answers"][0]["questionId"].should.eql(1);
+                question["answers"][0]["value"].should.eql("red");
+
+                //results["questions"][0].should.eql({"id":1,"surveyId":1,"value":"What is your favorite color?","type": "MCSR","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]});
 
                 done();
             } catch(testerror) {
