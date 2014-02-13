@@ -75,54 +75,61 @@ function displaySurvey(results) {
         var questionId = question['id'];
 
         var answers = question['answers'];
-        $.each(answers, function (index, answer) {
-            var answerId = answer['id'];
-            var answerValue = answer['value'];
 
-            var answerDiv = $("<div></div>");
-            answerDiv.attr('id', 'answer-'+answerId);
-            answerDiv.attr('class', 'answer rounded');
+        // FR type is different - don't display any answers from a server.
+        // Instead, allow the user to enter their own textual answer.
+        if (questionType == "FR") {
 
-            var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
-            answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
-            answerEl.attr('data-question-id', questionId);
-            answerEl.attr('data-answer-id', answerId);
+        } else {
+            $.each(answers, function (index, answer) {
+                var answerId = answer['id'];
+                var answerValue = answer['value'];
 
-            if (questionType == "MCSR") {
-                answerEl.attr('name', 'question-'+questionId+'-answers');
-                answerEl.attr('type', 'radio');
-                answerEl.change(checkMCSR);
-            }
+                var answerDiv = $("<div></div>");
+                answerDiv.attr('id', 'answer-'+answerId);
+                answerDiv.attr('class', 'answer rounded');
 
-            else if (questionType == "MCMR") {
-                answerEl.attr('type', 'checkbox');
-                // this works for checkbox because the 'change' event is fired on deselect as well as select
-                answerEl.change(checkMCMR);
-            }
+                var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
+                answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
+                answerEl.attr('data-question-id', questionId);
+                answerEl.attr('data-answer-id', answerId);
 
-            else {
-                // unimplemented question type (i.e. MCRANK, FR, etc)
-                console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
-                console.log("WARNING: Treating unknown type as MCSR!");
+                if (questionType == "MCSR") {
+                    answerEl.attr('name', 'question-'+questionId+'-answers');
+                    answerEl.attr('type', 'radio');
+                    answerEl.change(checkMCSR);
+                }
 
-                // just treat this unknown type as an MCSR
-                answerEl.attr('name', 'question-'+questionId+'-answers');
-                answerEl.attr('type', 'radio');
-                answerEl.change(checkMCSR);
-            }
+                else if (questionType == "MCMR") {
+                    answerEl.attr('type', 'checkbox');
+                    // this works for checkbox because the 'change' event is fired on deselect as well as select
+                    answerEl.change(checkMCMR);
+                }
+
+                else {
+                    // unimplemented question type (i.e. MCRANK, etc)
+                    console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
+                    console.log("WARNING: Treating unknown type as MCSR!");
+
+                    // just treat this unknown type as an MCSR
+                    answerEl.attr('name', 'question-'+questionId+'-answers');
+                    answerEl.attr('type', 'radio');
+                    answerEl.change(checkMCSR);
+                }
 
 
-            answerDiv.append(answerEl);
+                answerDiv.append(answerEl);
 
-            // make the label (containing the value of the answer_
-            var answerLabel = $("<label></label>");
-            answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
-            answerLabel.text(answerValue);
-            answerDiv.append(answerLabel);
+                // make the label (containing the value of the answer_
+                var answerLabel = $("<label></label>");
+                answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
+                answerLabel.text(answerValue);
+                answerDiv.append(answerLabel);
 
-            questionDiv.append(answerDiv);
+                questionDiv.append(answerDiv);
 
-        });
+            });
+        }
         questionsDiv.append(questionDiv);
     });
 
