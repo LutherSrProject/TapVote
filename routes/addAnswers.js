@@ -42,7 +42,7 @@ function addAnswers(){
                 }
 
                 if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error adding answers";
+                    err["friendlyName"] = "Error adding new answers";
                 }
                 httpresponses.errorResponse(err, response);
                 return;

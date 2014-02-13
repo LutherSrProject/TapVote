@@ -14,6 +14,13 @@ var addAnswers = function(data, callback) {
         var questionId = answer["questionId"];
 
         return runQuery("INSERT INTO answer(\"questionId\", value) VALUES($1, $2) RETURNING *", [questionId, value])
+        .fail(function (error) {
+            error['friendlyName'] = "Tried to add answer for non-existent questionId";
+            error['httpStatus'] = 400;
+            error['httpResponse'] = "404 Not Found";
+            throw error;
+        })
+        .thenResolve();
     }))
     .then(function (results) {
         callback(null); // status success
