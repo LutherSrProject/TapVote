@@ -2,7 +2,7 @@ var Q = require("q");
 var runQuery = require("./runQuery").runQuery;
 
 /*
-data = {"answers": [{"questionId":2, "value":"apples"}]}
+curl -d {"answers": [{"questionId":2, "value":"apples"}]} -H "Content-Type:application/json" http://localhost:8000/addAnswers
  */
 
 

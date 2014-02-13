@@ -16,6 +16,7 @@ describe("recordVote", function () {
             }
         });
     });
+    // TODO rewrite this test so that it tests an existant answerId that does not belong to the existant questionId
     it("inserts an invalid vote into the database", function(done) {
         database.recordVote({'answerId':0,'questionId':1},function(err,results) {
             try {

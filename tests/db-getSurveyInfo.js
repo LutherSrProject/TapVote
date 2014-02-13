@@ -27,6 +27,10 @@ describe("getSurveyInfo", function(){
                 question["answers"][0]["questionId"].should.eql(1);
                 question["answers"][0]["value"].should.eql("red");
 
+                question["answers"][1]["id"].should.eql(1);
+                question["answers"][1]["questionId"].should.eql(1);
+                question["answers"][1]["value"].should.eql("green");
+
                 //results["questions"][0].should.eql({"id":1,"surveyId":1,"value":"What is your favorite color?","type": "MCSR","answers":[{"id":1,"questionId":1,"value":"red"},{"id":2,"questionId":1,"value":"green"},{"id":3,"questionId":1,"value":"blue"},{"id":4,"questionId":1,"value":"orange"}]});
 
                 done();
