@@ -36,8 +36,8 @@ app.use(express.session());
 
 app.use(cors());
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('stylus').middleware(__dirname + '/www'));
+app.use(express.static(path.join(__dirname, 'www')));
 
 
 // development only
