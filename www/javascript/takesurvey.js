@@ -74,13 +74,28 @@ function displaySurvey(results) {
         var questionType = question['type'];
         var questionId = question['id'];
 
-        var answers = question['answers'];
 
         // FR type is different - don't display any answers from a server.
         // Instead, allow the user to enter their own textual answer.
         if (questionType == "FR") {
+            var answerDiv = $('<div></div>');
+            answerDiv.attr('class', 'answer rounded');
 
+            var answerEl = $('<input />');
+            answerEl.attr('type', 'text');
+            answerEl.attr('data-question-id', questionId);
+
+            var saveLink = $('<a></a>');
+            saveLink.attr('href', 'javascript:void(0);');
+            saveLink.attr('onclick', 'checkFR(' + questionId + ')');
+            saveLink.text('Save');
+
+            answerDiv.append(answerEl);
+            answerDiv.append(saveLink);
+            questionDiv.append(answerDiv);
         } else {
+            var answers = question['answers'];
+
             $.each(answers, function (index, answer) {
                 var answerId = answer['id'];
                 var answerValue = answer['value'];
@@ -134,6 +149,36 @@ function displaySurvey(results) {
     });
 
     console.log(results);
+}
+
+function checkFR(questionId) {
+    // get free-text answer, perform some basic sanity checks.
+    // Then, create a new answer (/addAnswer) and submit a vote for it!
+    var answerEl = $("input[data-question-id=" + questionId + "]");
+    var val = answerEl.val();
+    console.log(answerEl.val());
+
+    var questionList = [{"questionId": questionId, "value": val}];
+    var data = {"answers": questionList};
+
+    $.ajax({
+        type: 'POST',
+        url: AJAX_REQUEST_URL + '/addAnswers',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: showSubmitSuccess,
+        error: showSubmitFailure
+    });
+
+    function showSubmitSuccess(results) {
+        console.log(results);
+        // TODO now submit a vote
+    }
+
+    function showSubmitFailure(results) {
+        console.log("shit, something broke");
+        console.log(results);
+    }
 }
 
 function checkMCSR(event) {
