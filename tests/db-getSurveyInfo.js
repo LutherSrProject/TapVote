@@ -27,7 +27,7 @@ describe("getSurveyInfo", function(){
                 question["answers"][0]["questionId"].should.eql(1);
                 question["answers"][0]["value"].should.eql("red");
 
-                question["answers"][1]["id"].should.eql(1);
+                question["answers"][1]["id"].should.eql(2);
                 question["answers"][1]["questionId"].should.eql(1);
                 question["answers"][1]["value"].should.eql("green");
 
