@@ -1,48 +1,54 @@
 var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
+var questionsObjectValidator = require("../modules/validators/questionsObjectValidator");
 
-//Test this endpoint with curl http://localhost:8000/getSurveyResults?surveyId=1
+//Test this endpoint with
+//curl -d '{"answers": [{"questionId":2, "value":"apples"}]}' -H "Content-Type: application/json" http://localhost:8000/addAnswers
 
-function getSurveyResults(){
+function addAnswers(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "getSurveyResults";
-        
+    apiOptions.endpointName = "addAnswers";
+    
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
-            "surveyId":"string"};
-    
+            "answers":"object"
+    };
     //Indicates the optional API parameters and their basic expected types.
-    apiOptions.optionalApiParameters = {};
+    apiOptions.optionalApiParameters = {
+            "surveyId":"number"
+    };
     
     //Provides additional validation functions after the basic check on required parameters. 
     //If a parameter is listed in this object, it MUST validate successfully and return true if provided in the request.
     //In the case of a problem, return false or throw an error.
-    apiOptions.validators = {};
+    apiOptions.validators = {
+    };
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
-        logger.info("Incoming request for survey results for: " + data['surveyId']);
-        var dataForDB = {};
-        dataForDB['surveyId'] = parseInt(data['surveyId']);
-        database.getSurveyResults(dataForDB, function(err, results) {
+        logger.info("Adding new answers.");
+        console.log(data);
+        database.addAnswers(data, function(err, results) {
             if (err) {
-                if (!err["httpStatus"])
+                if (!err["httpStatus"]) {
                     err["httpStatus"] = 500;
+                }
 
-                if(!err["httpResponse"])
+                if(!err["httpResponse"]) {
                     err["httpResponse"] = "500 Internal Server Error";
+                }
 
-                if (!err["friendlyName"])
-                    err["friendlyName"] = "Error getting survey results";
-
+                if (!err["friendlyName"]) {
+                    err["friendlyName"] = "Error adding new answers";
+                }
                 httpresponses.errorResponse(err, response);
                 return;
             }
             else {
-                logger.info("Returning survey results");
+                logger.info("Added new answers to database");
                 httpresponses.successResponse(response, results);
                 return;
             }
@@ -55,4 +61,4 @@ function getSurveyResults(){
     }; //return the handler function for the endpoint
 }
 
-exports.getSurveyResults = getSurveyResults;
+exports.addAnswers = addAnswers;
