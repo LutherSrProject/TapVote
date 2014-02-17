@@ -13,7 +13,7 @@ var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
 var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
-var addAnswers = require('./routes/addAnswers');
+var addAnswer = require('./routes/addAnswer');
 var http = require('http');
 var path = require('path');
 
@@ -51,7 +51,7 @@ app.post('/deVote', deVote.deVote());
 app.post('/createSurvey', createSurvey.createSurvey());
 app.post('/addQuestions', addQuestions.addQuestions());
 app.post('/removeQuestion', removeQuestion.removeQuestion());
-app.post('/addAnswers', addAnswers.addAnswers());
+app.post('/addAnswer', addAnswer.addAnswer());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 
