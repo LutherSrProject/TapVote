@@ -158,12 +158,11 @@ function checkFR(questionId) {
     var val = answerEl.val();
     console.log(answerEl.val());
 
-    var questionList = [{"questionId": questionId, "value": val}];
-    var data = {"answers": questionList};
+    var data = {"questionId": questionId, "value": val};
 
     $.ajax({
         type: 'POST',
-        url: AJAX_REQUEST_URL + '/addAnswers',
+        url: AJAX_REQUEST_URL + '/addAnswer',
         data: JSON.stringify(data),
         contentType: "application/json",
         success: showSubmitSuccess,
