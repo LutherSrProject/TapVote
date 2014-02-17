@@ -171,7 +171,8 @@ function checkFR(questionId) {
 
     function showSubmitSuccess(results) {
         console.log(results);
-        // TODO now submit a vote
+        var answerId = results['answerId'];
+        submitVote(questionId, answerId);
     }
 
     function showSubmitFailure(results) {
