@@ -180,8 +180,9 @@ function checkFR(questionId) {
     var val = answerEl.val();
     console.log(answerEl.val());
 
-    var data = {"questionId": questionId, "value": val};
+    // TODO remove the previous answer (which we'll store in previousFR)
 
+    var data = {"questionId": questionId, "value": val};
     $.ajax({
         type: 'POST',
         url: AJAX_REQUEST_URL + '/addAnswer',
