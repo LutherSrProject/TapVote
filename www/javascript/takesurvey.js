@@ -38,7 +38,7 @@ function askForSurveyId() {
 }
 
 function redirectToSurvey() {
-    window.location.href="/?p=takesurvey&survey=" + $("#survey-id").val();
+    window.location.href="?p=takesurvey&survey=" + $("#survey-id").val();
 }
 
 function displayAjaxError(error) {
