@@ -1,6 +1,7 @@
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Take Survey";
 var previousMCSR = {};
+var previousFR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
@@ -38,7 +39,7 @@ function askForSurveyId() {
 }
 
 function redirectToSurvey() {
-    window.location.href="?p=takesurvey&survey=" + $("#survey-id").val();
+    window.location.href = "/?p=takesurvey&survey=" + $("#survey-id").val();
 }
 
 function displayAjaxError(error) {
@@ -84,6 +85,27 @@ function displaySurvey(results) {
             var answerEl = $('<input />');
             answerEl.attr('type', 'text');
             answerEl.attr('data-question-id', questionId);
+
+            /* the below code changes the highlight of the input element based on the current status:
+             * If the answer has been changed and the user hasn't saves it - highlight orange
+             * If the answer has been changed since last save - highlight green
+             * If the last save attempt failed - highlight red
+             */
+            answerEl.data('oldVal', answerEl.val());
+            // Look for changes in the value
+            answerEl.bind("propertychange keyup input paste", function (event) {
+                // If value has changed...
+                if (answerEl.data('oldVal') != answerEl.val()) {
+                    // Updated stored value
+                    answerEl.data('oldVal', answerEl.val());
+
+                    // Do action
+                    answerEl.parent().removeClass("highlight-red");
+                    answerEl.parent().removeClass("highlight-green");
+                    answerEl.parent().addClass("highlight-orange");
+
+                }
+            });
 
             var saveLink = $('<a></a>');
             saveLink.attr('href', 'javascript:void(0);');
@@ -172,11 +194,16 @@ function checkFR(questionId) {
     function showSubmitSuccess(results) {
         console.log(results);
         var answerId = results['answerId'];
+        answerEl.attr('data-answer-id', answerId);
         submitVote(questionId, answerId);
     }
 
     function showSubmitFailure(results) {
         console.log("shit, something broke");
+        var el = answerEl.parent();
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-green");
+        el.addClass("highlight-red");
         console.log(results);
     }
 }
@@ -209,7 +236,7 @@ function checkMCMR(event) {
     }
 
     // if unchecked, send a deVote
-    if (! this.checked) {
+    if (!this.checked) {
         deVote(questionId, answerId);
     }
 }
