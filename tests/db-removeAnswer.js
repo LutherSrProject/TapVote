@@ -8,11 +8,8 @@ describe("removeAnswer", function(){
             try {
                 should.not.exist(err);
                 database.removeAnswer({"questionId":1, "answerId":results['answerId']}, function(err, results) {
-                    if(err)
-                        should.not.exist(err);
-                    else {
-                        done();
-                    }
+                    should.not.exist(err);
+                    done();
                 });
             } catch(testerror) {
                 done(testerror);
@@ -24,11 +21,8 @@ describe("removeAnswer", function(){
             try {
                 should.not.exist(err);
                 database.removeAnswer({"questionId":2, "answerId":results['answerId']}, function(err, results) {
-                    if (err) {
-                        done();
-                    } else {
-                        should.exist(err);
-                    }
+                    should.exist(err);
+                    done();
                 })
             } catch(testerror) {
                 done(testerror)
