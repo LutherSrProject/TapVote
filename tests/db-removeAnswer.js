@@ -19,5 +19,21 @@ describe("removeAnswer", function(){
             }
         });
     });
+    it("inserts a new answer into the database, then tries to remove it with an incorrect questionId specified", function (done) {
+        database.addAnswer({"questionId":1, "value":"new answer"}, function(err,results) {
+            try {
+                should.not.exist(err);
+                database.removeAnswer({"questionId":2, "answerId":results['answerId']}, function(err, results) {
+                    if (err) {
+                        done();
+                    } else {
+                        should.exist(err);
+                    }
+                })
+            } catch(testerror) {
+                done(testerror)
+            }
+        });
+    });
 });
 
