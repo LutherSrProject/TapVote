@@ -29,5 +29,15 @@ describe("removeAnswer", function(){
             }
         });
     });
+    it("tries to remove non-existent answer", function (done) {
+        database.removeAnswer({"questionId":2, "answerId":0}, function(err, results) {
+            try {
+                should.exist(err);
+                done();
+            } catch(testerror) {
+                done(testerror)
+            }
+        });
+    });
 });
 
