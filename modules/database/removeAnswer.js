@@ -2,7 +2,7 @@ var Q = require("q");
 var runQuery = require("./runQuery").runQuery;
 
 /*
-curl -d  -H "Content-Type:application/json" http://localhost:8000/removeAnswer
+curl -d '{"questionId":5, "answerId":2}' -H "Content-Type:application/json" http://localhost:8000/removeAnswer
  */
 
 
