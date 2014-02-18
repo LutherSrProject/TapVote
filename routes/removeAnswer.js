@@ -3,18 +3,18 @@ var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
 //Test this endpoint with
-//curl -d '{"answers": [{"questionId":2, "value":"apples"}]}' -H "Content-Type: application/json" http://localhost:8000/addAnswers
+//curl -d '' "Content-Type: application/json" http://localhost:8000/removeAnswer
 
-function addAnswer(){
+function removeAnswer(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "addAnswer";
+    apiOptions.endpointName = "removeAnswer";
     
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
             "questionId":"number",
-            "value":"string"
+            "answerId":"number"
     };
     //Indicates the optional API parameters and their basic expected types.
     apiOptions.optionalApiParameters = {
@@ -29,9 +29,9 @@ function addAnswer(){
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
-        logger.info("Adding new answers.");
+        logger.info("Removing answer");
         console.log(data);
-        database.addAnswer(data, function(err, results) {
+        database.removeAnswer(data, function(err, results) {
             if (err) {
                 if (!err["httpStatus"]) {
                     err["httpStatus"] = 500;
@@ -42,13 +42,13 @@ function addAnswer(){
                 }
 
                 if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error adding new answer";
+                    err["friendlyName"] = "Error removing answer";
                 }
                 httpresponses.errorResponse(err, response);
                 return;
             }
             else {
-                logger.info("Added new answer to database");
+                logger.info("Removed answer from database");
                 httpresponses.successResponse(response, results);
                 return;
             }
@@ -61,4 +61,4 @@ function addAnswer(){
     }; //return the handler function for the endpoint
 }
 
-exports.addAnswer = addAnswer;
+exports.removeAnswer = removeAnswer;
