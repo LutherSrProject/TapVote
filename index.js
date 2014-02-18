@@ -13,7 +13,7 @@ var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
 var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
-var addAnswers = require('./routes/addAnswers');
+var addAnswer = require('./routes/addAnswer');
 var http = require('http');
 var path = require('path');
 
@@ -37,8 +37,8 @@ app.use(express.session());
 
 app.use(cors());
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('stylus').middleware(__dirname + '/www'));
+app.use(express.static(path.join(__dirname, 'www')));
 
 
 // development only
@@ -51,7 +51,7 @@ app.post('/deVote', deVote.deVote());
 app.post('/createSurvey', createSurvey.createSurvey());
 app.post('/addQuestions', addQuestions.addQuestions());
 app.post('/removeQuestion', removeQuestion.removeQuestion());
-app.post('/addAnswers', addAnswers.addAnswers());
+app.post('/addAnswer', addAnswer.addAnswer());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 

@@ -6,15 +6,16 @@ var questionsObjectValidator = require("../modules/validators/questionsObjectVal
 //Test this endpoint with
 //curl -d '{"answers": [{"questionId":2, "value":"apples"}]}' -H "Content-Type: application/json" http://localhost:8000/addAnswers
 
-function addAnswers(){
+function addAnswer(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "addAnswers";
+    apiOptions.endpointName = "addAnswer";
     
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
-            "answers":"object"
+            "questionId":"number",
+            "value":"string"
     };
     //Indicates the optional API parameters and their basic expected types.
     apiOptions.optionalApiParameters = {
@@ -31,7 +32,7 @@ function addAnswers(){
     apiOptions.conclusion = function(data, response) {
         logger.info("Adding new answers.");
         console.log(data);
-        database.addAnswers(data, function(err, results) {
+        database.addAnswer(data, function(err, results) {
             if (err) {
                 if (!err["httpStatus"]) {
                     err["httpStatus"] = 500;
@@ -42,13 +43,13 @@ function addAnswers(){
                 }
 
                 if (!err["friendlyName"]) {
-                    err["friendlyName"] = "Error adding new answers";
+                    err["friendlyName"] = "Error adding new answer";
                 }
                 httpresponses.errorResponse(err, response);
                 return;
             }
             else {
-                logger.info("Added new answers to database");
+                logger.info("Added new answer to database");
                 httpresponses.successResponse(response, results);
                 return;
             }
@@ -61,4 +62,4 @@ function addAnswers(){
     }; //return the handler function for the endpoint
 }
 
-exports.addAnswers = addAnswers;
+exports.addAnswer = addAnswer;

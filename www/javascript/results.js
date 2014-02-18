@@ -66,7 +66,7 @@ function askForSurveyId() {
 }
 
 function redirectToSurvey() {
-    window.location.href="/?p=results&survey=" + $("#survey-id").val();
+    window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
 function displaySurveyResults(results) {
