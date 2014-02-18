@@ -27,9 +27,12 @@ var removeAnswer = function(data, callback) {
                 throw err;
             } else {
                 // actually do the delete
-                return runQuery('DELETE FROM answer WHERE "answerId"=$1 AND "questionId"=$2', [answerId, questionId])
+                return runQuery('DELETE FROM answer WHERE id=$1 AND "questionId"=$2', [answerId, questionId])
             }
         }
+    })
+    .then(function (results) {
+        callback(null, results);
     })
     .fail(function (error) {
         if (!error['friendlyName']) {
