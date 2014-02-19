@@ -1,6 +1,6 @@
 var Q = require("q");
 var should = require('should');
-var database = require('../modules/database');
+var database = require('../modules/database-test');
 
 describe("addAnswer", function(){
     it("inserts a new answer into the database for an already existing question", function(done) {

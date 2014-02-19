@@ -1,6 +1,6 @@
 var Q = require("q");
 var should = require('should');
-var database = require('../modules/database');
+var database = require('../modules/database-test');
 
 describe("deleteVote", function () {
     it("deletes a valid vote from the database", function (done) {
