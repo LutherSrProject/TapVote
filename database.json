@@ -1,0 +1,4 @@
+{
+    "dev": "postgres://postgres:wearetapvote@localhost/tapvote",
+    "test": "postgres://postgres:wearetapvote@localhost/tapvotetest"
+}
