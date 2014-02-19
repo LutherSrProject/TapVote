@@ -26,25 +26,5 @@ describe("addQuestions", function(){
             }
         });
     });
-    it.skip("inserts questions and answers into the database for a survey that has no questions into the database", function(done) {
-        database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
-            try {
-                should.not.exist(err);
-                done();
-            } catch(testerror) {
-                done(testerror);
-            }
-        });
-    });
-    it.skip("inserts two questions and answers into the database for a survey that has no questions into the database", function(done) {
-        database.addQuestions({ "surveyId":1, "questions": [{"question": "Question 1", "type":"MCSR", "answers": ["Q1a1", "Q1a2", "Q1a3", "Q1a4"]}],"password":"supersecretpassword" },function(err,results) {
-            try {
-                should.not.exist(err);
-                done();
-            } catch(testerror) {
-                done(testerror);
-            }
-        });
-    });
 });
 

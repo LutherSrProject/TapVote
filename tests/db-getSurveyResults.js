@@ -43,19 +43,19 @@ describe("getSurveyResults", function(){
             var recordVote = Q.denodeify(database.recordVote);
 
             getSurveyResults({'surveyId':1})
-                .then(function(initialResults){
-                          return recordVote({'answerId':2,'questionId':1})
-                              .then(function(){
-                                        return getSurveyResults({'surveyId':1});
-                                    })
-                              .then(function(finalResults){
-                                        (finalResults["2"] - initialResults["2"]).should.eql(1);
-                                        done();
-                                    });
-                      })
-                .fail(function(error) {
-                          done(error);
-                      });
+            .then(function(initialResults){
+                return recordVote({'answerId':2,'questionId':1})
+                .then(function(){
+                    return getSurveyResults({'surveyId':1});
+                })
+                .then(function(finalResults){
+                    (finalResults["2"] - initialResults["2"]).should.eql(1);
+                    done();
+                });
+            })
+            .fail(function(error) {
+                done(error);
+            });
         });
     });
 
