@@ -14,6 +14,7 @@ exports.deleteVote = require("./database/deleteVote").deleteVote;
 exports.removeQuestion = require("./database/removeQuestion").removeQuestion;
 exports.addQuestions = require("./database/addQuestions").addQuestions;
 exports.addAnswer = require("./database/addAnswer").addAnswer;
+exports.removeAnswer = require("./database/removeAnswer").removeAnswer;
 
 
 
