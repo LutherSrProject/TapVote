@@ -3,15 +3,7 @@
  * each individual database module.
  */
 
-// this should be used anytime we need to connect to the DB
-var dbPassword = process.env.TAPVOTE_DATABASE_PASSWORD;
-
-// if it's set in the environment, use that password. Otherwise, use "wearetapvote"
-if (dbPassword)
-    CONNSTRING = "postgres://postgres:" + dbPassword + "@localhost/tapvote";
-else
-    CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvote";
-
+CONNSTRING = "postgres://postgres:wearetapvote@localhost/tapvotetest";
 
 exports.addQuestions = require("./database/addQuestions").addQuestions;
 exports.createSurvey = require("./database/createSurvey").createSurvey;
@@ -22,7 +14,6 @@ exports.deleteVote = require("./database/deleteVote").deleteVote;
 exports.removeQuestion = require("./database/removeQuestion").removeQuestion;
 exports.addQuestions = require("./database/addQuestions").addQuestions;
 exports.addAnswer = require("./database/addAnswer").addAnswer;
-exports.removeAnswer = require("./database/removeAnswer").removeAnswer;
 
 
 
