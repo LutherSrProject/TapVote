@@ -24,18 +24,21 @@ $ sudo apt-get install postgresql
 ```
 
 Connect to the newly installed Postgres server using the default `postgres` database. We will set a password and
-create the test database. When prompted for a new password, use `wearetapvote`.
+create the development and test databases. When prompted for a new password, use `wearetapvote`.
 ```
 $ sudo -u postgres psql postgres
 # \password postgres
+# create database tapvote;
 # create database tapvotetest;
 <Ctrl>-D
 ```
 
-Now set up the schema (run this command from the TapVote repository directory):
+Now set up the schema for the development database (run this command from the TapVote repository directory):
 ```
 $ node_modules/.bin/db-migrate up
 ```
+
+(Note that the schema for the unit-testing database (tapvotetest) will be created as needed by the unit test suite.)
 
 If everything worked, you should be able to start the server by running:
 ```

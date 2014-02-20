@@ -14,6 +14,7 @@ var createSurvey = require('./routes/createSurvey');
 var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
 var addAnswer = require('./routes/addAnswer');
+var removeAnswer = require('./routes/removeAnswer');
 var http = require('http');
 var path = require('path');
 
@@ -52,12 +53,12 @@ app.post('/createSurvey', createSurvey.createSurvey());
 app.post('/addQuestions', addQuestions.addQuestions());
 app.post('/removeQuestion', removeQuestion.removeQuestion());
 app.post('/addAnswer', addAnswer.addAnswer());
+app.post('/removeAnswer', removeAnswer.removeAnswer());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 
 http.createServer(app).listen(app.get('port'), function() {
   logger.info('Express server listening on port ' + app.get('port'));
 });
-
 
 exports.logger = logger; // export the Winston logger

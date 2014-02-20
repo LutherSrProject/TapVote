@@ -1,6 +1,9 @@
+//Attach global variables
+require('../modules/globals');
+
 var Q = require("q");
 var should = require('should');
-var database = require('../modules/database');
+var database = require('../modules/database-test');
 
 
 describe("recordVote", function () {
