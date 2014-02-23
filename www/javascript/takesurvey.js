@@ -145,7 +145,7 @@ function displaySurvey(results) {
 
                 else {
                     // unimplemented question type (i.e. MCRANK, etc)
-                    console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
+                    console.log("WARNING: Encountered an unimplemented question type: " + questionType);
                     console.log("WARNING: Treating unknown type as MCSR!");
 
                     // just treat this unknown type as an MCSR
@@ -178,28 +178,48 @@ function checkFR(questionId) {
     // Then, create a new answer (/addAnswer) and submit a vote for it!
     var answerEl = $("input[data-question-id=" + questionId + "]");
     var val = answerEl.val();
-    console.log(answerEl.val());
 
-    // TODO remove the previous answer (which we'll store in previousFR)
+    if (previousFR[questionId]) {
+        if (val == previousFR[questionId]['val']) {
+            // don't need to do anything - answer hasn't changed
+            console.log("Answer unchanged - not saving");
+            return;
+        }
 
+        // if we have a previous answer for this question, delete it before submitting the new answer
+        var oldData = JSON.stringify({"questionId":questionId, "answerId":previousFR[questionId]["id"]});
+        $.ajax({
+            type: 'POST',
+            url: AJAX_REQUEST_URL + '/removeAnswer',
+            data: oldData,
+            contentType: "application/json",
+            success: function (results) { console.log("delete answer success")},
+            error: function (error) { console.log("delete answer failure!", error)}
+        });
+    }
+
+    // add the new answer and vote
     var data = {"questionId": questionId, "value": val};
     $.ajax({
         type: 'POST',
         url: AJAX_REQUEST_URL + '/addAnswer',
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: showSubmitSuccess,
-        error: showSubmitFailure
+        success: addAnswerSuccess,
+        error: addAnswerFailure
     });
 
-    function showSubmitSuccess(results) {
+    function addAnswerSuccess(results) {
         console.log(results);
         var answerId = results['answerId'];
         answerEl.attr('data-answer-id', answerId);
         submitVote(questionId, answerId);
+
+        // save the answer so we can delete it later if the user changes their answer
+        previousFR[questionId] = {'val':val, 'id':answerId};
     }
 
-    function showSubmitFailure(results) {
+    function addAnswerFailure(results) {
         console.log("shit, something broke");
         var el = answerEl.parent();
         el.removeClass("highlight-orange");
