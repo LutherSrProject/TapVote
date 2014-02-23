@@ -218,7 +218,7 @@ function checkFR(questionId) {
     }
 
     function addAnswerFailure(results) {
-        console.log("shit, something broke");
+        console.log("shit, something broke.", results);
         var el = answerEl.parent();
         el.removeClass("highlight-orange");
         el.removeClass("highlight-green");
