@@ -47,7 +47,6 @@ function displayAjaxError(error) {
         askForSurveyId(); // 404 happens when an invalid survey ID is specified
     else
         console.log(error);
-
 }
 
 function displaySurvey(results) {
@@ -65,7 +64,7 @@ function displaySurvey(results) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question rounded');
+        questionDiv.attr('class', 'question rounded pure-form');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -153,7 +152,6 @@ function displaySurvey(results) {
                     answerEl.attr('type', 'radio');
                     answerEl.change(checkMCSR);
                 }
-
 
                 answerDiv.append(answerEl);
 
