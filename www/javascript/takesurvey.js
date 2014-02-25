@@ -181,6 +181,11 @@ function checkFR(questionId) {
         if (val == previousFR[questionId]['val']) {
             // don't need to do anything - answer hasn't changed
             console.log("Answer unchanged - not saving");
+
+            answerRow = answerEl.parent();
+            answerRow.removeClass("highlight-orange");
+            answerRow.removeClass("highlight-red");
+            answerRow.addClass("highlight-green");
             return;
         }
 
