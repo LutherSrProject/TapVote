@@ -110,16 +110,21 @@ function displaySurvey(results) {
 function createQuestion(type) {
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestionElement(this);"><i class="fa fa-times fa-lg"></i></button> ' +
-        '  <label for="question-text">Question</label><input type="text" class="question-text" />' +
-        '  <div class="answers">' +
-        '    <div class="answer">' +
-        '     <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
-        '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswerElement(this);"><i class="fa fa-times"></i></button><br>' +
-        '    </div>' +
-        '  </div>' +
-        '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" style="vertical-align:-7px;" onclick="addAnswerElement(this);"><i class="fa fa-plus"></i></button>' +
-        '  <button type="button" class="pure-button pure-button-primary pure-button-small" onclick="saveQuestion(this);">Save Question</button>' +
-        '</div>';
+        '  <label for="question-text">Question</label><input type="text" class="question-text" />';
+
+    if (type != 'FR') {
+        questionHtml +=
+            '  <div class="answers">' +
+            '    <div class="answer">' +
+            '     <label for="answer-text">Answer Choice</label><input type="text" class="answer-text no-wrap" />' +
+            '     <button type="button" class="remove-answer-button pure-button pure-button-error" onclick="removeAnswerElement(this);"><i class="fa fa-times"></i></button><br>' +
+            '    </div>' +
+            '  </div>' +
+            '  <button type="button" class="add-answer-button pure-button pure-button-success pure-button-small" style="vertical-align:-7px;" onclick="addAnswerElement(this);"><i class="fa fa-plus"></i></button>';
+    }
+
+    questionHtml += '  <button type="button" class="pure-button pure-button-primary pure-button-small" onclick="saveQuestion(this);">Save Question</button>';
+    questionHtml += '</div>';
 
     $(".questions").append(questionHtml);
 }
