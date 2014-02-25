@@ -70,13 +70,38 @@ function redirectToSurvey() {
 }
 
 function displaySurveyResults(results) {
+	var data=[];
     $.each(results, function (key, value) {
         var elementId = '#answer-' + key;
-
+        
         var resultSpan = $(elementId).find("div.answer-result");
         resultSpan.text(value);
+		data.push(value);
+        
     });
-    console.log(results);
+    
+        
+    var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range([0, 420]);
+        
+    var chart = d3.select('.chart')
+       .selectAll("div")	
+	       .data(data)
+	chart	.transition()
+            .style("width", function(d) { 
+												   console.log("blah:" + d); 
+												   return x(d) + "px"; 
+												})
+        	.text(function(d) { return d; });	
+    chart.enter().append("div")
+           .style("width", function(d) { 
+												   console.log(d); 
+												   return x(d) + "px"; 
+												})
+           .text(function(d) { return d; });
+           
+    //console.log(results);
 }
 
 function displaySurveyInfo(results) {
@@ -100,10 +125,13 @@ function displaySurveyInfo(results) {
         questionTitle.text(question['value']);
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
-
+        var answerChart = $("<div class='chart'></div>");    
+		
         var answers = question['answers'];
+        
         $.each(answers, function (index, answer) {
             var answerDiv = $("<div></div>");
+  
             answerDiv.attr('id', 'answer-'+answer['id']);
             answerDiv.attr('class', 'answer rounded');
 
@@ -122,6 +150,7 @@ function displaySurveyInfo(results) {
             questionDiv.append(answerDiv);
         });
 
+		questionDiv.append(answerChart);
         questionsDiv.append(questionDiv);
     });
 
@@ -129,40 +158,8 @@ function displaySurveyInfo(results) {
     getSurveyResults();
 }
 
-
-$(window).load(function() {
-// Load the Visualization API and the controls package.
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawChart);
-});
-    
-  // Set a callback to run when the Google Visualization API is loaded.
-  
+//var data = [4, 8, 15, 16, 23, 42];
 
 
-  // Callback that creates and populates a data table,
-  // instantiates a dashboard, a range slider and a pie chart,
-  // passes in the data and draws it.
-function drawChart() {
-        console.log("at least you made it here")
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
 
-        var options = {
-          title: 'My Daily Activities'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-      }
-      
-//$(document).load(function() {
-//    google.load('visualization', '1.1', {packages: ['controls']});
-//    google.setOnLoadCallback(drawVisualization);
-//});
+;
