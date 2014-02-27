@@ -1,10 +1,17 @@
 //Attach global variables
 require('./modules/globals');
 
+var cookieSecret = process.env.TAPVOTE_COOKIE_SECRET;
+
+if (!cookieSecret) {
+    cookieSecret = 'your secret here';
+}
+
 /**
  * Module dependencies.
  */
 var express = require('express');
+var PGStore = require('connect-pg');
 var cors = require('cors');
 var vote = require('./routes/vote');
 var deVote = require('./routes/deVote');
@@ -15,6 +22,7 @@ var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
 var addAnswer = require('./routes/addAnswer');
 var removeAnswer = require('./routes/removeAnswer');
+var pgConnect = require('./modules/database').pgConnect;
 var http = require('http');
 var path = require('path');
 
@@ -29,8 +37,8 @@ app.use(express.json()); //express's json request body parser
 app.use(express.urlencoded()); //in the off chance that we use urlencoded requests
 //notably, leaving out file upload support for now
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(express.cookieParser(cookieSecret));
+app.use(express.session({store: new PGStore(pgConnect)}));
 
 
 // artificially add a second of latency to every request :)
