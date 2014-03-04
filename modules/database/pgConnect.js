@@ -1,7 +1,7 @@
 var pg = require("pg"); // PostgreSQL client library
 var dbSetup = require("./dbConnSetup");
 
-var sessionConnString = dbSetup.dbSessionProtocol + "://" + dbSetup.dbSessionUser + ":" + dbSetup.dbSessionPassword + "@" + dbSetup.dbSessionHost + "/" + dbSetup.dbSessionDatabase;
+var sessionConnString = "postgres://" + dbSetup.dbSessionUser + ":" + dbSetup.dbSessionPassword + "@" + dbSetup.dbSessionHost + "/" + dbSetup.dbSessionDatabase;
 
 function pgConnect (callback) {
     pg.connect(sessionConnString,
