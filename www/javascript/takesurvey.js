@@ -1,6 +1,7 @@
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Take Survey";
 var previousMCSR = {};
+var previousFR = {};
 
 $(function getSurveyInfo() {
     var survey = $.QueryString['survey'];
@@ -38,7 +39,7 @@ function askForSurveyId() {
 }
 
 function redirectToSurvey() {
-    window.location.href="?p=takesurvey&survey=" + $("#survey-id").val();
+    window.location.href = "/?p=takesurvey&survey=" + $("#survey-id").val();
 }
 
 function displayAjaxError(error) {
@@ -46,7 +47,6 @@ function displayAjaxError(error) {
         askForSurveyId(); // 404 happens when an invalid survey ID is specified
     else
         console.log(error);
-
 }
 
 function displaySurvey(results) {
@@ -64,7 +64,7 @@ function displaySurvey(results) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
         questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question rounded');
+        questionDiv.attr('class', 'question rounded pure-form');
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -74,59 +74,162 @@ function displaySurvey(results) {
         var questionType = question['type'];
         var questionId = question['id'];
 
-        var answers = question['answers'];
-        $.each(answers, function (index, answer) {
-            var answerId = answer['id'];
-            var answerValue = answer['value'];
 
-            var answerDiv = $("<div></div>");
-            answerDiv.attr('id', 'answer-'+answerId);
+        // FR type is different - don't display any answers from a server.
+        // Instead, allow the user to enter their own textual answer.
+        if (questionType == "FR") {
+            var answerDiv = $('<div></div>');
             answerDiv.attr('class', 'answer rounded');
 
-            var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
-            answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
+            var answerEl = $('<input />');
+            answerEl.attr('type', 'text');
             answerEl.attr('data-question-id', questionId);
-            answerEl.attr('data-answer-id', answerId);
 
-            if (questionType == "MCSR") {
-                answerEl.attr('name', 'question-'+questionId+'-answers');
-                answerEl.attr('type', 'radio');
-                answerEl.change(checkMCSR);
-            }
+            /* the below code changes the highlight of the input element based on the current status:
+             * If the answer has been changed and the user hasn't saves it - highlight orange
+             * If the answer has been changed since last save - highlight green
+             * If the last save attempt failed - highlight red
+             */
+            answerEl.data('oldVal', answerEl.val());
+            // Look for changes in the value
+            answerEl.bind("propertychange keyup input paste", function (event) {
+                // If value has changed...
+                if (answerEl.data('oldVal') != answerEl.val()) {
+                    // Updated stored value
+                    answerEl.data('oldVal', answerEl.val());
 
-            else if (questionType == "MCMR") {
-                answerEl.attr('type', 'checkbox');
-                // this works for checkbox because the 'change' event is fired on deselect as well as select
-                answerEl.change(checkMCMR);
-            }
+                    // Do action
+                    answerEl.parent().removeClass("highlight-red");
+                    answerEl.parent().removeClass("highlight-green");
+                    answerEl.parent().addClass("highlight-orange");
 
-            else {
-                // unimplemented question type (i.e. MCRANK, FR, etc)
-                console.log("WARNING: Encountered an unimplmemented question type: " + questionType);
-                console.log("WARNING: Treating unknown type as MCSR!");
+                }
+            });
 
-                // just treat this unknown type as an MCSR
-                answerEl.attr('name', 'question-'+questionId+'-answers');
-                answerEl.attr('type', 'radio');
-                answerEl.change(checkMCSR);
-            }
-
+            var saveLink = $('<a></a>');
+            saveLink.attr('href', 'javascript:void(0);');
+            saveLink.attr('onclick', 'checkFR(' + questionId + ')');
+            saveLink.text('Save');
 
             answerDiv.append(answerEl);
-
-            // make the label (containing the value of the answer_
-            var answerLabel = $("<label></label>");
-            answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
-            answerLabel.text(answerValue);
-            answerDiv.append(answerLabel);
-
+            answerDiv.append(saveLink);
             questionDiv.append(answerDiv);
+        } else {
+            var answers = question['answers'];
 
-        });
+            $.each(answers, function (index, answer) {
+                var answerId = answer['id'];
+                var answerValue = answer['value'];
+
+                var answerDiv = $("<div></div>");
+                answerDiv.attr('id', 'answer-'+answerId);
+                answerDiv.attr('class', 'answer rounded');
+
+                var answerEl = $("<input />"); // the actual input element (radio, checkbox, etc)
+                answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
+                answerEl.attr('data-question-id', questionId);
+                answerEl.attr('data-answer-id', answerId);
+
+                if (questionType == "MCSR") {
+                    answerEl.attr('name', 'question-'+questionId+'-answers');
+                    answerEl.attr('type', 'radio');
+                    answerEl.change(checkMCSR);
+                }
+
+                else if (questionType == "MCMR") {
+                    answerEl.attr('type', 'checkbox');
+                    // this works for checkbox because the 'change' event is fired on deselect as well as select
+                    answerEl.change(checkMCMR);
+                }
+
+                else {
+                    // unimplemented question type (i.e. MCRANK, etc)
+                    console.log("WARNING: Encountered an unimplemented question type: " + questionType);
+                    console.log("WARNING: Treating unknown type as MCSR!");
+
+                    // just treat this unknown type as an MCSR
+                    answerEl.attr('name', 'question-'+questionId+'-answers');
+                    answerEl.attr('type', 'radio');
+                    answerEl.change(checkMCSR);
+                }
+
+                answerDiv.append(answerEl);
+
+                // make the label (containing the value of the answer_
+                var answerLabel = $("<label></label>");
+                answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
+                answerLabel.text(answerValue);
+                answerDiv.append(answerLabel);
+
+                questionDiv.append(answerDiv);
+
+            });
+        }
         questionsDiv.append(questionDiv);
     });
 
     console.log(results);
+}
+
+function checkFR(questionId) {
+    // get free-text answer, perform some basic sanity checks.
+    // Then, create a new answer (/addAnswer) and submit a vote for it!
+    var answerEl = $("input[data-question-id=" + questionId + "]");
+    var val = answerEl.val();
+
+    if (previousFR[questionId]) {
+        if (val == previousFR[questionId]['val']) {
+            // don't need to do anything - answer hasn't changed
+            console.log("Answer unchanged - not saving");
+
+            answerRow = answerEl.parent();
+            answerRow.removeClass("highlight-orange");
+            answerRow.removeClass("highlight-red");
+            answerRow.addClass("highlight-green");
+            return;
+        }
+
+        // if we have a previous answer for this question, delete it before submitting the new answer
+        var oldData = JSON.stringify({"questionId":questionId, "answerId":previousFR[questionId]["id"]});
+        $.ajax({
+            type: 'POST',
+            url: AJAX_REQUEST_URL + '/removeAnswer',
+            data: oldData,
+            contentType: "application/json",
+            success: function (results) { console.log("delete answer success")},
+            error: function (error) { console.log("delete answer failure!", error)}
+        });
+    }
+
+    // add the new answer and vote
+    var data = {"questionId": questionId, "value": val};
+    $.ajax({
+        type: 'POST',
+        url: AJAX_REQUEST_URL + '/addAnswer',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: addAnswerSuccess,
+        error: addAnswerFailure
+    });
+
+    function addAnswerSuccess(results) {
+        console.log(results);
+        var answerId = results['answerId'];
+        answerEl.attr('data-answer-id', answerId);
+        submitVote(questionId, answerId);
+
+        // save the answer so we can delete it later if the user changes their answer
+        previousFR[questionId] = {'val':val, 'id':answerId};
+    }
+
+    function addAnswerFailure(results) {
+        console.log("shit, something broke.", results);
+        var el = answerEl.parent();
+        el.removeClass("highlight-orange");
+        el.removeClass("highlight-green");
+        el.addClass("highlight-red");
+        console.log(results);
+    }
 }
 
 function checkMCSR(event) {
@@ -157,7 +260,7 @@ function checkMCMR(event) {
     }
 
     // if unchecked, send a deVote
-    if (! this.checked) {
+    if (!this.checked) {
         deVote(questionId, answerId);
     }
 }
