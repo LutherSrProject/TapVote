@@ -6,7 +6,9 @@
 pageTitle = "Results";
 
 
-$(function getSurveyInfo() {
+$(getSurveyInfo());
+
+function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
         $.ajax({
@@ -19,7 +21,7 @@ $(function getSurveyInfo() {
     } else {
         askForSurveyId();
     }
-});
+}
 
 function getSurveyResults(surveyInfo) {
     var survey = $.QueryString['survey'];
