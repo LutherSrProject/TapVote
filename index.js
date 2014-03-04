@@ -39,7 +39,7 @@ app.use(express.urlencoded()); //in the off chance that we use urlencoded reques
 //notably, leaving out file upload support for now
 app.use(express.methodOverride());
 app.use(express.cookieParser(cookieSecret));
-app.use(express.session({store: new PGStore(pgConnectSession)}));
+app.use(express.session({store: new PGStore(pgConnectSession), cookie: {maxAge: 10 * 24 * 60 * 60 * 1000}}));
 
 
 // artificially add a second of latency to every request :)
