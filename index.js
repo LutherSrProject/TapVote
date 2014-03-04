@@ -22,7 +22,8 @@ var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
 var addAnswer = require('./routes/addAnswer');
 var removeAnswer = require('./routes/removeAnswer');
-var pgConnect = require('./modules/database').pgConnect;
+var dbConnSetup = require('./modules/database/dbConnSetup');
+var pgConnectSession = dbConnSetup.pgConnectSession;
 var http = require('http');
 var path = require('path');
 
@@ -38,7 +39,7 @@ app.use(express.urlencoded()); //in the off chance that we use urlencoded reques
 //notably, leaving out file upload support for now
 app.use(express.methodOverride());
 app.use(express.cookieParser(cookieSecret));
-app.use(express.session({store: new PGStore(pgConnect)}));
+app.use(express.session({store: new PGStore(pgConnectSession)}));
 
 
 // artificially add a second of latency to every request :)

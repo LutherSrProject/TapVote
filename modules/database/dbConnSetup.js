@@ -33,7 +33,26 @@ exports.dbUser = dbUser;
 exports.dbPassword = dbPassword;
 exports.dbHost = dbHost;
 exports.dbDatabase = dbDatabase;
-exports.dbSessionUser = dSessionbUser;
+exports.dbSessionUser = dbSessionUser;
 exports.dbSessionPassword = dbSessionPassword;
 exports.dbSessionHost = dbSessionHost;
 exports.dbSessionDatabase = dbSessionDatabase;
+
+var pg = require("pg"); // PostgreSQL client library
+
+var sessionConnString = "postgres://" + dbSessionUser + ":" + dbSessionPassword + "@" + dbSessionHost + "/" + dbSessionDatabase;
+
+function pgConnectSession (callback) {
+    pg.connect(sessionConnString,
+        function (err, client, done) {
+            if (err) {
+                console.log(JSON.stringify(err));
+            }
+            if (client) {
+                callback(client);
+                done();
+            }
+        }
+    );
+};
+exports.pgConnectSession = pgConnectSession;
