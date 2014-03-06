@@ -31,7 +31,8 @@ var pageTitle;
 // load the header, footer, content
 $(function() {
     $.ajaxSetup({
-        async: true
+        async: true,
+        xhrFields: { withCredentials: true }
     });
     $("#header").load("header.html");
     $("#footer").load("footer.html");

@@ -12,7 +12,6 @@ $(function getSurveyInfo() {
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
-            xhrFields: { withCredentials: true },
             data: {surveyId: survey},
             success: displaySurveyInfo,
             error: displayAjaxError
@@ -28,7 +27,6 @@ function getSurveyResults() {
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyResults',
-            xhrFields: { withCredentials: true },
             data: {surveyId: survey},
             success: displaySurveyResults,
             error: displayAjaxError
