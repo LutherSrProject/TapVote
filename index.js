@@ -45,7 +45,13 @@ app.use(express.session({store: new PGStore(pgConnectSession), cookie: {maxAge: 
 // artificially add a second of latency to every request :)
 // app.use(function(req,res,next){setTimeout(next,1000)});
 
+// TODO investigate a CORS whitelist
+var corsOptions = {
+    origin: true,
+    credentials: true
+};
 app.use(cors());
+
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/www'));
 app.use(express.static(path.join(__dirname, 'www')));
