@@ -1,4 +1,11 @@
 {
     "dev": "postgres://postgres:wearetapvote@localhost/tapvote",
     "test": "postgres://postgres:wearetapvote@localhost/tapvotetest"
+    "prod": {
+        "driver": "pg",
+        "user": {"ENV": "TAPVOTE_DATABASE_USER"},
+        "password": {"ENV": "TAPVOTE_DATABASE_PASSWORD"},
+        "database": "tapvote",
+        "host": "localhost"
+    }
 }
