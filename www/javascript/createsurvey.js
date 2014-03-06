@@ -78,6 +78,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: AJAX_REQUEST_URL + "/createSurvey",
+            xhrFields: { withCredentials: true },
             data: jsonData,
             contentType: 'application/json',
             success: function (data) {

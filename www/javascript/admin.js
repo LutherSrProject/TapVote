@@ -10,6 +10,7 @@ function getSurveyInfo() {
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
+            xhrFields: { withCredentials: true },
             data: {surveyId: survey},
             success: displaySurvey,
             error: displayAjaxError
@@ -151,6 +152,7 @@ function saveQuestion(el) {
     $.ajax({
         type: "POST",
         url: AJAX_REQUEST_URL + "/addQuestions",
+        xhrFields: { withCredentials: true },
         data: data,
         contentType: 'application/json',
         success: function(data) {
@@ -185,6 +187,7 @@ function deleteQuestion(el) {
     $.ajax({
         type:'POST',
         url: AJAX_REQUEST_URL + '/removeQuestion',
+        xhrFields: { withCredentials: true },
         data: JSON.stringify({questionId:parseInt(questionId)}),
         contentType: 'application/json',
         success: function(data) { questionDiv.remove() },
