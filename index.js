@@ -50,7 +50,7 @@ var corsOptions = {
     origin: true,
     credentials: true
 };
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/www'));
