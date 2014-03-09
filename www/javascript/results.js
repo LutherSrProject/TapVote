@@ -70,13 +70,38 @@ function redirectToSurvey() {
 }
 
 function displaySurveyResults(results) {
+	var data=[];
     $.each(results, function (key, value) {
         var elementId = '#answer-' + key;
-
+        
         var resultSpan = $(elementId).find("div.answer-result");
         resultSpan.text(value);
+		data.push(value);
+        
     });
-    console.log(results);
+    
+        
+    var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range([0, 420]);
+        
+    var chart = d3.select('.chart')
+       .selectAll("div")	
+	       .data(data)
+	chart	.transition()
+            .style("width", function(d) { 
+												   console.log("blah:" + d); 
+												   return x(d) + "px"; 
+												})
+        	.text(function(d) { return d; });	
+    chart.enter().append("div")
+           .style("width", function(d) { 
+												   console.log(d); 
+												   return x(d) + "px"; 
+												})
+           .text(function(d) { return d; });
+           
+    //console.log(results);
 }
 
 function displaySurveyInfo(results) {
@@ -100,10 +125,13 @@ function displaySurveyInfo(results) {
         questionTitle.text(question['value']);
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
-
+        var answerChart = $("<div class='chart'></div>");    
+		
         var answers = question['answers'];
+        
         $.each(answers, function (index, answer) {
             var answerDiv = $("<div></div>");
+  
             answerDiv.attr('id', 'answer-'+answer['id']);
             answerDiv.attr('class', 'answer rounded');
 
@@ -122,6 +150,7 @@ function displaySurveyInfo(results) {
             questionDiv.append(answerDiv);
         });
 
+		questionDiv.append(answerChart);
         questionsDiv.append(questionDiv);
     });
 
@@ -129,4 +158,8 @@ function displaySurveyInfo(results) {
     getSurveyResults();
 }
 
+//var data = [4, 8, 15, 16, 23, 42];
 
+
+
+;
