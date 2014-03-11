@@ -18,6 +18,9 @@ function getSurveyInfo() {
             success: getSurveyResults,
             error: displayAjaxError
         });
+
+        setTimeout(getSurveyInfo, 2000);
+
     } else {
         askForSurveyId();
     }
@@ -83,6 +86,7 @@ function displaySurvey(surveyInfo) {
     console.log(surveyInfo);
 
     var titleDiv = $("#survey-title");
+    titleDiv.empty(); // TODO this is just a temporary hack until d3 gets in...
 
     var el = $("<div></div>");
     el.text(surveyInfo['title']);
@@ -91,6 +95,9 @@ function displaySurvey(surveyInfo) {
 
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
+
+    questionsDiv.empty();  // TODO this is just a temporary hack until d3 gets in...
+
     var questions = surveyInfo['questions'];
     $.each(questions, function (index, question) {
         // create a div for each question in questions
