@@ -6,35 +6,35 @@
 pageTitle = "Results";
 
 
-$(function getSurveyInfo() {
+$(getSurveyInfo());
+
+function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
-            success: displaySurveyInfo,
+            success: getSurveyResults,
             error: displayAjaxError
         });
+
+        setTimeout(getSurveyInfo, 2000);
+
     } else {
         askForSurveyId();
     }
-});
+}
 
-function getSurveyResults() {
+function getSurveyResults(surveyInfo) {
     var survey = $.QueryString['survey'];
-    if (survey) {
-        $.ajax({
-            type:'GET',
-            url: AJAX_REQUEST_URL + '/getSurveyResults',
-            data: {surveyId: survey},
-            success: displaySurveyResults,
-            error: displayAjaxError
-        });
-    }
-
-    // poll for updated results every second
-    setTimeout(getSurveyResults, 1000)
+    $.ajax({
+        type:'GET',
+        url: AJAX_REQUEST_URL + '/getSurveyResults',
+        data: {surveyId: survey},
+        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
+        error: displayAjaxError
+    });
 }
 
 function displayAjaxError(error) {
@@ -69,27 +69,36 @@ function redirectToSurvey() {
     window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
-function displaySurveyResults(results) {
-    $.each(results, function (key, value) {
-        var elementId = '#answer-' + key;
-
-        var resultSpan = $(elementId).find("div.answer-result");
-        resultSpan.text(value);
+function combineSurveyInfo(surveyInfo, surveyResults) {
+    // combine the survey info (containing questions and answer options) with the results
+    // (containing the number of votes for each answer)
+    $.each(surveyInfo.questions, function (_, question) {
+        $.each(question.answers, function (_, answer) {
+            answer.votes = surveyResults[answer.id]
+        })
     });
-    console.log(results);
+
+    // surveyInfo now has all information, including results (# of votes)
+    displaySurvey(surveyInfo)
 }
 
-function displaySurveyInfo(results) {
+function displaySurvey(surveyInfo) {
+    console.log(surveyInfo);
+
     var titleDiv = $("#survey-title");
+    titleDiv.empty(); // TODO this is just a temporary hack until d3 gets in...
 
     var el = $("<div></div>");
-    el.text(results['title']);
+    el.text(surveyInfo['title']);
     el.addClass('survey-title');
     titleDiv.append(el);
 
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
-    var questions = results['questions'];
+
+    questionsDiv.empty();  // TODO this is just a temporary hack until d3 gets in...
+
+    var questions = surveyInfo['questions'];
     $.each(questions, function (index, question) {
         // create a div for each question in questions
         var questionDiv = $("<div></div>");
@@ -115,6 +124,7 @@ function displaySurveyInfo(results) {
             // create the div that holds the count of responses for this answer
             var answerResultDiv  = $("<div></div>");
             answerResultDiv.attr("class", "answer-result");
+            answerResultDiv.text(answer.votes);
 
             answerDiv.append(questionValue);
             answerDiv.append(answerResultDiv);
@@ -124,9 +134,6 @@ function displaySurveyInfo(results) {
 
         questionsDiv.append(questionDiv);
     });
-
-    console.log(results);
-    getSurveyResults();
 }
 
 
