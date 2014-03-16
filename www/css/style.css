@@ -6,19 +6,7 @@ http://colorschemedesigner.com/#2S62Eueqqw0w0*/
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+* {
     margin: 0;
     padding: 0;
     border: 0;
@@ -36,7 +24,7 @@ body {
     top: 0;
     margin: 0;
     padding: 0;
-    background-color: #FFE;
+    background-color: #FAFBF5;
     font-family: 'aller_lightregular', Arial;
     height: 100%;
     width: 100%;
@@ -119,7 +107,7 @@ h3 {
 .question {
     margin-bottom: 20px;
     padding: 10px 30px;
-    background-color: #fff7b1;
+    background-color: white;
 }
 
 .rounded {
@@ -153,15 +141,14 @@ h3 {
 }
 
 .highlight-green {
-    background: rgb(28, 184, 65);
+    background: #90E79C;
 }
 
 #header {
     padding-left: 20px;
     font-family: 'aller_displayregular', Arial;
-    background-color: #FFE;
-    color: #000;
-    box-shadow: 0 3px 14px rgba(50, 50, 50, 0.75);
+    background-color: #FFEE6A;
+    box-shadow: 0 3px 14px #B3B3AE;
 }
 
 #content {
@@ -169,7 +156,14 @@ h3 {
     text-align: left;
     margin-left: auto;
     margin-right: auto;
+	margin-bottom: -60px;
     max-width: 500px;
+	min-height: 100%;
+}
+
+#content:after {
+	content:"";
+	display: block;
 }
 
 #home-content,
@@ -180,12 +174,19 @@ h3 {
     text-align: center
 }
 
+#footer, #content:after {
+	height: 60px;
+}
+
 #footer {
-    height: 100%;
+
     padding: 20px;
-    margin-top: 80px;
-    color: grey;
+    color: #7C8D84;
     text-align: center;
+	background: #FFEE6A;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
 }
 
 #footer-nav {
@@ -196,7 +197,7 @@ h3 {
 #footer-nav a,
 #footer-nav a:hover
 #footer-nav a:visited {
-    color: grey;
+    color: #7C8D84;
 }
 
 #copyright {
@@ -208,7 +209,11 @@ h3 {
 #header h1 a {
     font-size: 60pt;
     text-decoration: none;
-    color: black;
+    color: #FFF;
+	text-shadow: -2px -2px 0 #7C8D84,
+    2px -2px 0 #7C8D84,
+    -2px 2px 0 #7C8D84,
+    2px 2px 0 #7C8D84;
 }
 
 
@@ -249,24 +254,24 @@ h3 {
 .pure-button {
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    color: white;
+    color: black;
     font-weight: bold;
 }
 
 .pure-button-success {
-    background: rgb(28, 184, 65); /* this is a green */
+    background: #90E79C; /* this is a green */
 }
 
 .pure-button-error {
-    background: rgb(202, 60, 60); /* this is a maroon */
+    background: #FF6949; /* this is a maroon */
 }
 
 .pure-button-warning {
-    background: rgb(223, 117, 20); /* this is an orange */
+    background: #FFEE6A; /* this is an orange */
 }
 
 .pure-button-secondary {
-    background: rgb(66, 184, 221); /* this is a light blue */
+    background: #42B6DD; /* this is a light blue */
 }
 
 .pure-button-large {
