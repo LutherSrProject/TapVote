@@ -30,6 +30,7 @@ Endpoint.prototype.handle = function(req, response){
         httpresponses.errorResponse(err, response);
         return;
     }
+    data.userId = req.virtualSession.uuid;
     return this.conclusion(data, response);
 };
 
