@@ -24,6 +24,7 @@ var addAnswer = require('./routes/addAnswer');
 var removeAnswer = require('./routes/removeAnswer');
 var dbConnSetup = require('./modules/database/dbConnSetup');
 var pgConnectSession = dbConnSetup.pgConnectSession;
+var initSession = require('./modules/initsession');
 var http = require('http');
 var path = require('path');
 
@@ -52,6 +53,7 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
+app.use(initSession.initSession);
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/www'));
 app.use(express.static(path.join(__dirname, 'www')));
