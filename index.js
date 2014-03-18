@@ -32,8 +32,6 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 8000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.json()); //express's json request body parser
 app.use(express.urlencoded()); //in the off chance that we use urlencoded requests
@@ -55,7 +53,6 @@ app.use(cors(corsOptions));
 
 app.use(initSession.initSession);
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/www'));
 app.use(express.static(path.join(__dirname, 'www')));
 
 
