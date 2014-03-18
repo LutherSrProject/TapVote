@@ -11,6 +11,7 @@ function getSurveyInfo() {
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
+			xhrFields: { withCredentials: true },
             success: displaySurvey,
             error: displayAjaxError
         });
@@ -152,6 +153,7 @@ function saveQuestion(el) {
         type: "POST",
         url: AJAX_REQUEST_URL + "/addQuestions",
         data: data,
+		xhrFields: { withCredentials: true },
         contentType: 'application/json',
         success: function(data) {
             updateNewQuestion(questionDiv, data);
@@ -186,6 +188,7 @@ function deleteQuestion(el) {
         type:'POST',
         url: AJAX_REQUEST_URL + '/removeQuestion',
         data: JSON.stringify({questionId:parseInt(questionId)}),
+		xhrFields: { withCredentials: true },
         contentType: 'application/json',
         success: function(data) { questionDiv.remove() },
         error: displayAjaxError
