@@ -20,7 +20,6 @@ function getSurveyInfo() {
             error: displayAjaxError
         });
 
-        setTimeout(getSurveyInfo, 2000);
 
     } else {
         askForSurveyId();
@@ -37,6 +36,7 @@ function getSurveyResults(surveyInfo) {
         success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
         error: displayAjaxError
     });
+    //setTimeout(getSurveyInfo, 2000);
 }
 
 function displayAjaxError(error) {
@@ -85,6 +85,97 @@ function combineSurveyInfo(surveyInfo, surveyResults) {
 }
 
 function displaySurvey(surveyInfo) {
+    console.log(surveyInfo);
+
+    var questions = surveyInfo.questions;
+
+    // D3 scaling function - will be used later
+    var max = 0;
+    $.each(questions, function(index, question) {
+        $.each(question.answers, function(i, answer) {
+            max = Math.max(max, answer.votes);
+        })
+    });
+    if (!max) max = 0;
+
+    var x = d3.scale.linear()
+        .domain([0, max])
+        .range([0, 420]);
+
+
+    var divs = d3.select("#survey-questions")
+        .selectAll("div")
+        .data(questions);
+
+    var questionDivs = divs.enter().append("div") // this creates the question divs
+        .text(function(d) { return d.value; })
+        .attr("class", "question rounded");
+
+    divs.exit().remove();
+
+    var answerDivs = questionDivs.selectAll("div")
+        .data(function(d) { return d.answers; });
+
+    answerDivs.enter().append("div") // this creates the nested answer divs
+        .text(function(d) { return d.value })
+        .attr("class", "answer");
+
+    answerDivs.exit().remove();
+
+
+    /*var chart = d3.select('#survey-questions')
+        .selectAll("div")
+	    .data(questions);
+
+    var questionsCharts = chart.enter().append("div")
+        .text(function(d) { return d.value; })
+        .attr("class", "question rounded");
+
+    chart.transition()
+        .text(function(d) { return d.value; });
+
+    chart.exit().remove();
+
+    var answersCharts = questionsCharts
+        .selectAll("div")
+        .data(function(d) { return d.answers; });
+
+    answersCharts.enter().append("div")
+        .text(function(d) { return d.value; })
+        .attr("class", "answer");
+
+    questionsCharts.transition()
+        .text(function(d) { return d.value; });
+
+    questionsCharts.exit().remove();
+*/
+
+
+    /*chart.transition()
+        .text(function(d) { return d.value; });
+
+    var questions_chart.enter().append("div")
+        //.style("width", function(d) {
+        //    return x(d) + "px";
+        //})
+        .text(function(d) { return d.value; })
+        .attr("class", "question rounded")
+    .selectAll("div")
+        .data(function(d) { return d.answers })
+        .enter().append("div")
+            .text(function(d) { return d.value })
+            .attr("class", "answer")
+        /*.transition()
+            .text(function(d) { return d.value; })
+        .exit().remove()
+    */
+
+}
+
+
+
+
+/*function displaySurvey(surveyInfo) {
     console.log(surveyInfo);
 
     var titleDiv = $("#survey-title");
@@ -136,6 +227,6 @@ function displaySurvey(surveyInfo) {
 
         questionsDiv.append(questionDiv);
     });
-}
+}*/
 
 
