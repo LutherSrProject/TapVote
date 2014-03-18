@@ -10,6 +10,7 @@ $(function getSurveyInfo() {
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
+            xhrFields: { withCredentials: true },
             success: displaySurvey,
             error: displayAjaxError
         });
@@ -195,6 +196,7 @@ function checkFR(questionId) {
             type: 'POST',
             url: AJAX_REQUEST_URL + '/removeAnswer',
             data: oldData,
+            xhrFields: { withCredentials: true },
             contentType: "application/json",
             success: function (results) { console.log("delete answer success")},
             error: function (error) { console.log("delete answer failure!", error)}
@@ -207,6 +209,7 @@ function checkFR(questionId) {
         type: 'POST',
         url: AJAX_REQUEST_URL + '/addAnswer',
         data: JSON.stringify(data),
+        xhrFields: { withCredentials: true },
         contentType: "application/json",
         success: addAnswerSuccess,
         error: addAnswerFailure
@@ -277,6 +280,7 @@ function deVote(questionId, answerId) {
         type: 'POST',
         url: AJAX_REQUEST_URL + '/deVote',
         data: JSON.stringify(data),
+        xhrFields: { withCredentials: true },
         contentType: "application/json",
         success: showDevoteSuccess,
         error: showDevoteFailure
@@ -307,6 +311,7 @@ function submitVote(questionId, answerId) {
         type: 'POST',
         url: AJAX_REQUEST_URL + '/vote',
         data: JSON.stringify(data),
+        xhrFields: { withCredentials: true },
         contentType: "application/json",
         success: showSubmitSuccess,
         error: showSubmitFailure

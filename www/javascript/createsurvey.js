@@ -79,6 +79,7 @@ $(document).ready(function () {
             type: "POST",
             url: AJAX_REQUEST_URL + "/createSurvey",
             data: jsonData,
+            xhrFields: { withCredentials: true },
             contentType: 'application/json',
             success: function (data) {
                shareSurvey(data["surveyId"])
