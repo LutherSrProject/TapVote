@@ -15,6 +15,7 @@ function getSurveyInfo() {
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
+            xhrFields: { withCredentials: true },
             success: getSurveyResults,
             error: displayAjaxError
         });
@@ -32,6 +33,7 @@ function getSurveyResults(surveyInfo) {
         type:'GET',
         url: AJAX_REQUEST_URL + '/getSurveyResults',
         data: {surveyId: survey},
+        xhrFields: { withCredentials: true },
         success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
         error: displayAjaxError
     });
