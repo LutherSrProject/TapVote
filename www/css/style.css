@@ -47,7 +47,7 @@ h3 {
     margin-top: 5px;
     padding: 5px;
     font-family: monospace;
-    background-color: #EDEDED;
+    background-color: #FFEE6A;
 }
 
 .container {
@@ -107,11 +107,11 @@ h3 {
 .question {
     margin-bottom: 20px;
     padding: 10px 30px;
-    background-color: white;
+    background-color: #FFEE6A;
 }
 
 .rounded {
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 .pure-form label {
@@ -147,7 +147,7 @@ h3 {
 #header {
     padding-left: 20px;
     font-family: 'aller_displayregular', Arial;
-    background-color: #FFEE6A;
+    background-color: #42B6DD;
     box-shadow: 0 3px 14px #B3B3AE;
 }
 
@@ -180,10 +180,10 @@ h3 {
 
 #footer {
 
-    padding: 20px;
-    color: #7C8D84;
+    padding: 10px;
+    color: #FAFBF5;
     text-align: center;
-	background: #FFEE6A;
+	background: #42B6DD;
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
@@ -197,7 +197,7 @@ h3 {
 #footer-nav a,
 #footer-nav a:hover
 #footer-nav a:visited {
-    color: #7C8D84;
+    color: #FAFBF5;
 }
 
 #copyright {
@@ -252,7 +252,7 @@ h3 {
 
 /* override some pure-button styles */
 .pure-button {
-    border-radius: 4px;
+    border-radius: 0px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     color: black;
     font-weight: bold;
@@ -267,7 +267,7 @@ h3 {
 }
 
 .pure-button-warning {
-    background: #FFEE6A; /* this is an orange */
+    background: #FFEE6A; /* this is a yellow*/
 }
 
 .pure-button-secondary {
