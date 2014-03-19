@@ -96,7 +96,7 @@ function displaySurvey(surveyInfo) {
     if (!max) max = 0;
 
     var x = d3.scale.linear()
-        .domain([0, 20])  // TODO fix this
+        .domain([0, max])  // TODO fix this
         .range([0, 420]);
 
 
