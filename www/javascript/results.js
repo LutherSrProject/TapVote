@@ -20,7 +20,6 @@ function getSurveyInfo() {
             error: displayAjaxError
         });
 
-
     } else {
         askForSurveyId();
     }
@@ -87,11 +86,9 @@ function combineSurveyInfo(surveyInfo, surveyResults) {
 function displaySurvey(surveyInfo) {
     console.log(surveyInfo);
 
-    var questions = surveyInfo.questions;
-
     // D3 scaling function - will be used later
     var max = 0;
-    $.each(questions, function(index, question) {
+    $.each(surveyInfo.questions, function(index, question) {
         $.each(question.answers, function(i, answer) {
             max = Math.max(max, answer.votes);
         })
@@ -99,134 +96,49 @@ function displaySurvey(surveyInfo) {
     if (!max) max = 0;
 
     var x = d3.scale.linear()
-        .domain([0, max])
+        .domain([0, 20])  // TODO fix this
         .range([0, 420]);
 
 
-    var divs = d3.select("#survey-questions")
+    var questions = d3.select("#survey-questions")
         .selectAll("div")
-        .data(questions);
+        .data(surveyInfo.questions);
 
-    var questionDivs = divs.enter().append("div") // this creates the question divs
+    var questionDivs = questions.enter().append("div") // this creates the question divs
         .text(function(d) { return d.value; })
-        .attr("class", "question rounded");
+        .attr("class", "question chart rounded");
 
-    divs.exit().remove();
+    //questions.transition()
+    //    .text(function(d) { return d.value; });
 
-    var answerDivs = questionDivs.selectAll("div")
-        .data(function(d) { return d.answers; });
-
-    answerDivs.enter().append("div") // this creates the nested answer divs
-        .text(function(d) { return d.value })
-        .attr("class", "answer");
-
-    answerDivs.exit().remove();
+    questions.exit().remove();
 
 
-    /*var chart = d3.select('#survey-questions')
-        .selectAll("div")
-	    .data(questions);
-
-    var questionsCharts = chart.enter().append("div")
-        .text(function(d) { return d.value; })
-        .attr("class", "question rounded");
-
-    chart.transition()
-        .text(function(d) { return d.value; });
-
-    chart.exit().remove();
-
-    var answersCharts = questionsCharts
+    var answers = questionDivs
         .selectAll("div")
         .data(function(d) { return d.answers; });
 
-    answersCharts.enter().append("div")
+    var answerDivs = answers.enter().append("div") // this creates the nested answer divs
         .text(function(d) { return d.value; })
         .attr("class", "answer");
 
-    questionsCharts.transition()
-        .text(function(d) { return d.value; });
-
-    questionsCharts.exit().remove();
-*/
+    answers.exit().remove();
 
 
-    /*chart.transition()
-        .text(function(d) { return d.value; });
+    var answerResults = answerDivs
+        .selectAll("div")
+        .data(function(d) { return [d] });
 
-    var questions_chart.enter().append("div")
-        //.style("width", function(d) {
-        //    return x(d) + "px";
-        //})
-        .text(function(d) { return d.value; })
-        .attr("class", "question rounded")
-    .selectAll("div")
-        .data(function(d) { return d.answers })
-        .enter().append("div")
-            .text(function(d) { return d.value })
-            .attr("class", "answer")
-        /*.transition()
-            .text(function(d) { return d.value; })
-        .exit().remove()
-    */
+    var answerResultDivs = answerResults.enter().append("div")
+        .style("width", function(d) {
+            return x(d.votes) + "px";
+        })
+        .text(function(d) { return d.votes; })
+        .attr("class", "bar");
+
+
+    answerResults.exit().remove();
 
 }
-
-
-
-
-/*function displaySurvey(surveyInfo) {
-    console.log(surveyInfo);
-
-    var titleDiv = $("#survey-title");
-    titleDiv.empty(); // TODO this is just a temporary hack until d3 gets in...
-
-    var el = $("<div></div>");
-    el.text(surveyInfo['title']);
-    el.addClass('survey-title');
-    titleDiv.append(el);
-
-    var questionsDiv = $("#survey-questions");
-    questionsDiv.addClass("questions");
-
-    questionsDiv.empty();  // TODO this is just a temporary hack until d3 gets in...
-
-    var questions = surveyInfo['questions'];
-    $.each(questions, function (index, question) {
-        // create a div for each question in questions
-        var questionDiv = $("<div></div>");
-        questionDiv.attr('id', 'question-'+question['id']);
-        questionDiv.attr('class', 'question rounded');
-
-        var questionTitle = $("<div></div>");
-        questionTitle.text(question['value']);
-        questionTitle.addClass('question-title');
-        questionDiv.append(questionTitle);
-
-        var answers = question['answers'];
-        $.each(answers, function (index, answer) {
-            var answerDiv = $("<div></div>");
-            answerDiv.attr('id', 'answer-'+answer['id']);
-            answerDiv.attr('class', 'answer rounded');
-
-            // create the div that holds the textual value of this answer
-            var questionValue = $("<div></div>");
-            questionValue.attr("class", "answer-value");
-            questionValue.text(answer['value']);
-
-            // create the div that holds the count of responses for this answer
-            var answerResultDiv  = $("<div></div>");
-            answerResultDiv.attr("class", "answer-result");
-            answerResultDiv.text(answer.votes);
-
-            answerDiv.append(questionValue);
-            answerDiv.append(answerResultDiv);
-
-            questionDiv.append(answerDiv);
-        });
-
-        questionsDiv.append(questionDiv);
-    });
-}*/
 
 
