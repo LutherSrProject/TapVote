@@ -96,7 +96,7 @@ function displaySurvey(surveyInfo) {
     if (!max) max = 0;
 
     var x = d3.scale.linear()
-        .domain([0, max])  // TODO fix this
+        .domain([0, max])
         .range([0, 420]);
 
 
@@ -107,9 +107,6 @@ function displaySurvey(surveyInfo) {
     var questionDivs = questions.enter().append("div") // this creates the question divs
         .text(function(d) { return d.value; })
         .attr("class", "question chart rounded");
-
-    //questions.transition()
-    //    .text(function(d) { return d.value; });
 
     questions.exit().remove();
 
@@ -136,9 +133,7 @@ function displaySurvey(surveyInfo) {
         .text(function(d) { return d.votes; })
         .attr("class", "bar");
 
-
     answerResults.exit().remove();
-
 }
 
 
