@@ -70,7 +70,7 @@ var recordVote = function (voteData, callback) {
     })
     /* if previous conditions have been met, insert the vote */
     .then(function (res) {
-        return runQuery('INSERT INTO vote("answerId", "questionId") VALUES($1, $2)', [voteData['answerId'], voteData['questionId']])
+        return runQuery('INSERT INTO vote("answerId", "questionId", "userId") VALUES($1, $2, $3)', [voteData['answerId'], voteData['questionId'], voteData['userId']])
         .then(function (results) {
                 logger.info("Recorded vote in database.");
                 callback(null, results);

@@ -76,8 +76,8 @@ var deleteVote = function (data, callback) {
         // a stable identifier over UPDATES, etc, but it works for this situation.
         // See for more info:
         // http://www.postgresql.org/message-id/07f0833692070125b9317094e7008b4f@biglumber.com
-        var queryString = 'DELETE FROM vote WHERE ctid = (SELECT ctid FROM vote WHERE "questionId"=$1 AND "answerId"=$2 LIMIT 1)';
-        return runQuery(queryString, [data['questionId'], data['answerId']])
+        var queryString = 'DELETE FROM vote WHERE ctid = (SELECT ctid FROM vote WHERE "questionId"=$1 AND "answerId"=$2 AND "userId"=$3 LIMIT 1)';
+        return runQuery(queryString, [data['questionId'], data['answerId'], data['userId']])
         .then(function (res) {
             logger.info("Query success: deleted vote from database");
             callback(null, res);
