@@ -5,7 +5,6 @@
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Results";
 
-
 $(getSurveyInfo());
 
 function getSurveyInfo() {
@@ -101,7 +100,7 @@ function displaySurvey(surveyInfo) {
 
 
     var questions = d3.select("#survey-questions")
-        .selectAll("div")
+        .selectAll("div.question")
         .data(surveyInfo.questions);
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
@@ -112,7 +111,7 @@ function displaySurvey(surveyInfo) {
 
 
     var answers = questionDivs
-        .selectAll("div")
+        .selectAll("div.answer")
         .data(function(d) { return d.answers; });
 
     var answerDivs = answers.enter().append("div") // this creates the nested answer divs
@@ -123,7 +122,7 @@ function displaySurvey(surveyInfo) {
 
 
     var answerResults = answerDivs
-        .selectAll("div")
+        .selectAll("div.bar")
         .data(function(d) { return [d] });
 
     var answerResultDivs = answerResults.enter().append("div")
