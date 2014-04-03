@@ -25,9 +25,8 @@ function getSurveyInfo(){
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
         logger.info("Incoming request for survey info for: " + data['surveyId']);
-        var dataForDB = {};
-        dataForDB['surveyId'] = parseInt(data['surveyId']);
-        database.getSurveyInfo(dataForDB, function(err, results) {
+        data['surveyId'] = parseInt(data['surveyId']);
+        database.getSurveyInfo(data, function(err, results) {
             if (err) {
                 if (!err["httpStatus"])
                     err["httpStatus"] = 500;
