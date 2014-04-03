@@ -19,7 +19,7 @@ var getSurveyResults = function (surveyData, callback) {
     runQuery(queryString, [surveyId])
         .then(function (results) {
             if(results.rowCount == 0) {
-                // either there are simply no votes for this survey, or this survey ID is non-existent
+                // either there are simply no answers for this survey, or this survey ID is non-existent
 
                 // check if survey exists
                 return runQuery("SELECT * FROM survey WHERE id=$1", [surveyId])
