@@ -7,7 +7,8 @@ pageTitle = "Results";
 
 $(getSurveyInfo());
 
-function getSurveyInfo() {
+function getSurveyInfo(redraw) {
+    console.log("rd: ",redraw);
     var survey = $.QueryString['survey'];
     if (survey) {
         $.ajax({
@@ -15,7 +16,7 @@ function getSurveyInfo() {
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             xhrFields: { withCredentials: true },
-            success: getSurveyResults,
+            success: function(results) {getSurveyResults(results, redraw)},
             error: displayAjaxError
         });
 
@@ -24,14 +25,14 @@ function getSurveyInfo() {
     }
 }
 
-function getSurveyResults(surveyInfo) {
+function getSurveyResults(surveyInfo, redraw) {
     var survey = $.QueryString['survey'];
     $.ajax({
         type:'GET',
         url: AJAX_REQUEST_URL + '/getSurveyResults',
         data: {surveyId: survey},
         xhrFields: { withCredentials: true },
-        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
+        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults, redraw); },
         error: displayAjaxError
     });
     //setTimeout(getSurveyInfo, 2000);
@@ -69,7 +70,7 @@ function redirectToSurvey() {
     window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
-function combineSurveyInfo(surveyInfo, surveyResults) {
+function combineSurveyInfo(surveyInfo, surveyResults, doRedraw) {
     // combine the survey info (containing questions and answer options) with the results
     // (containing the number of votes for each answer)
     $.each(surveyInfo.questions, function (_, question) {
@@ -79,7 +80,11 @@ function combineSurveyInfo(surveyInfo, surveyResults) {
     });
 
     // surveyInfo now has all information, including results (# of votes)
-    displaySurvey(surveyInfo)
+    if (doRedraw) {
+        redraw(surveyInfo)
+    } else {
+        displaySurvey(surveyInfo)
+    }
 }
 
 function displaySurvey(surveyInfo) {
@@ -99,12 +104,12 @@ function displaySurvey(surveyInfo) {
         .range([0, 420]);
 
 
-    var questions = d3.select("#survey-questions")
+    var questions = d3.select("#survey-questions .questions")
         .selectAll("div.question")
         .data(surveyInfo.questions);
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
-        .text(function(d) { return d.value; })
+        .html(function(d) { return "<div class='question-title'>" + d.value + "</div>"; })
         .attr("class", "question chart rounded");
 
     questions.exit().remove();
@@ -125,7 +130,8 @@ function displaySurvey(surveyInfo) {
         .selectAll("div.bar")
         .data(function(d) { return [d] });
 
-    var answerResultDivs = answerResults.enter().append("div")
+
+    answerResults.enter().append("div")
         .style("width", function(d) {
             return x(d.votes) + "px";
         })
@@ -133,6 +139,62 @@ function displaySurvey(surveyInfo) {
         .attr("class", "bar");
 
     answerResults.exit().remove();
+
 }
 
+function redraw(surveyInfo) {
+    console.log("In redraw()");
+    console.log(surveyInfo);
 
+    var answerList = [];
+
+    // D3 scaling function - will be used later
+    var max = 0;
+    $.each(surveyInfo.questions, function(index, question) {
+        $.each(question.answers, function(i, answer) {
+            max = Math.max(max, answer.votes);
+            answerList.push(answer);
+        })
+    });
+    if (!max) max = 0;
+
+    var x = d3.scale.linear()
+        .domain([0, max])
+        .range([0, 420]);
+
+
+    var questions = d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+        .data(surveyInfo.questions);
+
+    var questionDivs = questions.enter().append("div") // this creates the question divs
+        .html(function(d) { return "<div class='question-title'>" + d.value + "</div>"; })
+        .attr("class", "question chart rounded");
+
+    questions.exit().remove();
+
+    var answers = questionDivs
+        .selectAll("div.answer")
+        .data(function(d) { return d.answers; });
+
+    var answerDivs = answers.enter().append("div") // this creates the nested answer divs
+        .text(function(d) { return d.value; })
+        .attr("class", "answer");
+
+    answers.exit().remove();
+
+    var answerResults = d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+        .selectAll("div.answer")
+        .selectAll("div.bar")
+        .data(answerList, function(d) { return d.id; });
+
+    answerResults.transition()
+        .style("width", function(d) {
+               console.log(d);
+               //console.log("transition:" + x(d.votes) + "px");
+               return x(d.votes) + "px";
+        })
+        .text(function(d) { return d.votes; });
+
+}
