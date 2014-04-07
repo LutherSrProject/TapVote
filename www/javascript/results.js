@@ -7,8 +7,7 @@ pageTitle = "Results";
 
 $(getSurveyInfo());
 
-function getSurveyInfo(redraw) {
-    console.log("rd: ",redraw);
+function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
         $.ajax({
@@ -16,7 +15,7 @@ function getSurveyInfo(redraw) {
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             xhrFields: { withCredentials: true },
-            success: function(results) {getSurveyResults(results, redraw)},
+            success: getSurveyResults,
             error: displayAjaxError
         });
 
@@ -25,14 +24,14 @@ function getSurveyInfo(redraw) {
     }
 }
 
-function getSurveyResults(surveyInfo, redraw) {
+function getSurveyResults(surveyInfo) {
     var survey = $.QueryString['survey'];
     $.ajax({
         type:'GET',
         url: AJAX_REQUEST_URL + '/getSurveyResults',
         data: {surveyId: survey},
         xhrFields: { withCredentials: true },
-        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults, redraw); },
+        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
         error: displayAjaxError
     });
     //setTimeout(getSurveyInfo, 2000);
@@ -70,7 +69,7 @@ function redirectToSurvey() {
     window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
-function combineSurveyInfo(surveyInfo, surveyResults, doRedraw) {
+function combineSurveyInfo(surveyInfo, surveyResults) {
     // combine the survey info (containing questions and answer options) with the results
     // (containing the number of votes for each answer)
     $.each(surveyInfo.questions, function (_, question) {
@@ -80,70 +79,10 @@ function combineSurveyInfo(surveyInfo, surveyResults, doRedraw) {
     });
 
     // surveyInfo now has all information, including results (# of votes)
-    if (doRedraw) {
-        redraw(surveyInfo)
-    } else {
-        displaySurvey(surveyInfo)
-    }
+    displaySurvey(surveyInfo)
 }
 
 function displaySurvey(surveyInfo) {
-    console.log(surveyInfo);
-
-    // D3 scaling function - will be used later
-    var max = 0;
-    $.each(surveyInfo.questions, function(index, question) {
-        $.each(question.answers, function(i, answer) {
-            max = Math.max(max, answer.votes);
-        })
-    });
-    if (!max) max = 0;
-
-    var x = d3.scale.linear()
-        .domain([0, max])
-        .range([0, 420]);
-
-
-    var questions = d3.select("#survey-questions .questions")
-        .selectAll("div.question")
-        .data(surveyInfo.questions);
-
-    var questionDivs = questions.enter().append("div") // this creates the question divs
-        .html(function(d) { return "<div class='question-title'>" + d.value + "</div>"; })
-        .attr("class", "question chart rounded");
-
-    questions.exit().remove();
-
-
-    var answers = questionDivs
-        .selectAll("div.answer")
-        .data(function(d) { return d.answers; });
-
-    var answerDivs = answers.enter().append("div") // this creates the nested answer divs
-        .text(function(d) { return d.value; })
-        .attr("class", "answer");
-
-    answers.exit().remove();
-
-
-    var answerResults = answerDivs
-        .selectAll("div.bar")
-        .data(function(d) { return [d] });
-
-
-    answerResults.enter().append("div")
-        .style("width", function(d) {
-            return x(d.votes) + "px";
-        })
-        .text(function(d) { return d.votes; })
-        .attr("class", "bar");
-
-    answerResults.exit().remove();
-
-}
-
-function redraw(surveyInfo) {
-    console.log("In redraw()");
     console.log(surveyInfo);
 
     var answerList = [];
@@ -182,19 +121,31 @@ function redraw(surveyInfo) {
         .attr("class", "answer");
 
     answers.exit().remove();
+    var answerResults = answerDivs
+        .selectAll("div.bar")
+        .data(function(d) { return [d] });
 
-    var answerResults = d3.select("#survey-questions .questions")
+    answerResults.enter().append("div")
+        .style("width", function(d) {
+                   return x(d.votes) + "px";
+               })
+        .text(function(d) { return d.votes; })
+        .attr("class", "bar");
+
+    answerResults.exit().remove();
+
+    // handle realtime updates of vote totals
+    d3.select("#survey-questions .questions")
         .selectAll("div.question")
         .selectAll("div.answer")
         .selectAll("div.bar")
-        .data(answerList, function(d) { return d.id; });
-
-    answerResults.transition()
+        .data(answerList, function(d) { return d.id; })
+        .transition()
         .style("width", function(d) {
-               console.log(d);
-               //console.log("transition:" + x(d.votes) + "px");
-               return x(d.votes) + "px";
-        })
+                   return x(d.votes) + "px";
+               })
         .text(function(d) { return d.votes; });
 
+
+    setTimeout(getSurveyInfo, 1000);
 }
