@@ -16,6 +16,7 @@ var cors = require('cors');
 var vote = require('./routes/vote');
 var deVote = require('./routes/deVote');
 var getSurveyResults = require('./routes/getSurveyResults');
+var getUserVotes = require('./routes/getUserVotes');
 var getSurveyInfo = require('./routes/getSurveyInfo');
 var createSurvey = require('./routes/createSurvey');
 var addQuestions = require('./routes/addQuestions');
@@ -69,6 +70,7 @@ app.post('/removeQuestion', removeQuestion.removeQuestion());
 app.post('/addAnswer', addAnswer.addAnswer());
 app.post('/removeAnswer', removeAnswer.removeAnswer());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
+app.get('/getUserVotes', getUserVotes.getUserVotes());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
 
 http.createServer(app).listen(app.get('port'), function() {
