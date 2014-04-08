@@ -267,10 +267,12 @@ h3 {
 
 .pure-button-success {
     background: #90E79C; /* this is a green */
+    color: white;
 }
 
 .pure-button-error {
     background: #FF6949; /* this is a maroon */
+    color: white;
 }
 
 .pure-button-warning {
@@ -279,6 +281,7 @@ h3 {
 
 .pure-button-secondary {
     background: #42B6DD; /* this is a light blue */
+    color: white;
 }
 
 .pure-button-large {
@@ -347,6 +350,15 @@ h3 {
 #take-survey-action-button {
     display: inline-block;
     margin-bottom: 50px;
+}
+
+.chart .bar {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
 }
 
 /* Smartphones (portrait and landscape) ----------- */
