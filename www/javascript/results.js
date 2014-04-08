@@ -43,6 +43,7 @@ function displayAjaxError(error) {
         askForSurveyId();
     } else {
         console.log(error);
+        getSurveyInfo();
     }
 }
 
