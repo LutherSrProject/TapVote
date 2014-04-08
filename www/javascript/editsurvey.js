@@ -51,21 +51,6 @@ function displayAjaxError(error) {
         console.log(error);
 }
 
-/* returns the string name of the type of question for displaying. Used in createQuestion and displaySurvey*/
-function getTypeStr(type){
-    var str = ""
-    
-    if (type =='FR') {
-        str = 'Free Response'
-    } else if (type == 'MCSR') {
-        str = 'Multiple Choice, Single Response'
-    } else if (type == 'MCMR') {
-        str = 'Multiple Choice, Multiple Response'
-    }
-    
-    return str
-}
-
 
 function displaySurvey(results) {
     var titleDiv = $("#survey-title");

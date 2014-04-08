@@ -68,19 +68,12 @@ function displaySurvey(results) {
         questionDiv.attr('class', 'question rounded pure-form');
 
         var questionType = question['type'];
-        var typeStr = ""
-    
-            if (questionType =='FR') {
-                typeStr = 'Free Response'
-            } else if (questionType == 'MCSR') {
-                typeStr = 'Multiple Choice, Single Response'
-            } else if (questionType == 'MCMR') {
-                typeStr = 'Multiple Choice, Multiple Response'
-            }
-        var questionType =$("<div></div>");
-        questionType.text(typeStr);
-        questionType.addClass('question-type');
-        questionDiv.append(questionType)
+        var typeStr = getTypeStr(questionType)
+        
+        var questionTypeDiv =$("<div></div>");
+        questionTypeDiv.text(typeStr);
+        questionTypeDiv.addClass('question-type');
+        questionDiv.append(questionTypeDiv)
             
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -185,7 +178,7 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    console.log(results);
+    //console.log(results);
 }
 
 function checkFR(questionId) {
