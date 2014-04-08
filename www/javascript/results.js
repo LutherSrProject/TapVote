@@ -101,7 +101,7 @@ function displaySurvey(surveyInfo) {
 
     var x = d3.scale.linear()
         .domain([0, max])
-        .range([0, 420]);
+        .range([0, 1]);
 
 
     var questions = d3.select("#survey-questions .questions")
@@ -129,7 +129,8 @@ function displaySurvey(surveyInfo) {
 
     answerResults.enter().append("div")
         .style("width", function(d) {
-                   return x(d.votes) + "px";
+                   //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
+                   return ($(this.parentNode).width() * x(d.votes)) + "px";
                })
         .text(function(d) { return d.votes; })
         .attr("class", "bar");
@@ -144,7 +145,8 @@ function displaySurvey(surveyInfo) {
         .data(answerList, function(d) { return d.id; })
         .transition()
         .style("width", function(d) {
-                   return x(d.votes) + "px";
+                   //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
+                   return ($(this.parentNode).width() * x(d.votes)) + "px";
                })
         .text(function(d) { return d.votes; });
 
