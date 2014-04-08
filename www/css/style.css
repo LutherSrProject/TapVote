@@ -76,6 +76,13 @@ h3 {
     margin-bottom: 30px;
 }
 
+.question-type {
+    margin-top: -10px;
+    font-style:italic;
+    font-size: 0.9em;
+    text-align: right;
+}
+
 .question-title {
     font-weight: bold;
     margin-bottom: 5px;
@@ -292,6 +299,7 @@ h3 {
 
 /* more specific button styles */
 .remove-question-button {
+    text-align: center;
     display: block;
     padding: 2px;
     margin-top: -4px;
@@ -301,6 +309,7 @@ h3 {
 }
 
 .remove-question-button i.fa-lg {
+    text-align: center;
     vertical-align: super;
     line-height: 15px;
 }

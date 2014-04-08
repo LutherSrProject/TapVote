@@ -67,14 +67,23 @@ function displaySurvey(results) {
         questionDiv.attr('id', 'question-'+question['id']);
         questionDiv.attr('class', 'question rounded pure-form');
 
+        var questionType = question['type'];
+        var typeStr = getTypeStr(questionType)
+        
+        var questionTypeDiv =$("<div></div>");
+        questionTypeDiv.text(typeStr);
+        questionTypeDiv.addClass('question-type');
+        questionDiv.append(questionTypeDiv)
+            
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
 
-        var questionType = question['type'];
+        
         var questionId = question['id'];
 
+            
 
         // FR type is different - don't display any answers from a server.
         // Instead, allow the user to enter their own textual answer.
@@ -169,7 +178,7 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
     });
 
-    console.log(results);
+    //console.log(results);
 }
 
 function checkFR(questionId) {

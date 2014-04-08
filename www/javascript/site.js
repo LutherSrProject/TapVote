@@ -55,3 +55,18 @@ $(function() {
     }
 
 });
+
+/* returns the string name of the type of question for displaying. Used in createQuestion and displaySurvey*/
+getTypeStr = function(type){
+    var str = ""
+    
+    if (type =='FR') {
+        str = 'Free Response'
+    } else if (type == 'MCSR') {
+        str = 'Multiple Choice, Single Response'
+    } else if (type == 'MCMR') {
+        str = 'Multiple Choice, Multiple Response'
+    }
+    
+    return str
+};

@@ -51,6 +51,7 @@ function displayAjaxError(error) {
         console.log(error);
 }
 
+
 function displaySurvey(results) {
     var titleDiv = $("#survey-title");
 
@@ -76,7 +77,12 @@ function displaySurvey(results) {
         deleteQuestionButton.attr("onclick", "deleteQuestion(this);");
         deleteQuestionButton.html("<i class='fa fa-times fa-lg'></i>");
         questionDiv.append(deleteQuestionButton);
-
+        
+        var typeStr = getTypeStr(question['type'])
+        var questionType =$("<div></div>");
+        questionType.text(typeStr);
+        questionType.addClass('question-type');
+        questionDiv.append(questionType)
 
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
@@ -107,10 +113,14 @@ function displaySurvey(results) {
     $("#create-question-button-container").html(createQuestionButton);
 }
 
+
 /* create the HTML for a new question form - doesn't actually submit anything to the server */
 function createQuestion(type) {
+    var typeStr = getTypeStr(type)
+    
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestionElement(this);"><i class="fa fa-times fa-lg"></i></button> ' +
+        '<div class="question-type">' + typeStr + '</div>' +
         '  <label for="question-text">Question</label><input type="text" class="question-text" />';
 
     if (type != 'FR') {
