@@ -46,6 +46,19 @@ var getSurveyResults = function (surveyData, callback) {
               ret[answerId] = parseInt(results.rows[r].count);
             }
             logger.info("Got survey results from database for surveyId", surveyId);
+            var totalVotersQueryString = 'SELECT DISTINCT v."userId" \
+                               FROM survey AS s \
+                                   INNER JOIN question AS q ON s.id = q."surveyId" AND s.id = $1 \
+                                   INNER JOIN answer AS a ON q.id = a."questionId" \
+                                   INNER JOIN vote AS v ON a.id = v."answerId";';
+            return runQuery(totalVotersQueryString, [surveyId])
+                .then(function (tvres) {
+                    logger.info("Got totalVoters from database for surveyId", surveyId);
+                    ret["totalVoters"] = parseInt(tvres.rowCount);
+                    return ret;
+                });
+        })
+        .then(function (ret) {
             callback(null, ret);
             return;
         })
