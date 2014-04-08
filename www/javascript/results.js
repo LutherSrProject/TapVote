@@ -43,7 +43,8 @@ function displayAjaxError(error) {
         askForSurveyId();
     } else {
         console.log(error);
-        getSurveyInfo();
+
+        setTimeout(getSurveyInfo, 1000);
     }
 }
 
