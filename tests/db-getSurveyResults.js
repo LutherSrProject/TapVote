@@ -4,7 +4,6 @@ require('../modules/globals');
 var Q = require("q");
 var should = require('should');
 var database = require('../modules/database-test');
-var uuid = require('node-uuid');
 
 
 describe("getSurveyResults", function(){
@@ -20,7 +19,7 @@ describe("getSurveyResults", function(){
                     should.not.exist(err);
 
                     //test the default db response
-                    results.should.be.type('object').and.have.keys('1', '2', '3', '4', 'totalVoters');
+                    results.should.be.type('object').and.have.keys('1', '2', '3', '4');
                     results.should.not.have.property('5');
 
                     results["1"].should.be.type("number");
@@ -32,8 +31,6 @@ describe("getSurveyResults", function(){
                     results["2"].should.not.be.below(5);
                     results["3"].should.not.be.below(3);
                     results["1"].should.not.be.below(4);
-
-                    results["totalVoters"].should.not.be.below(1);
 
                     done();
                 } catch(testerror) {
@@ -47,13 +44,12 @@ describe("getSurveyResults", function(){
 
             getSurveyResults({'surveyId':1})
             .then(function(initialResults){
-                return recordVote({'answerId':2,'questionId':1,'userId':uuid.v4()})
+                return recordVote({'answerId':2,'questionId':1})
                 .then(function(){
                     return getSurveyResults({'surveyId':1});
                 })
                 .then(function(finalResults){
                     (finalResults["2"] - initialResults["2"]).should.eql(1);
-                    (finalResults["totalVoters"] - initialResults["totalVoters"]).should.eql(1);
                     done();
                 });
             })
