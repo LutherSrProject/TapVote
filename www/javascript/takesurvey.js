@@ -243,13 +243,19 @@ function checkMCSR(event) {
     // send a deVote for the old answer before submitting the new vote
     var prevAnswerId = previousMCSR[questionId];
     if (prevAnswerId || prevAnswerId === 0) {
-        deVote(questionId, prevAnswerId);
+        deVote(questionId, prevAnswerId, function cb() {
+            // send vote for newly select answer, and remember this vote (so that we can properly
+            // deVote if the user changes their vote)
+            previousMCSR[questionId] = answerId;
+            submitVote(questionId, answerId);
+        });
+    } else {
+        // send vote for newly select answer, and remember this vote (so that we can properly
+        // deVote if the user changes their vote)
+        previousMCSR[questionId] = answerId;
+        submitVote(questionId, answerId);
     }
 
-    // send vote for newly select answer, and remember this vote (so that we can properly
-    // deVote if the user changes their vote)
-    previousMCSR[questionId] = answerId;
-    submitVote(questionId, answerId);
 }
 
 function checkMCMR(event) {
@@ -268,7 +274,7 @@ function checkMCMR(event) {
     }
 }
 
-function deVote(questionId, answerId) {
+function deVote(questionId, answerId, callback) {
     var data = { "questionId": questionId, "answerId": answerId};
 
     var el = $("input[data-answer-id=" + answerId + "]").parent();
@@ -282,7 +288,12 @@ function deVote(questionId, answerId) {
         data: JSON.stringify(data),
         xhrFields: { withCredentials: true },
         contentType: "application/json",
-        success: showDevoteSuccess,
+        success: function(results) {
+            showDevoteSuccess(results);
+            if (callback) {
+                callback();
+            }
+        },
         error: showDevoteFailure
     });
 
