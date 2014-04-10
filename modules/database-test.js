@@ -17,6 +17,9 @@ exports.addQuestions = require("./database/addQuestions").addQuestions;
 exports.addAnswer = require("./database/addAnswer").addAnswer;
 exports.removeAnswer = require("./database/removeAnswer").removeAnswer;
 
+//expose runQuery directly for our test environment
+exports.runQuery = require("./database/runQuery").runQuery;
+
 
 
 

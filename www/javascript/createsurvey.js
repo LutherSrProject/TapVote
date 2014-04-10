@@ -28,9 +28,12 @@ function removeQuestion(el) {
 }
 
 function createQuestion(type) {
+    var typeStr = getTypeStr(type)
+    
     var questionHtml = '<div class="question rounded ' + type + '" data-question-type="'+type+'">' +
         '  <button type="button" class="remove-question-button pure-button pure-button-error" onclick="removeQuestion(this);"><i class="fa fa-times fa-lg"></i></button> ' +
-        '  <label for="question-text">Question</label><input type="text" class="question-text" />';
+        '<div class="question-type">' + typeStr + '</div>' +
+        '  <label for="question-text"> Question</label><input type="text" class="question-text" />';
 
     if (type != 'FR') {
         questionHtml +=
