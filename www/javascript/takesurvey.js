@@ -11,13 +11,38 @@ $(function getSurveyInfo() {
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             xhrFields: { withCredentials: true },
-            success: displaySurvey,
+            success: getUserVotes,
             error: displayAjaxError
         });
     } else {
         askForSurveyId();
     }
 });
+
+function getUserVotes(surveyInfo) {
+    var survey = $.QueryString['survey'];
+    $.ajax({
+        type:'GET',
+        url: AJAX_REQUEST_URL + '/getUserVotes',
+        data: {surveyId: survey},
+        xhrFields: { withCredentials: true },
+        success: function(results) { combineSurveyInfo(surveyInfo, results); },
+        error: displayAjaxError
+    });
+
+}
+
+function combineSurveyInfo(surveyInfo, userVotes) {
+    $.each(surveyInfo.questions, function(index, question) {
+        $.each(question.answers, function(i, answer) {
+            if (userVotes[answer.id]) {
+                answer.voted = true;
+            }
+        });
+    });
+
+    displaySurvey(surveyInfo);
+}
 
 function askForSurveyId() {
     // This function is called when a survey Id isn't provided or when an invalid sId is given
@@ -68,22 +93,19 @@ function displaySurvey(results) {
         questionDiv.attr('class', 'question rounded pure-form');
 
         var questionType = question['type'];
-        var typeStr = getTypeStr(questionType)
+        var typeStr = getTypeStr(questionType);
         
         var questionTypeDiv =$("<div></div>");
         questionTypeDiv.text(typeStr);
         questionTypeDiv.addClass('question-type');
-        questionDiv.append(questionTypeDiv)
+        questionDiv.append(questionTypeDiv);
             
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
 
-        
         var questionId = question['id'];
-
-            
 
         // FR type is different - don't display any answers from a server.
         // Instead, allow the user to enter their own textual answer.
@@ -96,7 +118,7 @@ function displaySurvey(results) {
             answerEl.attr('data-question-id', questionId);
 
             /* the below code changes the highlight of the input element based on the current status:
-             * If the answer has been changed and the user hasn't saves it - highlight orange
+             * If the answer has been changed and the user hasn't saved it - highlight orange
              * If the answer has been changed since last save - highlight green
              * If the last save attempt failed - highlight red
              */
@@ -139,6 +161,10 @@ function displaySurvey(results) {
                 answerEl.attr('id', 'answer-'+questionType+'-'+answerId);
                 answerEl.attr('data-question-id', questionId);
                 answerEl.attr('data-answer-id', answerId);
+
+                if (answer.voted) {
+                    answerEl.prop("checked", true)
+                }
 
                 if (questionType == "MCSR") {
                     answerEl.attr('name', 'question-'+questionId+'-answers');
