@@ -144,11 +144,11 @@ h3 {
 }
 
 .highlight-red {
-    background-color: red;
+    background-color: #FF6949;
 }
 
 .highlight-green {
-    background: #90E79C;
+    background: #23CB56;
 }
 
 #header {
@@ -261,12 +261,11 @@ h3 {
 .pure-button {
     border-radius: 0px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    color: black;
     font-weight: bold;
 }
 
 .pure-button-success {
-    background: #90E79C; /* this is a green */
+    background: #23CB56; /* this is a green */
     color: white;
 }
 
@@ -276,7 +275,8 @@ h3 {
 }
 
 .pure-button-warning {
-    background: #FFEE6A; /* this is a yellow*/
+    background: #FFEB4F; /* this is a yellow*/
+    color: black;
 }
 
 .pure-button-secondary {
