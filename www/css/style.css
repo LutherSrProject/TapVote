@@ -39,6 +39,10 @@ h3 {
     margin-bottom: 10px;
 }
 
+input.FR {
+    margin-right: 10px;
+}
+
 .guru-meditation {
     margin-top: 40px;
 }
@@ -294,6 +298,10 @@ h3 {
 
 .pure-button-tiny {
     font-size: 65%;
+}
+
+.pure-button-save {
+    padding: 5px;
 }
 
 

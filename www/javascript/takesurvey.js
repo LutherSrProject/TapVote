@@ -93,6 +93,7 @@ function displaySurvey(results) {
 
             var answerEl = $('<input />');
             answerEl.attr('type', 'text');
+            answerEl.addClass('FR');
             answerEl.attr('data-question-id', questionId);
 
             /* the below code changes the highlight of the input element based on the current status:
@@ -115,8 +116,9 @@ function displaySurvey(results) {
 
                 }
             });
-
-            var saveLink = $('<a></a>');
+            //"pure-button pure-button-tiny pure-button-warning"
+            var saveLink = $('<button></button>');
+            saveLink.attr('class', "pure-button pure-button-small pure-button-success pure-button-save");
             saveLink.attr('href', 'javascript:void(0);');
             saveLink.attr('onclick', 'checkFR(' + questionId + ')');
             saveLink.text('Save');
