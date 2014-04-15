@@ -110,12 +110,24 @@ function displaySurvey(results) {
         // FR type is different - don't display any answers from a server.
         // Instead, allow the user to enter their own textual answer.
         if (questionType == "FR") {
+            var answer;
+            $.each(question.answers, function (ind, ans) {
+                if (ans.voted)
+                    answer = ans;
+            });
+
             var answerDiv = $('<div></div>');
             answerDiv.attr('class', 'answer rounded');
 
             var answerEl = $('<input />');
             answerEl.attr('type', 'text');
             answerEl.attr('data-question-id', questionId);
+
+            if (answer) {
+                answerEl.val(answer.value);
+                answerDiv.addClass('highlight-green');
+                previousFR[questionId] = { val:answer.value, id:answer.id };
+            }
 
             /* the below code changes the highlight of the input element based on the current status:
              * If the answer has been changed and the user hasn't saved it - highlight orange
@@ -162,10 +174,6 @@ function displaySurvey(results) {
                 answerEl.attr('data-question-id', questionId);
                 answerEl.attr('data-answer-id', answerId);
 
-                if (answer.voted) {
-                    answerEl.prop("checked", true)
-                }
-
                 if (questionType == "MCSR") {
                     answerEl.attr('name', 'question-'+questionId+'-answers');
                     answerEl.attr('type', 'radio');
@@ -189,6 +197,13 @@ function displaySurvey(results) {
                     answerEl.change(checkMCSR);
                 }
 
+                if (answer.voted) {
+                    answerEl.prop("checked", true);
+                    answerDiv.addClass("highlight-green");
+                    if (questionType == "MCSR")
+                        previousMCSR[questionId] = answerId;
+                }
+
                 answerDiv.append(answerEl);
 
                 // make the label (containing the value of the answer_
@@ -203,8 +218,6 @@ function displaySurvey(results) {
         }
         questionsDiv.append(questionDiv);
     });
-
-    //console.log(results);
 }
 
 function checkFR(questionId) {
