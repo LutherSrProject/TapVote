@@ -115,8 +115,9 @@ function displaySurvey(results) {
 
                 }
             });
-
-            var saveLink = $('<a></a>');
+            //"pure-button pure-button-tiny pure-button-warning"
+            var saveLink = $('<button></button>');
+            saveLink.attr('class', "pure-button pure-button-small pure-button-success pure-button-save");
             saveLink.attr('href', 'javascript:void(0);');
             saveLink.attr('onclick', 'checkFR(' + questionId + ')');
             saveLink.text('Save');
