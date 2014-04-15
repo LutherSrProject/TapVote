@@ -93,6 +93,7 @@ function displaySurvey(results) {
 
             var answerEl = $('<input />');
             answerEl.attr('type', 'text');
+            answerEl.addClass('FR');
             answerEl.attr('data-question-id', questionId);
 
             /* the below code changes the highlight of the input element based on the current status:
