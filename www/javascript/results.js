@@ -126,6 +126,8 @@ function displaySurvey(surveyInfo) {
         })
         .attr("class", "question chart rounded");
 
+    questions.exit().remove();
+
     var answers = questionDivs
         .selectAll("div.answer")
         .data(function(d) { return d.answers; });
