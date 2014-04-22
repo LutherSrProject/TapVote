@@ -11,13 +11,38 @@ $(function getSurveyInfo() {
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
             xhrFields: { withCredentials: true },
-            success: displaySurvey,
+            success: getUserVotes,
             error: displayAjaxError
         });
     } else {
         askForSurveyId();
     }
 });
+
+function getUserVotes(surveyInfo) {
+    var survey = $.QueryString['survey'];
+    $.ajax({
+        type:'GET',
+        url: AJAX_REQUEST_URL + '/getUserVotes',
+        data: {surveyId: survey},
+        xhrFields: { withCredentials: true },
+        success: function(results) { combineSurveyInfo(surveyInfo, results); },
+        error: displayAjaxError
+    });
+
+}
+
+function combineSurveyInfo(surveyInfo, userVotes) {
+    $.each(surveyInfo.questions, function(index, question) {
+        $.each(question.answers, function(i, answer) {
+            if (userVotes[answer.id]) {
+                answer.voted = true;
+            }
+        });
+    });
+
+    displaySurvey(surveyInfo);
+}
 
 function askForSurveyId() {
     // This function is called when a survey Id isn't provided or when an invalid sId is given
@@ -68,26 +93,29 @@ function displaySurvey(results) {
         questionDiv.attr('class', 'question rounded pure-form');
 
         var questionType = question['type'];
-        var typeStr = getTypeStr(questionType)
+        var typeStr = getTypeStr(questionType);
         
         var questionTypeDiv =$("<div></div>");
         questionTypeDiv.text(typeStr);
         questionTypeDiv.addClass('question-type');
-        questionDiv.append(questionTypeDiv)
+        questionDiv.append(questionTypeDiv);
             
         var questionTitle = $("<div></div>");
         questionTitle.text(question['value']);
         questionTitle.addClass('question-title');
         questionDiv.append(questionTitle);
 
-        
         var questionId = question['id'];
-
-            
 
         // FR type is different - don't display any answers from a server.
         // Instead, allow the user to enter their own textual answer.
         if (questionType == "FR") {
+            var answer;
+            $.each(question.answers, function (ind, ans) {
+                if (ans.voted)
+                    answer = ans;
+            });
+
             var answerDiv = $('<div></div>');
             answerDiv.attr('class', 'answer rounded');
 
@@ -96,8 +124,14 @@ function displaySurvey(results) {
             answerEl.addClass('FR');
             answerEl.attr('data-question-id', questionId);
 
+            if (answer) {
+                answerEl.val(answer.value);
+                answerDiv.addClass('highlight-green');
+                previousFR[questionId] = { val:answer.value, id:answer.id };
+            }
+
             /* the below code changes the highlight of the input element based on the current status:
-             * If the answer has been changed and the user hasn't saves it - highlight orange
+             * If the answer has been changed and the user hasn't saved it - highlight orange
              * If the answer has been changed since last save - highlight green
              * If the last save attempt failed - highlight red
              */
@@ -165,6 +199,13 @@ function displaySurvey(results) {
                     answerEl.change(checkMCSR);
                 }
 
+                if (answer.voted) {
+                    answerEl.prop("checked", true);
+                    answerDiv.addClass("highlight-green");
+                    if (questionType == "MCSR")
+                        previousMCSR[questionId] = answerId;
+                }
+
                 answerDiv.append(answerEl);
 
                 // make the label (containing the value of the answer_
@@ -179,8 +220,6 @@ function displaySurvey(results) {
         }
         questionsDiv.append(questionDiv);
     });
-
-    //console.log(results);
 }
 
 function checkFR(questionId) {
@@ -254,13 +293,19 @@ function checkMCSR(event) {
     // send a deVote for the old answer before submitting the new vote
     var prevAnswerId = previousMCSR[questionId];
     if (prevAnswerId || prevAnswerId === 0) {
-        deVote(questionId, prevAnswerId);
+        deVote(questionId, prevAnswerId, function cb() {
+            // send vote for newly select answer, and remember this vote (so that we can properly
+            // deVote if the user changes their vote)
+            previousMCSR[questionId] = answerId;
+            submitVote(questionId, answerId);
+        });
+    } else {
+        // send vote for newly select answer, and remember this vote (so that we can properly
+        // deVote if the user changes their vote)
+        previousMCSR[questionId] = answerId;
+        submitVote(questionId, answerId);
     }
 
-    // send vote for newly select answer, and remember this vote (so that we can properly
-    // deVote if the user changes their vote)
-    previousMCSR[questionId] = answerId;
-    submitVote(questionId, answerId);
 }
 
 function checkMCMR(event) {
@@ -279,7 +324,7 @@ function checkMCMR(event) {
     }
 }
 
-function deVote(questionId, answerId) {
+function deVote(questionId, answerId, callback) {
     var data = { "questionId": questionId, "answerId": answerId};
 
     var el = $("input[data-answer-id=" + answerId + "]").parent();
@@ -293,7 +338,12 @@ function deVote(questionId, answerId) {
         data: JSON.stringify(data),
         xhrFields: { withCredentials: true },
         contentType: "application/json",
-        success: showDevoteSuccess,
+        success: function(results) {
+            showDevoteSuccess(results);
+            if (callback) {
+                callback();
+            }
+        },
         error: showDevoteFailure
     });
 

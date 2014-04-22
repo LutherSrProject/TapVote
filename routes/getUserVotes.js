@@ -2,13 +2,13 @@ var database = require("../modules/database");
 var httpresponses = require("../modules/httpresponses");
 var endpoint = require("../modules/endpoint");
 
-//Test this endpoint with curl http://localhost:8000/getSurveyInfo?surveyId=1
+//Test this endpoint with curl http://localhost:8000/getUserVotes?surveyId=1
 
-function getSurveyInfo(){
+function getUserVotes(){
     var apiOptions = {};
     
     //The name of this route:
-    apiOptions.endpointName = "getSurveyInfo";
+    apiOptions.endpointName = "getUserVotes";
         
     //Indicates the required API parameters and their basic expected types.
     apiOptions.requiredApiParameters = {
@@ -24,9 +24,9 @@ function getSurveyInfo(){
     
     //Function to execute if validation tests are successful.
     apiOptions.conclusion = function(data, response) {
-        logger.info("Incoming request for survey info for: " + data['surveyId']);
+        logger.info("Incoming request for user votes for: " + data['surveyId']);
         data['surveyId'] = parseInt(data['surveyId']);
-        database.getSurveyInfo(data, function(err, results) {
+        database.getUserVotes(data, function(err, results) {
             if (err) {
                 if (!err["httpStatus"])
                     err["httpStatus"] = 500;
@@ -35,13 +35,13 @@ function getSurveyInfo(){
                     err["httpResponse"] = "500 Internal Server Error";
 
                 if (!err["friendlyName"])
-                    err["friendlyName"] = "Error getting survey info";
+                    err["friendlyName"] = "Error getting user votes";
 
                 httpresponses.errorResponse(err, response);
                 return;
             }
             else {
-                logger.info("Returning survey results");
+                logger.info("Returning user votes");
                 httpresponses.successResponse(response, results);
                 return;
             }
@@ -54,4 +54,4 @@ function getSurveyInfo(){
     }; //return the handler function for the endpoint
 }
 
-exports.getSurveyInfo = getSurveyInfo;
+exports.getUserVotes = getUserVotes;

@@ -68,6 +68,39 @@ var recordVote = function (voteData, callback) {
             throw error;
         });
     })
+    /* check if the vote can be inserted for the question type */
+    .then(function (res) {
+        return runQuery('SELECT type FROM question WHERE id=$1', [voteData['questionId']])
+        .then(function (typeResults) {
+                questionType = typeResults.rows[0].type
+                if (questionType == "MCMR" || questionType == "MCRANK") { //So far, only MCMR and MCRANK can have multiple votes per question
+                    return runQuery('SELECT id FROM vote WHERE "questionId"=$1 AND "answerId"=$2 AND "userId"=$3', [voteData['questionId'], voteData['answerId'], voteData['userId']])
+                    .then(function (prevVoteResults) {
+                        if (prevVoteResults.rowCount != 0) {
+                            logger.warn("User " + voteData['userId'] +" has already voted. Consider deleting vote " + prevVoteResults.rows[0].id + ".");
+                            var error = new Error()
+                            error['httpStatus'] = 400;
+                            error['httpResponse'] = '400 Bad Request';
+                            error['friendlyName'] = 'User has already voted. Consider deleting a vote for this answer.';
+                            throw error;
+                        }
+                    })
+                } else {
+                    return runQuery('SELECT id FROM vote WHERE "questionId"=$1 AND "userId"=$2', [voteData['questionId'], voteData['userId']])
+                    .then(function (prevVoteResults) {
+                        if (prevVoteResults.rowCount != 0) {
+                            logger.warn("User " + voteData['userId'] +" has already voted. Consider deleting vote " + prevVoteResults.rows[0].id + ".");
+                            var error = new Error()
+                            error['httpStatus'] = 400;
+                            error['httpResponse'] = '400 Bad Request';
+                            error['friendlyName'] = 'User has already voted. Consider deleting a vote for this question.';
+                            throw error;
+                        }
+                    })
+
+                }
+        })
+    })
     /* if previous conditions have been met, insert the vote */
     .then(function (res) {
         return runQuery('INSERT INTO vote("answerId", "questionId", "userId") VALUES($1, $2, $3)', [voteData['answerId'], voteData['questionId'], voteData['userId']])
