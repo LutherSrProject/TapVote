@@ -126,8 +126,6 @@ function displaySurvey(surveyInfo) {
         })
         .attr("class", "question chart rounded");
 
-    questions.exit().remove();
-
     var answers = questionDivs
         .selectAll("div.answer")
         .data(function(d) { return d.answers; });
@@ -151,18 +149,29 @@ function displaySurvey(surveyInfo) {
 
     answerResults.exit().remove();
 
+
+    // handle realtime updates of the number of users who've voted on each question (totalVoters)
+    d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+        .select('.voters')
+            .data(surveyInfo.questions, function(d) { return d.id; })
+        .transition()
+            .text(function(d) {
+                return "(" + d.totalVoters + " total voters)";
+            });
+
     // handle realtime updates of vote totals
     d3.select("#survey-questions .questions")
         .selectAll("div.question")
         .selectAll("div.answer")
         .selectAll("div.bar")
-        .data(answerList, function(d) { return d.id; })
+            .data(answerList, function(d) { return d.id; })
         .transition()
-        .style("width", function(d) {
-                   //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
-                   return ($(this.parentNode).width() * x(d.votes)) + "px";
-               })
-        .text(function(d) { return d.votes; });
+            .style("width", function(d) {
+                //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
+                return ($(this.parentNode).width() * x(d.votes)) + "px";
+            })
+            .text(function(d) { return d.votes; });
 
 
     setTimeout(getSurveyInfo, 1000);
