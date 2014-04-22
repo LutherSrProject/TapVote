@@ -18,6 +18,7 @@ var deVote = require('./routes/deVote');
 var getSurveyResults = require('./routes/getSurveyResults');
 var getUserVotes = require('./routes/getUserVotes');
 var getSurveyInfo = require('./routes/getSurveyInfo');
+var getSurveyTotalVotersByQuestion = require('./routes/getSurveyTotalVotersByQuestion');
 var createSurvey = require('./routes/createSurvey');
 var addQuestions = require('./routes/addQuestions');
 var removeQuestion = require('./routes/removeQuestion');
@@ -72,6 +73,7 @@ app.post('/removeAnswer', removeAnswer.removeAnswer());
 app.get('/getSurveyResults', getSurveyResults.getSurveyResults());
 app.get('/getUserVotes', getUserVotes.getUserVotes());
 app.get('/getSurveyInfo', getSurveyInfo.getSurveyInfo());
+app.get('/getSurveyTotalVotersByQuestion', getSurveyTotalVotersByQuestion.getSurveyTotalVotersByQuestion());
 
 http.createServer(app).listen(app.get('port'), function() {
   logger.info('Express server listening on port ' + app.get('port'));
