@@ -31,10 +31,21 @@ function getSurveyResults(surveyInfo) {
         url: AJAX_REQUEST_URL + '/getSurveyResults',
         data: {surveyId: survey},
         xhrFields: { withCredentials: true },
-        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
+        success: function (surveyResults) { getSurveyTotalVotersByQuestion(surveyInfo, surveyResults); },
         error: displayAjaxError
     });
-    //setTimeout(getSurveyInfo, 2000);
+}
+
+function getSurveyTotalVotersByQuestion(surveyInfo, surveyResults) {
+    var survey = $.QueryString['survey'];
+    $.ajax({
+        type: 'GET',
+        url: AJAX_REQUEST_URL + '/getSurveyTotalVotersByQuestion',
+        data: {surveyId: survey},
+        xhrFields: { withCredentials: true },
+        success: function(results) { combineSurveyInfo(surveyInfo, surveyResults, results); },
+        error: displayAjaxError
+    })
 }
 
 function displayAjaxError(error) {
@@ -71,10 +82,11 @@ function redirectToSurvey() {
     window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
-function combineSurveyInfo(surveyInfo, surveyResults) {
+function combineSurveyInfo(surveyInfo, surveyResults, totalVotersByQuestion) {
     // combine the survey info (containing questions and answer options) with the results
     // (containing the number of votes for each answer)
     $.each(surveyInfo.questions, function (_, question) {
+        question.totalVoters = totalVotersByQuestion[question.id];
         $.each(question.answers, function (_, answer) {
             answer.votes = surveyResults[answer.id]
         })
@@ -109,7 +121,9 @@ function displaySurvey(surveyInfo) {
         .data(surveyInfo.questions);
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
-        .html(function(d) { return "<div class='question-title'>" + d.value + "</div>"; })
+        .html(function(d) {
+            return "<div class='question-title'>" + d.value + "</div><span class='voters'>(" + d.totalVoters + " total voters)</span>";
+        })
         .attr("class", "question chart rounded");
 
     questions.exit().remove();
