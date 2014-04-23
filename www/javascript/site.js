@@ -11,7 +11,26 @@ if (window.document.location.port != "") {
 }
 
 var pageTitle;
+var loadingSpinnerIntervalId;
 
+// site-global
+var showLoadingIndicator = function() {
+
+    $("#content").append("<div id='loading-indicator'></div>");
+    var counter = 0;
+    loadingSpinnerIntervalId = setInterval(function() {
+        var frames=19; var frameWidth = 30;
+        var offset=counter * -frameWidth;
+        document.getElementById("loading-indicator").style.backgroundPosition=0 + "px" + " " + offset + "px";
+        counter++; if (counter>=frames) counter =0;
+    }, 50);
+};
+
+// site-global
+var hideLoadingIndicator = function() {
+    $("#loading-indicator").remove();
+    clearInterval(loadingSpinnerIntervalId);
+};
 
 // usage: $.QueryString["param"]
 (function($) {
@@ -39,8 +58,8 @@ $(function() {
         $("#content").load("home.html", null, pageLoadHandler); // load home by default
     else {
         $("#content").load(page + ".html", null, pageLoadHandler);
-
     }
+
 
     function pageLoadHandler(response, status, xhr) {
         if (status == "error") {
