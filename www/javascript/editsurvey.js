@@ -7,6 +7,7 @@ $(getSurveyInfo);
 function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
+        showLoadingIndicator();
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
@@ -53,6 +54,7 @@ function displayAjaxError(error) {
 
 
 function displaySurvey(results) {
+    hideLoadingIndicator();
     var titleDiv = $("#survey-title");
 
     var el = $("<div></div>");
