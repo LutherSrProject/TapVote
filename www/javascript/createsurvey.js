@@ -85,7 +85,7 @@ $(document).ready(function () {
             xhrFields: { withCredentials: true },
             contentType: 'application/json',
             success: function (data) {
-               shareSurvey(data["surveyId"])
+               redirectToEditSurvey(data["surveyId"])
             },
             error: function (data) {
                console.log(data);
@@ -96,19 +96,7 @@ $(document).ready(function () {
         return false;
     });
 
-    function shareSurvey(id) {
-        var takesurveyLink = "?p=takesurvey&survey=" + id;
-        var adminsurveyLink = "?p=results&survey=" + id;
-
-        var takesurvey = "<br> To take your survey go to " +
-                         "<a href='" + takesurveyLink + "'>" +
-                         "TapVote.com" + takesurveyLink + "</a><br>";
-
-        var adminsurvey = "To view the results of your survey go to " +
-                          "<a href='" + adminsurveyLink + "'>" +
-                          "TapVote.com" + adminsurveyLink + "</a><br>";
-
-        $("#new-survey-links").html(takesurvey + adminsurvey);
-
+    function redirectToEditSurvey(id) {
+        window.location = "?p=editsurvey&survey=" + id;
     }
 });
