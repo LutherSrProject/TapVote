@@ -91,12 +91,18 @@ input.FR {
     font-weight: bold;
     margin-bottom: 5px;
     margin-top: 5px;
+    display: inline-block;
 }
 
 .question-text {
     width: 100%;
     max-width: 475px;
     margin-bottom: 8px;
+}
+
+.question .voters {
+    font-size: 10pt;
+    padding-left: 15px;
 }
 
 .answer-text {

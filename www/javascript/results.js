@@ -31,10 +31,21 @@ function getSurveyResults(surveyInfo) {
         url: AJAX_REQUEST_URL + '/getSurveyResults',
         data: {surveyId: survey},
         xhrFields: { withCredentials: true },
-        success: function (surveyResults) { combineSurveyInfo(surveyInfo, surveyResults); },
+        success: function (surveyResults) { getSurveyTotalVotersByQuestion(surveyInfo, surveyResults); },
         error: displayAjaxError
     });
-    //setTimeout(getSurveyInfo, 2000);
+}
+
+function getSurveyTotalVotersByQuestion(surveyInfo, surveyResults) {
+    var survey = $.QueryString['survey'];
+    $.ajax({
+        type: 'GET',
+        url: AJAX_REQUEST_URL + '/getSurveyTotalVotersByQuestion',
+        data: {surveyId: survey},
+        xhrFields: { withCredentials: true },
+        success: function(results) { combineSurveyInfo(surveyInfo, surveyResults, results); },
+        error: displayAjaxError
+    })
 }
 
 function displayAjaxError(error) {
@@ -71,10 +82,11 @@ function redirectToSurvey() {
     window.location.href="?p=results&survey=" + $("#survey-id").val();
 }
 
-function combineSurveyInfo(surveyInfo, surveyResults) {
+function combineSurveyInfo(surveyInfo, surveyResults, totalVotersByQuestion) {
     // combine the survey info (containing questions and answer options) with the results
     // (containing the number of votes for each answer)
     $.each(surveyInfo.questions, function (_, question) {
+        question.totalVoters = totalVotersByQuestion[question.id];
         $.each(question.answers, function (_, answer) {
             answer.votes = surveyResults[answer.id]
         })
@@ -109,7 +121,9 @@ function displaySurvey(surveyInfo) {
         .data(surveyInfo.questions);
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
-        .html(function(d) { return "<div class='question-title'>" + d.value + "</div>"; })
+        .html(function(d) {
+            return "<div class='question-title'>" + d.value + "</div><span class='voters'>(" + d.totalVoters + " total voters)</span>";
+        })
         .attr("class", "question chart rounded");
 
     questions.exit().remove();
@@ -137,18 +151,29 @@ function displaySurvey(surveyInfo) {
 
     answerResults.exit().remove();
 
+
+    // handle realtime updates of the number of users who've voted on each question (totalVoters)
+    d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+        .select('.voters')
+            .data(surveyInfo.questions, function(d) { return d.id; })
+        .transition()
+            .text(function(d) {
+                return "(" + d.totalVoters + " total voters)";
+            });
+
     // handle realtime updates of vote totals
     d3.select("#survey-questions .questions")
         .selectAll("div.question")
         .selectAll("div.answer")
         .selectAll("div.bar")
-        .data(answerList, function(d) { return d.id; })
+            .data(answerList, function(d) { return d.id; })
         .transition()
-        .style("width", function(d) {
-                   //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
-                   return ($(this.parentNode).width() * x(d.votes)) + "px";
-               })
-        .text(function(d) { return d.votes; });
+            .style("width", function(d) {
+                //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
+                return ($(this.parentNode).width() * x(d.votes)) + "px";
+            })
+            .text(function(d) { return d.votes; });
 
 
     setTimeout(getSurveyInfo, 1000);
