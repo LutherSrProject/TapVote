@@ -375,6 +375,16 @@ input.FR {
     color: white;
 }
 
+#loading-indicator {
+    width:30px;
+    height:30px;
+    background-image: url('../image/loading_dark.png');
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen
 and (min-device-width : 320px)

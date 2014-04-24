@@ -10,6 +10,7 @@ $(getSurveyInfo());
 function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
+        showLoadingIndicator();
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
@@ -97,11 +98,8 @@ function combineSurveyInfo(surveyInfo, surveyResults, totalVotersByQuestion) {
 }
 
 function displaySurvey(surveyInfo) {
-    console.log(surveyInfo);
-
+    hideLoadingIndicator();
     var answerList = [];
-
-    // D3 scaling function - will be used later
     var max = 0;
     $.each(surveyInfo.questions, function(index, question) {
         $.each(question.answers, function(i, answer) {
@@ -111,10 +109,10 @@ function displaySurvey(surveyInfo) {
     });
     if (!max) max = 0;
 
+    // D3 scaling function - will be used later
     var x = d3.scale.linear()
         .domain([0, max])
         .range([0, 1]);
-
 
     var questions = d3.select("#survey-questions .questions")
         .selectAll("div.question")
