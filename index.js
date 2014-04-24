@@ -44,7 +44,7 @@ app.use(express.session({store: new PGStore(pgConnectSession), cookie: {maxAge: 
 
 
 // artificially add a second of latency to every request :)
-// app.use(function(req,res,next){setTimeout(next,1000)});
+app.use(function(req,res,next){setTimeout(next,1000)});
 
 // TODO investigate a CORS whitelist
 var corsOptions = {

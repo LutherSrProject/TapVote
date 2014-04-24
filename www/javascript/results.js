@@ -4,13 +4,15 @@
 
 // GLOBAL PAGE VARIABLES //
 pageTitle = "Results";
+initialLoad = true;
 
 $(getSurveyInfo());
 
 function getSurveyInfo() {
     var survey = $.QueryString['survey'];
     if (survey) {
-        showLoadingIndicator();
+        if (initialLoad)
+            showLoadingIndicator();
         $.ajax({
             type:'GET',
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
@@ -99,6 +101,8 @@ function combineSurveyInfo(surveyInfo, surveyResults, totalVotersByQuestion) {
 
 function displaySurvey(surveyInfo) {
     hideLoadingIndicator();
+    initialLoad = false;
+
     var answerList = [];
     var max = 0;
     $.each(surveyInfo.questions, function(index, question) {
