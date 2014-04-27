@@ -33,6 +33,11 @@ $ sudo -u postgres psql postgres
 <Ctrl>-D
 ```
 
+Install pgTap:
+```
+$ sudo apt-get install pgtap
+```
+
 Now set up the schema for the development database (run this command from the TapVote repository directory):
 ```
 $ node_modules/.bin/db-migrate up
