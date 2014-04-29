@@ -191,15 +191,18 @@ function displaySurvey(surveyInfo) {
             .text(function(d) { return d.votes; });
 
     // handle realtime updates of answer choices (specifically for new FR responses)
-    d3.select("#survey-questions .questions")
+    var answers = d3.select("#survey-questions .questions")
         .selectAll("div.question")
             .data(surveyInfo.questions, function (d) { return d.id; })
         .selectAll("div.answer")
             .data(function (d) { return d.answers; })
-        .enter().append("div")
-            .text(function (d) { return d.value; })
-            .attr('class', 'answer');
 
+    answers.enter().append("div")
+        .text(function (d) { return d.value; })
+        .attr('class', 'answer');
+    answers.exit().remove();
+    answers.transition()
+        .text(function (d) { return d.value; });
 
     setTimeout(getSurveyInfo, 1000);
 }
