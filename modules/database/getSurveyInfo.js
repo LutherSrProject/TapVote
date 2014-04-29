@@ -1,6 +1,10 @@
 var Q = require("q");
 var runQuery = require("./runQuery").runQuery;
 
+const UNAUTHEDUSER = 0;
+const AUTHEDUSER = 1;
+const AUTHEDEDITOR = 2;
+const AUTHEDOWNER = 3;
 
 var getSurveyInfo = function(surveyData, callback) {
     // surveyData = {'surveyId':34}
@@ -40,6 +44,7 @@ var getSurveyInfo = function(surveyData, callback) {
     })
     .then(function (res) {
         logger.info("Got survey info from database for surveyId", surveyId);
+        res["canEdit"] = (surveyData.surveyAuthStatus[surveyId] !== undefined && surveyData.surveyAuthStatus[surveyId] >= AUTHEDEDITOR);
         callback(null, res);
         return;
     })
