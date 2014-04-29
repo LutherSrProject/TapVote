@@ -30,5 +30,8 @@ exports.initSession = function(req,res,next){
     if (req.virtualSession.uuid === undefined) {
         req.virtualSession.uuid = uuid.v4();
     }
+    if (req.virtualSession.surveyAuthStatus === undefined) {
+        req.virtualSession.surveyAuthStatus = {};
+    }
     next();
 }

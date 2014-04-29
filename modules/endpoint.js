@@ -31,6 +31,7 @@ Endpoint.prototype.handle = function(req, response){
         return;
     }
     data.userId = req.virtualSession.uuid;
+    data.surveyAuthStatus = req.virtualSession.surveyAuthStatus;
     return this.conclusion(data, response);
 };
 
