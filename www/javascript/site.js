@@ -7,7 +7,8 @@ var AJAX_REQUEST_URL;
 if (window.document.location.port != "") {
     AJAX_REQUEST_URL = "";
 } else {
-    AJAX_REQUEST_URL = "http://dev.isaacdontjelindell.com:8000";
+    //AJAX_REQUEST_URL = "http://dev.isaacdontjelindell.com:8000";
+    AJAX_REQUEST_URL = "http://tapvote.isaacdontjelindell.com:8000";
 }
 
 var pageTitle;
