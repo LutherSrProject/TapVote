@@ -70,10 +70,24 @@ input.FR {
     width: 100%;
 }
 
-.survey-title {
-    font-size: 1.5em;
+#survey-title {
+    font-size: 2.0em;
     font-weight: bold;
     margin: 10px 5px 15px 5px;
+}
+
+#survey-info{
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+#survey-info .pure-button{
+   font-size: 0.75em;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    padding-left:10px;
+    padding-right:10px;
 }
 
 .survey-info-form {
