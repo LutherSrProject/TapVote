@@ -118,6 +118,7 @@ function displaySurvey(surveyInfo) {
         .domain([0, max])
         .range([0, 1]);
 
+
     var questions = d3.select("#survey-questions .questions")
         .selectAll("div.question")
         .data(surveyInfo.questions);
@@ -126,9 +127,11 @@ function displaySurvey(surveyInfo) {
         .html(function(d) {
             return "<div class='question-title'>" + d.value + "</div><span class='voters'>(" + d.totalVoters + " total voters)</span>";
         })
-        .attr("class", "question chart rounded");
+        .attr("class", "question chart rounded")
+        .attr("data-question-type", function (d) { return d.type; });
 
     questions.exit().remove();
+
 
     var answers = questionDivs
         .selectAll("div.answer")
@@ -139,6 +142,8 @@ function displaySurvey(surveyInfo) {
         .attr("class", "answer");
 
     answers.exit().remove();
+
+
     var answerResults = answerDivs
         .selectAll("div.bar")
         .data(function(d) { return [d] });
@@ -147,11 +152,19 @@ function displaySurvey(surveyInfo) {
         .style("width", function(d) {
                    //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
                    return ($(this.parentNode).width() * x(d.votes)) + "px";
-               })
+        })
+        .style("display", function (d) {
+            var p = $(this).parents(".question");
+            if (p.attr("data-question-type") == "FR")
+                return "none";
+            else
+                return "default";
+        })
         .text(function(d) { return d.votes; })
         .attr("class", "bar");
 
     answerResults.exit().remove();
+
 
 
     // handle realtime updates of the number of users who've voted on each question (totalVoters)
@@ -177,6 +190,19 @@ function displaySurvey(surveyInfo) {
             })
             .text(function(d) { return d.votes; });
 
+    // handle realtime updates of answer choices (specifically for new FR responses)
+    var answers = d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+            .data(surveyInfo.questions, function (d) { return d.id; })
+        .selectAll("div.answer")
+            .data(function (d) { return d.answers; })
+
+    answers.enter().append("div")
+        .text(function (d) { return d.value; })
+        .attr('class', 'answer');
+    answers.exit().remove();
+    answers.transition()
+        .text(function (d) { return d.value; });
 
     setTimeout(getSurveyInfo, 1000);
 }
