@@ -56,13 +56,32 @@ function displayAjaxError(error) {
 function displaySurvey(results) {
     hideLoadingIndicator();
     var titleDiv = $("#survey-title");
+    titleDiv.text(results['title']);
 
-    var el = $("<div></div>");
-    el.text(results['title']);
-    el.prepend("<i class='fa fa-pencil' onclick='editSurveyTitle();'></i>");
-    el.addClass('survey-title');
-    titleDiv.html(el);
-
+    var infoDiv = $("#survey-info");
+    var surveyId =$.QueryString['survey'];
+    var idtext = "Survey ID: "+ surveyId;
+    infoDiv.text(idtext);
+    var surveyButtons = $("<div></div>");
+    surveyButtons.addClass("survey-buttons");
+    
+    var take = $("<a></a>");
+    take.attr('href',"?p=takesurvey&survey="+surveyId);
+    take.attr('id', "take-survey-action-button");
+    take.attr('class', "pure-button pure-button-warning pure-button-small");
+    take.text("Take This Survey");
+    surveyButtons.append(take);
+    
+    var showResults = $("<a></a>");
+    showResults.attr('href',"?p=results&survey="+surveyId);
+    showResults.attr('id', "show-results");
+    showResults.attr('class', "pure-button pure-button-warning pure-button-small");
+    showResults.text("Show the Results");
+    surveyButtons.append(showResults);
+    infoDiv.append(surveyButtons);
+    
+ 
+     
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
 
@@ -227,8 +246,5 @@ function removeAnswerElement(el) {
 }
 
 
-function editSurveyTitle() {
-    console.log("Changing survey title is not implemented");
-}
 
 
