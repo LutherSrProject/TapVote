@@ -39,12 +39,14 @@ var getSurveyInfo = function(surveyData, callback) {
                 throw err;
             }
             var title = survey.rows[0].title;
-            return {title: title, questions: results};
+            var password = survey.rows[0].password;
+            return {title: title, questions: results, password: password};
         });
     })
     .then(function (res) {
         logger.info("Got survey info from database for surveyId", surveyId);
-        res["canEdit"] = (surveyData.surveyAuthStatus[surveyId] !== undefined && surveyData.surveyAuthStatus[surveyId] >= AUTHEDEDITOR);
+        res["canEdit"] = (res["password"] === "" || (surveyData.surveyAuthStatus[surveyId] !== undefined && surveyData.surveyAuthStatus[surveyId] >= AUTHEDEDITOR));
+        delete res["password"];
         callback(null, res);
         return;
     })
