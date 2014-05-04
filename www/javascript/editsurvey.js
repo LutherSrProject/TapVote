@@ -44,26 +44,6 @@ function askForSurveyId() {
 }
 
 
-/*
-        var pwBox = $("<input id='editpassword' class='no-wrap' type='password' />");
-        var button = $("<button type='button' id='edit-survey-button'>Edit Survey</button>");
-        button.addClass("pure-button pure-button-success pure-button-small");
-        button.attr('onclick', 'checkAuthentication()');
-
-        var form = $("<form></form>");
-        form.addClass("pure-form");
-        form.attr("action", "javascript:$('#edit-survey-button').click();");
-        form.append(pwBox);
-        form.append(button);
-
-        var surveyDiv = $("#survey-questions");
-        surveyDiv.append(form);
-    }
-
-}
-*/
-
-
 function checkAuthentication(results) {
     if (results.canEdit)
         displaySurvey(results);
@@ -85,17 +65,18 @@ function checkAuthentication(results) {
         var surveyDiv = $("#survey-questions");
         surveyDiv.append(form);
 
+        var survey = $.QueryString['survey'];
+        surveyDiv.append("<input type='hidden' id='survey-id' value='" + survey + "' />");
+
         $("#edit-survey-button").click(function () {
             showLoadingIndicator();
             var password = $("#editpassword").val();
-
-            var survey = $.QueryString['survey'];
             $.ajax({
                 type:'POST',
                 url: AJAX_REQUEST_URL + '/authenticate',
                 data: { surveyAuth: { surveyId: survey, editPassword: password} },
                 xhrFields: { withCredentials: true },
-                success: function (r) { results.canEdit = true; displaySurvey(results); },
+                success: redirectToSurvey,
                 error: function (r) { console.log(r); incorrectPassword(results); }
             });
         });
@@ -146,9 +127,7 @@ function displaySurvey(results) {
     showResults.text("Show the Results");
     surveyButtons.append(showResults);
     infoDiv.append(surveyButtons);
-    
- 
-     
+
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
 
