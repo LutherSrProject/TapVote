@@ -84,9 +84,10 @@ function checkAuthentication(results) {
 }
 
 function incorrectPassword(results) {
+    hideLoadingIndicator();
+    $("#survey-questions form").append("<div class='incorrect'>Incorrect password</div>");
     console.log("incorrect pw");
     console.log(results);
-    // TODO
 }
 
 function redirectToSurvey() {
