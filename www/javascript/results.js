@@ -66,7 +66,7 @@ function askForSurveyId() {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'See Results'.");
 
-    var idBox = $("<input id='survey-id' type='text' class='no-wrap survey-id-input-box' size='5' />");
+    var idBox = $("<input id='survey-id' type='text' class='no-wrap survey-id-input-box' size='5' autofocus />");
     var button = $("<button type='button' id='see-results-button'>See Results</button>");
     button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
