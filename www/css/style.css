@@ -214,6 +214,10 @@ margin-bottom: 50px;
     text-align: center
 }
 
+#takesurvey-content .question-type {
+    margin-top: -2px;
+}
+
 #footer, #content:after {
 	height: 60px;
 }
