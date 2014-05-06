@@ -224,8 +224,14 @@ function displaySurvey(results) {
         questionsDiv.append(questionDiv);
         
         var surveyId =$.QueryString['survey'];
-        resultsButton = $("#show-results");
+
+        resultsButton = $("<a></a>");
+        resultsButton.attr('id', "show-results");
+        resultsButton.attr('class', "pure-button pure-button-success");
         resultsButton.attr('href', "?p=results&survey=" + surveyId);
+        resultsButton.text("View Results");
+        $('#content').append(resultsButton);
+        
     });
 }
 
