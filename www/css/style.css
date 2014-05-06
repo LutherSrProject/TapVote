@@ -146,6 +146,10 @@ margin-bottom: 50px;
     background-color: #FFEE6A;
 }
 
+.question.FR .question-text {
+    margin-bottom: 15px;
+}
+
 .rounded {
     border-radius: 0px;
 }
@@ -208,6 +212,10 @@ margin-bottom: 50px;
 #admin-content {
     /* some of the pages should be aligned centered (e.g. home) */
     text-align: center
+}
+
+#takesurvey-content .question-type {
+    margin-top: -2px;
 }
 
 #footer, #content:after {

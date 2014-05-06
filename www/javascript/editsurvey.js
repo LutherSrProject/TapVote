@@ -28,7 +28,7 @@ function askForSurveyId() {
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'Edit Survey'.");
 
-    var idBox = $("<input id='survey-id' class='no-wrap survey-id-input-box' type='text' size=5 />");
+    var idBox = $("<input id='survey-id' class='no-wrap survey-id-input-box' type='text' size=5 autofocus />");
     var button = $("<button type='button' id='edit-survey-button'>Edit Survey</button>");
     button.addClass("pure-button pure-button-success pure-button-small");
     button.attr('onclick', 'redirectToSurvey()');
@@ -52,7 +52,7 @@ function checkAuthentication(results) {
         var titleDiv = $("#survey-title");
         titleDiv.text("Please enter your password to edit the survey.");
 
-        var pwBox = $("<input id='editpassword' class='no-wrap' type='password' />");
+        var pwBox = $("<input id='editpassword' class='no-wrap' type='password' autofocus />");
         var button = $("<button type='button' id='edit-survey-button'>Edit Survey</button>");
         button.addClass("pure-button pure-button-success pure-button-small");
 
