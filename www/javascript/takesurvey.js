@@ -222,6 +222,10 @@ function displaySurvey(results) {
             });
         }
         questionsDiv.append(questionDiv);
+        
+        var surveyId =$.QueryString['survey'];
+        resultsButton = $("#show-results");
+        resultsButton.attr('href', "?p=results&survey=" + surveyId);
     });
 }
 
