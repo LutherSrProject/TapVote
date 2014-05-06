@@ -67,7 +67,7 @@ function displaySurvey(results) {
     
     var take = $("<a></a>");
     take.attr('href',"?p=takesurvey&survey="+surveyId);
-    take.attr('id', "take-survey-action-button");
+    take.attr('id', "take-survey");
     take.attr('class', "pure-button pure-button-warning pure-button-small");
     take.text("Take This Survey");
     surveyButtons.append(take);

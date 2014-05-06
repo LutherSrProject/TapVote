@@ -81,6 +81,7 @@ input.FR {
     font-weight: bold;
 }
 
+
 #survey-info .pure-button{
    font-size: 0.75em;
     margin-left: 5px;
@@ -88,6 +89,10 @@ input.FR {
     margin-top: 15px;
     padding-left:10px;
     padding-right:10px;
+}
+
+#survey-info #show-results{
+margin-bottom: 50px;
 }
 
 .survey-info-form {
@@ -211,9 +216,10 @@ input.FR {
 
 #footer {
 
-    padding: 10px;
+    padding: 7px;
     color: #FAFBF5;
     text-align: center;
+    text-size: 0.8em;
 	background: #42B6DD;
 	position: fixed;
 	bottom: 0px;
@@ -221,7 +227,7 @@ input.FR {
 }
 
 #footer-nav {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     display: block;
 }
 
@@ -286,6 +292,11 @@ input.FR {
     border-radius: 0px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     font-weight: bold;
+}
+
+.pure-button:hover {
+    background-image:none;
+    box-shadow: 3px 3px 7px #B3B3AE;
 }
 
 .pure-button-success {
@@ -397,7 +408,6 @@ input.FR {
     margin-right: auto;
     margin-left: auto;
 }
-
 
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen
