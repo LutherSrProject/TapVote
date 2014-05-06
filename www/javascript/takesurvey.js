@@ -223,7 +223,8 @@ function displaySurvey(results) {
         }
         questionsDiv.append(questionDiv);
         
-        var surveyId =$.QueryString['survey'];
+    });
+    var surveyId =$.QueryString['survey'];
 
         resultsButton = $("<a></a>");
         resultsButton.attr('id', "show-results");
@@ -232,7 +233,6 @@ function displaySurvey(results) {
         resultsButton.text("View Results");
         $('#content').append(resultsButton);
         
-    });
 }
 
 function checkFR(questionId) {
