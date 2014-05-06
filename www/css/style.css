@@ -391,6 +391,11 @@ margin-bottom: 50px;
     margin-bottom: 50px;
 }
 
+.incorrect {
+    color: red;
+    font-size: 14px;
+}
+
 .chart .bar {
     font: 10px sans-serif;
     background-color: steelblue;

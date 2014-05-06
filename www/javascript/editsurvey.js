@@ -13,7 +13,7 @@ function getSurveyInfo() {
             url: AJAX_REQUEST_URL + '/getSurveyInfo',
             data: {surveyId: survey},
 			xhrFields: { withCredentials: true },
-            success: displaySurvey,
+            success: checkAuthentication,
             error: displayAjaxError
         });
     } else {
@@ -22,6 +22,8 @@ function getSurveyInfo() {
 }
 
 function askForSurveyId() {
+    hideLoadingIndicator();
+
     // This function is called when a survey Id isn't provided or when an invalid sId is given
     var titleDiv = $("#survey-title");
     titleDiv.text("Please enter a survey ID and click 'Edit Survey'.");
@@ -39,6 +41,54 @@ function askForSurveyId() {
 
     var surveyDiv = $("#survey-questions");
     surveyDiv.append(form);
+}
+
+
+function checkAuthentication(results) {
+    if (results.canEdit)
+        displaySurvey(results);
+    else {
+        hideLoadingIndicator();
+        var titleDiv = $("#survey-title");
+        titleDiv.text("Please enter your password to edit the survey.");
+
+        var pwBox = $("<input id='editpassword' class='no-wrap' type='password' />");
+        var button = $("<button type='button' id='edit-survey-button'>Edit Survey</button>");
+        button.addClass("pure-button pure-button-success pure-button-small");
+
+        var form = $("<form></form>");
+        form.addClass("pure-form");
+        form.attr("action", "javascript:$('#edit-survey-button').click();");
+        form.append(pwBox);
+        form.append(button);
+
+        var surveyDiv = $("#survey-questions");
+        surveyDiv.append(form);
+
+        var survey = $.QueryString['survey'];
+        surveyDiv.append("<input type='hidden' id='survey-id' value='" + survey + "' />");
+
+        $("#edit-survey-button").click(function () {
+            showLoadingIndicator();
+            var password = $("#editpassword").val();
+            $.ajax({
+                type:'POST',
+                url: AJAX_REQUEST_URL + '/authenticate',
+                data: { surveyAuth: { surveyId: survey, editPassword: password} },
+                xhrFields: { withCredentials: true },
+                success: redirectToSurvey,
+                error: function (r) { console.log(r); incorrectPassword(results); }
+            });
+        });
+    }
+}
+
+function incorrectPassword(results) {
+    hideLoadingIndicator();
+
+    var incorrectIndicator = $("#survey-questions .incorrect")[0];
+    if (!incorrectIndicator)
+        $("#survey-questions form").append("<div class='incorrect'>Incorrect password</div>");
 }
 
 function redirectToSurvey() {
@@ -79,9 +129,7 @@ function displaySurvey(results) {
     showResults.text("Show the Results");
     surveyButtons.append(showResults);
     infoDiv.append(surveyButtons);
-    
- 
-     
+
     var questionsDiv = $("#survey-questions");
     questionsDiv.addClass("questions");
 
