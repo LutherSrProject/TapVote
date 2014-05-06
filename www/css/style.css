@@ -146,6 +146,10 @@ margin-bottom: 50px;
     background-color: #FFEE6A;
 }
 
+.question.FR .question-text {
+    margin-bottom: 15px;
+}
+
 .rounded {
     border-radius: 0px;
 }
