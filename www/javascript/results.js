@@ -138,8 +138,10 @@ function displaySurvey(surveyInfo) {
         .data(function(d) { return d.answers; });
 
     var answerDivs = answers.enter().append("div") // this creates the nested answer divs
-        .text(function(d) { return d.value; })
         .attr("class", "answer");
+    var answerTextDivs = answerDivs.append("div") // this creates the nested answertext div inside the answer div
+        .attr("class", "answertext")
+        .text(function(d) { return d.value; });
 
     answers.exit().remove();
 
@@ -197,11 +199,11 @@ function displaySurvey(surveyInfo) {
         .selectAll("div.answer")
             .data(function (d) { return d.answers; })
 
-    answers.enter().append("div")
+    answers.enter().append("div").attr('class', 'answer').append("div")
         .text(function (d) { return d.value; })
-        .attr('class', 'answer');
+        .attr('class', 'answertext');
     answers.exit().remove();
-    answers.transition()
+    answers.transition().select('.answertext')
         .text(function (d) { return d.value; });
 
     setTimeout(getSurveyInfo, 1000);
