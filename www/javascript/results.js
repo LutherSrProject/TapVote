@@ -103,12 +103,10 @@ function displaySurvey(surveyInfo) {
     hideLoadingIndicator();
     initialLoad = false;
 
-    var answerList = [];
     var max = 0;
     $.each(surveyInfo.questions, function(index, question) {
         $.each(question.answers, function(i, answer) {
             max = Math.max(max, answer.votes);
-            answerList.push(answer);
         })
     });
     if (!max) max = 0;
