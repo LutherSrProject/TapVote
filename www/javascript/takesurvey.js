@@ -214,6 +214,7 @@ function displaySurvey(results) {
                 // make the label (containing the value of the answer_
                 var answerLabel = $("<label></label>");
                 answerLabel.attr('for', 'answer-'+questionType+'-'+answerId);
+                answerLabel.attr('class', 'inline');
                 answerLabel.text(answerValue);
                 answerDiv.append(answerLabel);
 
