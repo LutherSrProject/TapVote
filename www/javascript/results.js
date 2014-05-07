@@ -124,11 +124,14 @@ function displaySurvey(surveyInfo) {
         .data(surveyInfo.questions);
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
-        .html(function(d) {
-            return "<div class='question-title'>" + d.value + "</div><span class='voters'>(" + d.totalVoters + " total voters)</span>";
-        })
         .attr("class", "question chart rounded")
         .attr("data-question-type", function (d) { return d.type; });
+    questionDivs.append("div")
+        .attr("class", "question-title")
+        .text(function (d) { return d.value; });
+    questionDivs.append("span")
+        .attr("class", "voters")
+        .text(function (d) { return "(" + d.totalVoters + " total voters"; });
 
     questions.exit().remove();
 
