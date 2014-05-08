@@ -103,12 +103,10 @@ function displaySurvey(surveyInfo) {
     hideLoadingIndicator();
     initialLoad = false;
 
-    var answerList = [];
     var max = 0;
     $.each(surveyInfo.questions, function(index, question) {
         $.each(question.answers, function(i, answer) {
             max = Math.max(max, answer.votes);
-            answerList.push(answer);
         })
     });
     if (!max) max = 0;
@@ -121,32 +119,43 @@ function displaySurvey(surveyInfo) {
 
     var questions = d3.select("#survey-questions .questions")
         .selectAll("div.question")
-        .data(surveyInfo.questions);
+        .data(surveyInfo.questions, function (d) { return d.id; });
 
     var questionDivs = questions.enter().append("div") // this creates the question divs
-        .html(function(d) {
-            return "<div class='question-title'>" + d.value + "</div><span class='voters'>(" + d.totalVoters + " total voters)</span>";
-        })
         .attr("class", "question chart rounded")
         .attr("data-question-type", function (d) { return d.type; });
+    questionDivs.append("div")
+        .attr("class", "question-title")
+        .text(function (d) { return d.value; });
+    questionDivs.append("span")
+        .attr("class", "voters")
+        .text(function (d) { return "(" + d.totalVoters + " total voters)"; });
 
     questions.exit().remove();
 
 
-    var answers = questionDivs
+    //restart the selection, since new answers can be added without creating or destroying questions
+    var answers = d3.select("#survey-questions .questions")
+        .selectAll("div.question")
+            .data(surveyInfo.questions, function (d) { return d.id; })
         .selectAll("div.answer")
-        .data(function(d) { return d.answers; });
+            .data(function (d) { return d.answers; }, function (d) { return d.id; })
 
     var answerDivs = answers.enter().append("div") // this creates the nested answer divs
-        .text(function(d) { return d.value; })
         .attr("class", "answer");
+    var answerTextDivs = answerDivs.append("div") // this creates the nested answertext div inside the answer div
+        .attr("class", "answertext")
+        .text(function(d) { return d.value; });
+
+    answers.transition().select('.answertext')
+        .text(function (d) { return d.value; });
 
     answers.exit().remove();
 
 
     var answerResults = answerDivs
         .selectAll("div.bar")
-        .data(function(d) { return [d] });
+        .data(function(d) { return [d] }, function(d) { return d.id; });
 
     answerResults.enter().append("div")
         .style("width", function(d) {
@@ -180,9 +189,11 @@ function displaySurvey(surveyInfo) {
     // handle realtime updates of vote totals
     d3.select("#survey-questions .questions")
         .selectAll("div.question")
+            .data(surveyInfo.questions, function (d) { return d.id; })
         .selectAll("div.answer")
+            .data(function (d) { return d.answers; }, function (d) { return d.id; })
         .selectAll("div.bar")
-            .data(answerList, function(d) { return d.id; })
+        .data(function(d) { return [d] }, function(d) { return d.id; })
         .transition()
             .style("width", function(d) {
                 //return x(d.votes) + "px"; // leave in; TODO check performance of this query every time
@@ -190,19 +201,6 @@ function displaySurvey(surveyInfo) {
             })
             .text(function(d) { return d.votes; });
 
-    // handle realtime updates of answer choices (specifically for new FR responses)
-    var answers = d3.select("#survey-questions .questions")
-        .selectAll("div.question")
-            .data(surveyInfo.questions, function (d) { return d.id; })
-        .selectAll("div.answer")
-            .data(function (d) { return d.answers; })
-
-    answers.enter().append("div")
-        .text(function (d) { return d.value; })
-        .attr('class', 'answer');
-    answers.exit().remove();
-    answers.transition()
-        .text(function (d) { return d.value; });
 
     setTimeout(getSurveyInfo, 1000);
 }
