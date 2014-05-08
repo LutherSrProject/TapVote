@@ -133,6 +133,10 @@ margin-bottom: 50px;
     display: inline-block !important; /* override a media query in purecss that makes buttons wrap on mobile */
 }
 
+.inline {
+    display: inline !important;
+}
+
 .answer {
     padding: 3px;
     width: 100%;
